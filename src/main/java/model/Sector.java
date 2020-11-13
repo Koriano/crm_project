@@ -8,7 +8,7 @@ import java.util.ArrayList;
  *
  * @author Margaux SCHNELZAUER
  *
- * @inv !"".equals(this.name) && this.contactList != null
+ * @inv !name.isEmpty() && name != null && this.contactList != null
  */
 public class Sector {
     /**
@@ -27,10 +27,10 @@ public class Sector {
      *
      * @param name : the name of the sector
      *
-     * @pre : !"".equals(name)
+     * @pre : !name.isEmpty() && name != null
      */
     public Sector(String name) {
-        assert !"".equals(name): "Pre condition violated";
+        assert !name.isEmpty() && name != null: "Pre condition violated";
 
         this.name = name;
         this.contactList = new ArrayList<Contact>();
@@ -68,11 +68,11 @@ public class Sector {
      *
      * @param name : the new name of the sector
      *
-     * @pre : !"".equals(name)
+     * @pre : !name.isEmpty() && name != null
      */
     public void setName(String name) {
         // pre condition
-        assert !"".equals(name) : "Pre condition violated";
+        assert !name.isEmpty() && name != null : "Pre condition violated";
 
         this.name = name;
         this.inv();
@@ -124,6 +124,6 @@ public class Sector {
      * Invariant of the class
      */
     private void inv(){
-        assert !"".equals(this.name) && this.contactList != null : "Invariant violated";
+        assert !name.isEmpty() && name != null && this.contactList != null : "Invariant violated";
     }
 }

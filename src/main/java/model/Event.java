@@ -8,7 +8,7 @@ import java.util.Date;
  *
  * @author Margaux SCHNELZAUER
  *
- * @inv !"".equals(this.name) && this.date != null && this.contactsList.size() > 0
+ * @inv !name.isEmpty() && name != null && this.date != null && this.contactsList.size() > 0
  */
 public class Event {
 
@@ -46,11 +46,11 @@ public class Event {
      * @param author : the event author
      * @param type : the event type
      *
-     * @pre !"".equals(name) && date != null && contactsList.size() > 0 && author != null
+     * @pre !name.isEmpty() && name != null && date != null  && author != null && !type.isEmpty() && type != null
      */
     public Event(String name, Date date, Contact author, String type) {
         // pre conditon
-        assert !"".equals(name) && date != null && contactsList.size() > 0 && author != null : " Pre condition violated";
+        assert !name.isEmpty() && name != null && date != null && author != null  && !type.isEmpty() && type != null: " Pre condition violated";
 
         this.name = name;
         this.date = date;
@@ -123,11 +123,11 @@ public class Event {
      *
      * @param name : the new event name
      *
-     * @pre !"".equals(name)
+     * @pre !name.isEmpty() && name != null
      */
     public void setName(String name) {
         // pre condition
-        assert !"".equals(this.name) : "Pre condition violated";
+        assert !name.isEmpty() && name != null : "Pre condition violated";
 
         this.name = name;
         this.inv();
@@ -137,8 +137,13 @@ public class Event {
      * Set a new event description
      *
      * @param description : the new event description
+     *
+     * @pre !description.isEmpty() && description != null
      */
     public void setDescription(String description) {
+        // pre condition
+        assert !description.isEmpty() && description != null : "Pre condition violated";
+
         this.description = description;
         this.inv();
     }
@@ -162,8 +167,13 @@ public class Event {
      * Set a new event type
      *
      * @param type : the new event type
+     *
+     * @pre !type.isEmpty() && type != null
      */
     public void setType(String type) {
+        // pre condition
+        assert !type.isEmpty() && type != null : "Pre condition violated";
+
         this.type = type;
         this.inv();
     }
@@ -211,6 +221,6 @@ public class Event {
      * The invariant of the class
      */
     private void inv(){
-        assert !"".equals(this.name) && this.date != null && this.contactsList.size() > 0 : "Invariant violated";
+        assert !name.isEmpty() && name != null && this.date != null && this.contactsList.size() > 0 : "Invariant violated";
     }
 }

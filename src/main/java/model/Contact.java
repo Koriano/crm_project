@@ -7,7 +7,8 @@ import java.util.ArrayList;
  *
  * @author Margaux SCHNELZAUER
  *
- * @inv !"".equals(this.name) && !"".equals(this.surname) && !"".equals(this.role)
+ * @inv !this.name.isEmpty() && !this.surname.isEmpty() && !this.role.isEmpty()
+ * this.name != null && this.surname != null && this.role != null
  */
 public class Contact {
 
@@ -80,11 +81,14 @@ public class Contact {
      * @param role : the contact role
      * @param contact : the referent when the contact is reserved
      *
-     * @pre !"".equals(name) && !"".equals(surname) && !"".equals(role) && contact != null
+     * @pre !name.isEmpty() && !surname.isEmpty() && !role.isEmpty()
+     *  name != null && surname != null && role != null && contact != null
      */
     public Contact(String name, String surname, String role, Contact contact, boolean isReserved) {
         // pre condition
-        assert !"".equals(name) && !"".equals(surname) && !"".equals(role) && contact != null : "Pre condition violated";
+        assert !name.isEmpty() && !surname.isEmpty() && !role.isEmpty(): "Pre condition violated";
+        assert name != null && surname != null && role != null && contact != null : "Pre condition violated";
+
 
         this.name = name;
         this.surname = surname;
@@ -232,11 +236,11 @@ public class Contact {
      *
      * @param name : the new contact
      *
-     * @pre !"".equals(name)
+     * @pre !name.isEmpty() && name != null
      */
     public void setName(String name) {
         // pre condition
-        assert !"".equals(name) : "Pre condition violated";
+        assert !name.isEmpty() && name != null : "Pre condition violated";
 
         this.name = name;
         this.inv();
@@ -247,11 +251,11 @@ public class Contact {
      *
      * @param surname : the new contact surname
      *
-     * @pre !"".equals(surname)
+     * @pre !surname.isEmpty() && surname != null
      */
     public void setSurname(String surname) {
         // pre condition
-        assert !"".equals(surname) : "Pre condition violated";
+        assert !surname.isEmpty() && surname != null : "Pre condition violated";
 
         this.surname = surname;
         this.inv();
@@ -262,11 +266,11 @@ public class Contact {
      *
      * @param address : the new contact address
      *
-     * @pre !"".equals(address)
+     * @pre !address.isEmpty() && address != null
      */
     public void setAddress(String address) {
         // pre condition
-        assert !"".equals(address) : "Pre condition violated";
+        assert !address.isEmpty() && address != null : "Pre condition violated";
 
         this.address = address;
         this.inv();
@@ -277,12 +281,12 @@ public class Contact {
      *
      * @param phone : the new phone number to add
      *
-     * @pre !"".equals(phone) && !this.phonesList.contains(phone)
+     * @pre !phone.isEmpty() && phone != null && !this.phonesList.contains(phone)
      * @post this.phonesList.contains(phone)
      */
     public void addPhone(String phone) {
         // pre condition
-        assert !"".equals(phone) && !this.phonesList.contains(phone): "Pre condition violated";
+        assert !phone.isEmpty() && phone != null && !this.phonesList.contains(phone): "Pre condition violated";
 
         this.phonesList.add(phone);
         this.inv();
@@ -296,12 +300,12 @@ public class Contact {
      *
      * @param phone : the phone number to remove
      *
-     * @pre !"".equals(phone) && this.phonesList.contains(phone)
+     * @pre !phone.isEmpty() && phone != null && this.phonesList.contains(phone)
      * @post !this.phonesList.contains(phone)
      */
     public void removePhone(String phone) {
         // pre condition
-        assert !"".equals(phone) && this.phonesList.contains(phone): "Pre condition violated";
+        assert !phone.isEmpty() && phone != null && this.phonesList.contains(phone): "Pre condition violated";
 
         this.phonesList.remove(phone);
         this.inv();
@@ -315,12 +319,12 @@ public class Contact {
      *
      * @param mail : the mail to add
      *
-     * @pre !"".equals(mail) && !this.mailsList.contains(mail)
+     * @pre !mail.isEmpty() && mail != null && !this.mailsList.contains(mail)
      * @post this.mailsList.contains(mail)
      */
     public void addMail(String mail) {
         // pre condition
-        assert !"".equals(mail) && !this.mailsList.contains(mail): "Pre condition violated";
+        assert !mail.isEmpty() && mail != null && !this.mailsList.contains(mail): "Pre condition violated";
 
         this.mailsList.add(mail);
         this.inv();
@@ -334,12 +338,12 @@ public class Contact {
      *
      * @param mail : the mail address to remove
      *
-     * @pre !"".equals(mail) && this.mailsList.contains(mail)
+     * @pre !mail.isEmpty() && mail != null && this.mailsList.contains(mail)
      * @post !this.mailsList.contains(mail)
      */
     public void removeMail(String mail) {
         // pre condition
-        assert !"".equals(mail) && this.mailsList.contains(mail): "Pre condition violated";
+        assert !mail.isEmpty() && mail != null && this.mailsList.contains(mail): "Pre condition violated";
 
         this.mailsList.remove(mail);
         this.inv();
@@ -363,11 +367,11 @@ public class Contact {
      *
      * @param role : the new contact role
      *
-     * @pre !"".equals(role)
+     * @pre !role.isEmpty() && role != null
      */
     public void setRole(String role) {
         //pre condition
-        assert !"".equals(role) :  "Pre condition violated";
+        assert !role.isEmpty() && role != null:  "Pre condition violated";
 
         this.role = role;
         this.inv();
@@ -495,7 +499,8 @@ public class Contact {
      * The invariant of the class
      */
     private void inv(){
-        assert !"".equals(this.name) && !"".equals(this.surname) && !"".equals(this.role) : "Invariant violated";
+        assert !this.name.isEmpty() && !this.surname.isEmpty() && !this.role.isEmpty(): "Invariant violated";
+        assert this.name != null && this.surname != null && this.role != null : "Invariant violated";
     }
 
 }

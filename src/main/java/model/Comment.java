@@ -5,7 +5,7 @@ package model;
  *
  * @author Margaux SCHNELZAUER
  *
- * @inv this.author != null && this.concernedContact != null
+ * @inv this.author != null && this.concernedContact != null && this.content != null
  */
 public class Comment {
 
@@ -31,11 +31,11 @@ public class Comment {
      * @param author : the comment author
      * @param concernedContact : the contact who is concerned by the comment
      *
-     * @pre author != null & concernedContact != null
+     * @pre author != null & concernedContact != null && content != null
      */
     public Comment(Contact author, Contact concernedContact) {
         // pre condition
-        assert author != null & concernedContact != null : "Pre condition violated";
+        assert author != null & concernedContact != null && content != null: "Pre condition violated";
 
         this.content = "";
         this.author = author;
@@ -82,8 +82,13 @@ public class Comment {
      * Set a new content in the comment
      *
      * @param content : the new content
+     *
+     * @pre content != null
      */
     public void setContent(String content) {
+        // pre condition
+        assert content != null : "Pre condition violated";
+
         this.content = content;
         this.inv();
     }
@@ -124,7 +129,7 @@ public class Comment {
      * The invariant of the class
      */
     private void inv(){
-        assert this.author != null && this.concernedContact != null : "Invariant violated";
+        assert this.author != null && this.concernedContact != null && this.content != null: "Invariant violated";
     }
 
 }

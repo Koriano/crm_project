@@ -8,7 +8,9 @@ import java.util.ArrayList;
  *
  * @author Margaux SCHNELZAUER
  *
- * @inv !"".equals(this.username) && !"".equals(this.password) && !"".equals(this.name) && !"".equals(this.right) && this.contact != null && this.sectorsList.size()>0
+ * @inv !this.username.isEmpty() && !this.password.isEmpty() && !this.name.isEmpty() &&
+ * !this.right.isEmpty() && this.username != null && this.password != null
+ * && this.name != null && this.right!= null && this.contact != null && this.sectorsList.size()>0
  */
 public class Account {
     /**
@@ -51,11 +53,15 @@ public class Account {
      * @param contact : the referent contact
      * @param sectorsList : the sector list of an account
      *
-     * @pre !"".equals(username) && !"".equals(password) && !"".equals(name) && !"".equals(right) && contact != null && sectorsList.size()>0 && !contact.isLinkAccount()
+     * @pre !username.isEmpty() && !password.isEmpty() && !name.isEmpty() && !right.isEmpty() &&
+     * username != null && password != null &&  name != null && right!= null
+     * && contact != null && sectorsList.size()>0 && !contact.isLinkAccount()
      */
     public Account(String username, String password, String name, String right, Contact contact, ArrayList<Sector> sectorsList) {
         // pre condition
-        assert !"".equals(username) && !"".equals(password) && !"".equals(name) && !"".equals(right) && contact != null && sectorsList.size()>0 && !contact.isLinkAccount(): "Pre condition violated";
+        assert !username.isEmpty() && !password.isEmpty() && !name.isEmpty() && !right.isEmpty(): "Pre condition violated";
+        assert username != null && password != null &&  name != null && right!= null: "Pre condition violated";
+        assert contact != null && sectorsList.size()>0 && !contact.isLinkAccount(): "Pre condition violated";
 
         this.username = username;
         this.password = password;
@@ -64,6 +70,7 @@ public class Account {
         this.contact = contact;
         this.contact.setLinkAccount(true);
         this.sectorsList = sectorsList;
+
 
         this.inv();
     }
@@ -137,11 +144,11 @@ public class Account {
      *
      * @param username : the new username
      *
-     * @pre !"".equals(username)
+     * @pre !username.isEmpty() && username != null
      */
     public void setUsername(String username) {
         // pre condition
-        assert !"".equals(username) : "Pre condition violated";
+        assert !username.isEmpty() && username != null : "Pre condition violated";
 
         this.username = username;
         this.inv();
@@ -152,11 +159,11 @@ public class Account {
      *
      * @param password : the new password
      *
-     * @pre !"".equals(password)
+     * @pre !password.isEmpty() && password != null
      */
     public void setPassword(String password) {
         // pre condition
-        assert !"".equals(password) : "Pre condition violated";
+        assert !password.isEmpty() && password != null : "Pre condition violated";
 
         this.password = password;
         this.inv();
@@ -168,11 +175,11 @@ public class Account {
      *
      * @param name : the new name
      *
-     * @pre !"".equals(name)
+     * @pre !name.isEmpty() && name != null
      */
     public void setName(String name) {
         // pre condition
-        assert !"".equals(name) : "Pre condition violated";
+        assert !name.isEmpty() && name != null : "Pre condition violated";
 
         this.name = name;
         this.inv();
@@ -183,11 +190,11 @@ public class Account {
      *
      * @param right : a new type of right
      *
-     * @pre !"".equals(right)
+     * @pre !right.isEmpty() && right != null
      */
     public void setRight(String right) {
         // pre condition
-        assert !"".equals(right) : "Pre condition violated";
+        assert !right.isEmpty() && right != null : "Pre condition violated";
 
         this.right = right;
         this.inv();
@@ -254,7 +261,9 @@ public class Account {
      * The invariant of the class
      */
     private void inv(){
-        assert !"".equals(this.username) && !"".equals(this.password) && !"".equals(this.name) && !"".equals(this.right) && this.contact != null && this.sectorsList.size()>0 : "Invariant violated";
+        assert !this.username.isEmpty() && !this.password.isEmpty() && !this.name.isEmpty() && !this.right.isEmpty(): "Invariant violated";
+        assert this.username != null && this.password != null &&  this.name != null && this.right!= null: "Invariant violated";
+        assert this.contact != null && this.sectorsList.size()>0 : "Invariant violated";
     }
 
 }
