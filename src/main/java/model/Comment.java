@@ -33,11 +33,10 @@ public class Comment {
      *
      * @pre author != null & concernedContact != null && content != null
      */
-    public Comment(Contact author, Contact concernedContact) {
+    public Comment(Contact author, Contact concernedContact, String content) {
         // pre condition
         assert author != null & concernedContact != null && content != null: "Pre condition violated";
 
-        this.content = "";
         this.author = author;
         this.concernedContact = concernedContact;
 
