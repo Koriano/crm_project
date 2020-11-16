@@ -82,12 +82,12 @@ public class Contact {
      * @param contact : the referent when the contact is reserved
      *
      * @pre !name.isEmpty() && !surname.isEmpty() && !role.isEmpty()
-     *  name != null && surname != null && role != null && contact != null
+     *  name != null && surname != null && role != null
      */
     public Contact(String name, String surname, String role, Contact contact, boolean isReserved) {
         // pre condition
         assert !name.isEmpty() && !surname.isEmpty() && !role.isEmpty(): "Pre condition violated";
-        assert name != null && surname != null && role != null && contact != null : "Pre condition violated";
+        assert name != null && surname != null && role != null : "Pre condition violated";
 
 
         this.name = name;
@@ -381,13 +381,8 @@ public class Contact {
      * Set a new contact referent
      *
      * @param referent : the new referent
-     *
-     * @pre referent != null
      */
     public void setReferent(Contact referent) {
-        // pre condition
-        assert referent != null : "Pre condition violated" ;
-
         this.referent = referent;
         this.inv();
     }
