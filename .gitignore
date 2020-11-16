@@ -1,6 +1,7 @@
 /build/
 /.idea/
 /.gradle/
+/database/
 /gradle/
 /gradlew
 /gradlew.bat
