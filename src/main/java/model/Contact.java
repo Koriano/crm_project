@@ -8,9 +8,14 @@ import java.util.ArrayList;
  * @author Margaux SCHNELZAUER
  *
  * @inv !this.name.isEmpty() && !this.surname.isEmpty() && !this.role.isEmpty()
- * this.name != null && this.surname != null && this.role != null
+ * this.name != null && this.surname != null
  */
 public class Contact {
+
+    /**
+     * Id of the the contact
+     */
+    private final int id;
 
     /**
      * The contact name
@@ -81,14 +86,13 @@ public class Contact {
      * @param role : the contact role
      * @param contact : the referent when the contact is reserved
      *
-     * @pre !name.isEmpty() && !surname.isEmpty() && !role.isEmpty()
-     *  name != null && surname != null && role != null && contact != null
+     * @pre !name.isEmpty() && !surname.isEmpty() && !role.isEmpty() && name != null && surname != null
+     *  (contact != null && isReserved) || (contact == null && !isReserved)
      */
-    public Contact(String name, String surname, String role, Contact contact, boolean isReserved) {
+    public Contact(String name, String surname, String role, Contact contact, boolean isReserved, int id) {
         // pre condition
-        assert !name.isEmpty() && !surname.isEmpty() && !role.isEmpty(): "Pre condition violated";
-        assert name != null && surname != null && role != null && contact != null : "Pre condition violated";
-
+        assert !name.isEmpty() && !surname.isEmpty() && !role.isEmpty() && name != null && surname != null: "Pre condition violated";
+        assert (contact != null && isReserved) || (contact == null && !isReserved) : "Pre condition violated";
 
         this.name = name;
         this.surname = surname;
@@ -102,10 +106,44 @@ public class Contact {
         this.isLinkAccount = false;
         this.referent = contact;
         this.isReserved = isReserved;
+        this.id = id;
 
         this.inv();
     }
 
+
+    /**
+     * The constructor of a Contact (when the contact is not reserved)
+     *
+     * @param name : the contact name
+     * @param surname : the contact surname
+     * @param role : the contact role
+     * @param contact : the referent when the contact is reserved
+     *
+     * @pre !name.isEmpty() && !surname.isEmpty() && !role.isEmpty() && name != null && surname != null
+     *  (contact != null && isReserved) || (contact == null && !isReserved)
+     */
+    public Contact(String name, String surname, String role, Contact contact, boolean isReserved) {
+        // pre condition
+        assert !name.isEmpty() && !surname.isEmpty() && !role.isEmpty() && name != null && surname != null: "Pre condition violated";
+        assert (contact != null && isReserved) || (contact == null && !isReserved) : "Pre condition violated";
+
+        this.name = name;
+        this.surname = surname;
+        this.role = role;
+        this.address = "";
+        this.commentsList = new ArrayList<Comment>();
+        this.eventsList = new ArrayList<Event>();
+        this.mailsList = new ArrayList<String>();
+        this.phonesList = new ArrayList<String>();
+        this.entity = null;
+        this.isLinkAccount = false;
+        this.referent = contact;
+        this.isReserved = isReserved;
+        this.id = 0;
+
+        this.inv();
+    }
     //-----------------------------------------------------------------//
 
     /**
@@ -218,6 +256,15 @@ public class Contact {
         return this.entity;
     }
 
+    /**
+     * Get the id of the contact
+     *
+     * @return the contact id
+     */
+    public int getId() {
+        this.inv();
+        return this.id;
+    }
 
     /**
      * Get the state of the link (true if the contact is link with an account, else false
@@ -355,10 +402,18 @@ public class Contact {
     /**
      * Set a new reservation state of the contact
      *
-     * @param reserved : the new reservation state of the contact
+     * @param reserved : the new reservation state of the
+     *
+     * @pre (referent != null && isReserved) || (referent == null && !isReserved)
+     * referent != this
      */
-    public void setReserved(boolean reserved) {
+    public void setReserved(boolean reserved, Contact referent) {
+        // pre condition
+        assert (referent != null && isReserved) || (referent == null && !isReserved) : "Pre condition violated";
+        assert referent != this : "Pre condition violated";
+
         this.isReserved = reserved;
+        this.referent = referent;
         this.inv();
     }
 
@@ -367,30 +422,16 @@ public class Contact {
      *
      * @param role : the new contact role
      *
-     * @pre !role.isEmpty() && role != null
+     * @pre !role.isEmpty()
      */
     public void setRole(String role) {
         //pre condition
-        assert !role.isEmpty() && role != null:  "Pre condition violated";
+        assert !role.isEmpty():  "Pre condition violated";
 
         this.role = role;
         this.inv();
     }
 
-    /**
-     * Set a new contact referent
-     *
-     * @param referent : the new referent
-     *
-     * @pre referent != null
-     */
-    public void setReferent(Contact referent) {
-        // pre condition
-        assert referent != null : "Pre condition violated" ;
-
-        this.referent = referent;
-        this.inv();
-    }
 
     /**
      * Add a new event in the list
@@ -500,7 +541,7 @@ public class Contact {
      */
     private void inv(){
         assert !this.name.isEmpty() && !this.surname.isEmpty() && !this.role.isEmpty(): "Invariant violated";
-        assert this.name != null && this.surname != null && this.role != null : "Invariant violated";
+        assert this.name != null && this.surname != null : "Invariant violated";
     }
 
 }
