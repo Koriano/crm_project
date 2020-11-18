@@ -10,7 +10,7 @@ import java.util.ArrayList;
  *
  * @inv !this.username.isEmpty() && !this.password.isEmpty() && !this.name.isEmpty() &&
  * !this.right.isEmpty() && this.username != null && this.password != null
- * && this.name != null && this.right!= null && this.contact != null && this.sectorsList.size()>0
+ * && this.name != null && this.contact != null && this.sectorsList.size()>0
  */
 public class Account {
     /**
@@ -190,11 +190,11 @@ public class Account {
      *
      * @param right : a new type of right
      *
-     * @pre !right.isEmpty() && right != null
+     * @pre !right.isEmpty()
      */
     public void setRight(String right) {
         // pre condition
-        assert !right.isEmpty() && right != null : "Pre condition violated";
+        assert !right.isEmpty(): "Pre condition violated";
 
         this.right = right;
         this.inv();
@@ -262,7 +262,7 @@ public class Account {
      */
     private void inv(){
         assert !this.username.isEmpty() && !this.password.isEmpty() && !this.name.isEmpty() && !this.right.isEmpty(): "Invariant violated";
-        assert this.username != null && this.password != null &&  this.name != null && this.right!= null: "Invariant violated";
+        assert this.username != null && this.password != null &&  this.name != null : "Invariant violated";
         assert this.contact != null && this.sectorsList.size()>0 : "Invariant violated";
     }
 

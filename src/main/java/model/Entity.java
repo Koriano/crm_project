@@ -5,7 +5,7 @@ package model;
  *
  * @author Margaux SCHNELZAUER
  *
- * @inv !this.name.isEmpty() && this.name != null && this.siret != 0 && this.intern_nb >= 0 && !this.type.isEmpty() && this.type != null && this.description != null
+ * @inv !this.name.isEmpty() && this.name != null && this.siret.length() == 14 && this.intern_nb >= 0 && !this.type.isEmpty() && this.type != null && this.description != null
  */
 public class Entity {
 
@@ -22,7 +22,7 @@ public class Entity {
     /**
      * The entity siret number
      */
-    private int siret;
+    private String siret;
 
     /**
      * The entity description
@@ -47,11 +47,11 @@ public class Entity {
      * @param siret : the siret number
      * @param type : the entity type
      *
-     * @pre !name.isEmpty() && name != null && siret != 0 && !type.isEmpty() && type != null
+     * @pre !name.isEmpty() && name != null && siret.length() == 14 && !type.isEmpty() && type != null
      */
-    public Entity(String name, int siret, String type) {
+    public Entity(String name, String siret, String type) {
         // pre condition
-        assert !name.isEmpty() && name != null && siret != 0 && !type.isEmpty() && type != null : "Pre condition violated";
+        assert !name.isEmpty() && name != null && siret.length() == 14 && !type.isEmpty() && type != null : "Pre condition violated";
 
         this.name = name;
         this.siret = siret;
@@ -90,7 +90,7 @@ public class Entity {
      *
      * @return the entity siret
      */
-    public int getSiret() {
+    public String getSiret() {
         this.inv();
         return this.siret;
     }
@@ -162,11 +162,11 @@ public class Entity {
      *
      * @param siret: the new entity siret
      *
-     * @pre siret != 0
+     * @pre siret.length() == 14
      */
-    public void setSiret(int siret) {
+    public void setSiret(String siret) {
         // pre condition
-        assert siret != 0 : "Pre condition violated";
+        assert siret.length() == 14 : "Pre condition violated";
 
         this.siret = siret;
         this.inv();
@@ -223,6 +223,6 @@ public class Entity {
      * The invariant of the class
      */
     private void inv(){
-        assert !this.name.isEmpty() && this.name != null && this.siret != 0 && this.intern_nb >= 0 && !this.type.isEmpty() && this.type != null && this.description != null: "Invariant violated";
+        assert !this.name.isEmpty() && this.name != null && this.siret.length() == 14 && this.intern_nb >= 0 && !this.type.isEmpty() && this.type != null && this.description != null: "Invariant violated";
     }
 }
