@@ -42,8 +42,8 @@ public class Main {
         Account account3 = new Account("user3", "1234", "Margaux","alimentation CRM", contact4, sectorsList1);
 
         // 2 entities created
-        Entity ensibs = new Entity("ENSIBS", 123456789, "Ecole");
-        Entity iut = new Entity("IUT", 987654321, "IUT");
+        Entity ensibs = new Entity("ENSIBS", "123456789", "Ecole");
+        Entity iut = new Entity("IUT", "987654321", "IUT");
 
         contact1.setEntity(ensibs);
         contact2.setEntity(ensibs);
