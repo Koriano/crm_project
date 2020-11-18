@@ -1,10 +1,14 @@
 package controller.servlets;
 
+import model.Contact;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ResearchServlet extends HttpServlet {
     private static final String ATT_CONTACTS = "contacts";
@@ -30,15 +34,19 @@ public class ResearchServlet extends HttpServlet {
      */
     private void displayContactsAndEntities(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Create contact and entities DAO to get them all
-        ContactDAO contactDAO = ContactDAO.getInstance();
-        EntityDAO entityDAO = EntityDAO.getInstance();
+//        ContactDAO contactDAO = ContactDAO.getInstance();
+//        EntityDAO entityDAO = EntityDAO.getInstance();
+//
+//        Contact[] contacts = contactDAO.getAllContacts();
+//        Entity[] entities = entityDAO.getAllEntities();
+        ArrayList<Contact> contacts = new ArrayList<>();
 
-        Contact[] contacts = contactDAO.getAllContacts();
-        Entity[] entities = entityDAO.getAllEntities();
+        Contact contact = new Contact("Hamon", "Alexandre", "Ingénieur", null, false, 0);
+        contacts.add(contact);
 
         // Set contacts and entities as request attribute
         req.setAttribute(ATT_CONTACTS, contacts);
-        req.setAttribute(ATT_ENTITIES, entities);
+//        req.setAttribute(ATT_ENTITIES, entities);
 
         req.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
     }

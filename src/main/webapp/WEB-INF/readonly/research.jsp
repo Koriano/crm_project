@@ -8,13 +8,12 @@
 </head>
 <body>
     <c:import url="/WEB-INF/utils/menu.jsp"/>
+    <a href="/addContact"><button></button></a>
     <div id="corps">
-
         <!-- Iterating over contacts -->
         <c:forEach var="contact" items="${requestScope.contacts}" varStatus="boucle">
             <a href="<c:url value="/research/contact">
-                        <c:param name="name" value="${contact.name}"/>
-                        <c:param name="surname" value="${contact.surname}"/>
+                        <c:param name="id" value="${contact.id}"/>
                     </c:url>">
                 <div>
                     <h4> <b> <c:out value="${contact.name} ${contact.surname}"/> </b> </h4>
@@ -22,13 +21,13 @@
                     <p> <b>Entité : </b> <c:out value="${contact.entity}"/> </p>
 
                     <p> <b>Mail : </b>
-                    <c:forEach var="mail" items="${contact.mail}">
+                    <c:forEach var="mail" items="${contact.mailsList}">
                         <c:out value="${mail}"/> <br>
                     </c:forEach>
                     </p>
 
                     <p> <b>Phone : </b>
-                        <c:forEach var="phone" items="${contact.phone}">
+                        <c:forEach var="phone" items="${contact.phonesList}">
                             <c:out value="${phone}"/> <br>
                         </c:forEach>
                     </p>

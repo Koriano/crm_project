@@ -2,13 +2,21 @@
 <web-app>
     <!-- Servlets -->
     <servlet>
-        <servlet-name>ResearchServlet</servlet-name>
+        <servlet-name>Research</servlet-name>
         <servlet-class>controller.servlets.ResearchServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ContactProfile</servlet-name>
+        <servlet-class>controller.servlets.ContactProfileServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>ResearchServlet</servlet-name>
+        <servlet-name>Research</servlet-name>
         <url-pattern>/research</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ContactProfile</servlet-name>
+        <url-pattern>/research/contact</url-pattern>
     </servlet-mapping>
 
     <!-- Filters -->
