@@ -313,11 +313,11 @@ public class Contact {
      *
      * @param address : the new contact address
      *
-     * @pre !address.isEmpty() && address != null
+     * @pre address != null
      */
     public void setAddress(String address) {
         // pre condition
-        assert !address.isEmpty() && address != null : "Pre condition violated";
+        assert address != null : "Pre condition violated";
 
         this.address = address;
         this.inv();
@@ -513,12 +513,8 @@ public class Contact {
      * Set a new contact entity
      *
      * @param entity : the new contact entity
-     *
-     * @pre entity != null
      */
     public void setEntity(Entity entity) {
-        // pre condition
-        assert entity != null : "Pre condition violated";
 
         this.entity = entity;
         this.inv();
