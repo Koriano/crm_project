@@ -6,6 +6,10 @@
         <servlet-class>controller.servlets.ResearchServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>AddContact</servlet-name>
+        <servlet-class>controller.servlets.AddContactServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ContactProfile</servlet-name>
         <servlet-class>controller.servlets.ContactProfileServlet</servlet-class>
     </servlet>
@@ -13,6 +17,10 @@
     <servlet-mapping>
         <servlet-name>Research</servlet-name>
         <url-pattern>/research</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddContact</servlet-name>
+        <url-pattern>/addContact</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ContactProfile</servlet-name>
