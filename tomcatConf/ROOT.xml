@@ -1,1 +1,3 @@
-<Context docBase="/PRODUCTION/CRMProject-1.0-SNAPSHOT.war" reloadable="true"/>
+<Context docBase="/PRODUCTION/CRMProject-1.0-SNAPSHOT.war" reloadable="true">
+    <WatchedResource>/PRODUCTION/CRMProject-1.0-SNAPSHOT.war</WatchedResource>
+</Context>
