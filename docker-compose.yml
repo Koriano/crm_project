@@ -5,6 +5,7 @@ services:
   database:
     image: mysql:8.0
     restart: always
+    hostname: 'crm-database'
     ports:
       # port de la machine:port du conteneur
       - '63306:53306'
@@ -15,3 +16,14 @@ services:
       # Donnees hote:donnees sur le fs du container
       - ./database/data:/var/lib/mysql
       - ./database/config:/etc/mysql/conf.d
+  webserver:
+    depends_on:
+      - database
+    image: tomcat:latest
+    restart: always
+    ports:
+      # port de la machine:port du conteneur
+      - '58080:8080'
+    volumes:
+      - ./tomcatConf:/usr/local/tomcat/conf/Catalina/localhost
+      - ./build/libs:/PRODUCTION
