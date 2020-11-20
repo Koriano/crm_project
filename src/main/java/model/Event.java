@@ -13,6 +13,11 @@ import java.util.Date;
 public class Event {
 
     /**
+     * Event id
+     */
+    private int id;
+
+    /**
      * The event name
      */
     private String name;
@@ -45,6 +50,32 @@ public class Event {
      * @param date : the event date
      * @param author : the event author
      * @param type : the event type
+     * @param id : the event id
+     *
+     * @pre name != null && date != null  && author != null && !type.isEmpty() && type != null
+     */
+    public Event(String name, Date date, Contact author, String type, int id) {
+        // pre conditon
+        assert name != null && date != null && author != null  && !type.isEmpty() && type != null: " Pre condition violated";
+
+        this.name = name;
+        this.date = date;
+        this.contactsList = new ArrayList<Contact>();
+        this.contactsList.add(author);
+        this.type = type;
+        this.description = "";
+        this.id = id;
+
+        this.inv();
+    }
+
+    /**
+     * The constructor of the Event
+     *
+     * @param name : the event name
+     * @param date : the event date
+     * @param author : the event author
+     * @param type : the event type
      *
      * @pre name != null && date != null  && author != null && !type.isEmpty() && type != null
      */
@@ -58,6 +89,7 @@ public class Event {
         this.contactsList.add(author);
         this.type = type;
         this.description = "";
+        this.id = 0;
 
         this.inv();
     }
