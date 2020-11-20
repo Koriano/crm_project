@@ -23,7 +23,7 @@ services:
     restart: always
     ports:
       # port de la machine:port du conteneur
-      - '58080:8080'
+      - '57080:8080'
     volumes:
       - ./tomcatConf:/usr/local/tomcat/conf/Catalina/localhost
       - ./build/libs:/PRODUCTION
