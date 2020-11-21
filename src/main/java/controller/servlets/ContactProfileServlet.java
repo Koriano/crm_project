@@ -10,12 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class ContactProfileServlet extends HttpServlet {
-    private static final String PARAM_ID = "id";
-
-    private static final String SESSION_PARAM_ACCOUNT = "account";
+    private static final String PARAM_SESSION_CONTACT_ID = "contact_id";
+    private static final String PARAM_SESSION_USER_ID = "user_id";
 
     private static final String ATT_CONTACT = "contact";
     private static final String ATT_COMMENT = "comment";
@@ -24,16 +22,14 @@ public class ContactProfileServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // Get request parameters
-        String id = req.getParameter(PARAM_ID);
-
         // Initialize contact DAO and comment DAO
 //        ContactDAO contactDAO = ContactDAO.getInstance();
 //        CommentDAO commentDAO = CommentDAO.getInstance();
 
-        // Get session and user id
-//        HttpSession session = req.getSession();
-//        int user_id = ((Account)session.getAttribute(SESSION_PARAM_ACCOUNT)).getContact().getId();
+        // Get id of contact to be displayed from session
+        HttpSession session = req.getSession();
+        String id = (String) session.getAttribute(PARAM_SESSION_CONTACT_ID);
+//        int user_id = ((Account) session.setAttribute(PARAM_SESSION_USER_ID)).getContact().getId();
 
         Contact contact = null;
         Comment comment = null;

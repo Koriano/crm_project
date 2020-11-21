@@ -6,6 +6,10 @@
         <servlet-class>controller.servlets.ResearchServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>SetSessionContactDisplayed</servlet-name>
+        <servlet-class>controller.servlets.AddContactSessionServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>AddContact</servlet-name>
         <servlet-class>controller.servlets.AddContactServlet</servlet-class>
     </servlet>
@@ -19,12 +23,16 @@
         <url-pattern>/research</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>SetSessionContactDisplayed</servlet-name>
+        <url-pattern>/research/contact</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>AddContact</servlet-name>
         <url-pattern>/addContact</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ContactProfile</servlet-name>
-        <url-pattern>/research/contact</url-pattern>
+        <url-pattern>/research/contactProfile</url-pattern>
     </servlet-mapping>
 
     <!-- Filters -->
