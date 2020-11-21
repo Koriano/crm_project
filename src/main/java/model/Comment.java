@@ -39,6 +39,7 @@ public class Comment {
 
         this.author = author;
         this.concernedContact = concernedContact;
+        this.content = content;
 
         this.inv();
     }
