@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title> <c:out value="${requestScope.contact.name}"/> <c:out value="${requestScope.contact.surname}"/> </title>
-    <link type="text/css" rel="stylesheet" href="<c:url value="/style/lib/bootstrap.min.css"/>" />
+    <link rel="stylesheet" href="<c:url value="/style/lib/bootstrap.min.css"/>" />
 </head>
 <body>
     <c:import url="/WEB-INF/utils/menu.jsp"/>
@@ -18,13 +18,13 @@
 
             <p> <b>Mail : </b>
                 <c:forEach var="mail" items="${requestScope.contact.mailsList}">
-                    <c:out value="${mail}"/> <br>
+                    <p><c:out value="${mail}"/></p> <br>
                 </c:forEach>
             </p>
 
-            <p> <b>Phone : </b>
+            <p> <b>Téléphone : </b>
                 <c:forEach var="phone" items="${requestScope.contact.phonesList}">
-                    <c:out value="${phone}"/> <br>
+                    <p><c:out value="${phone}"/></p> <br>
                 </c:forEach>
             </p>
 
@@ -47,8 +47,8 @@
 
         <div id="History" class="tabcontent">
             <c:forEach var="event" items="${requestScope.contact.eventsList}">
-                <div class="event">
-                    <h4>${event.name} (<c:out value="${event.type}"/>)</h4>
+                <div>
+                    <h4><c:out value="${event.name}"/> (<c:out value="${event.type}"/>)</h4>
                     <p><b>Date : </b> <c:out value="${event.date}"/></p>
                     <p><b>Description : </b> <c:out value="${event.description}"/></p>
                 </div>
@@ -56,23 +56,6 @@
         </div>
     </div>
 
-    <script>
-        function openTab(evt, tab){
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-            tablinks = document.getElementsByClassName("tablinks");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-            document.getElementById(tab).style.display = "block";
-            evt.currentTarget.className += " active";
-        }
-
-        // Comment tab open by default
-        document.getElementById("defaultOpen").click()
-    </script>
+    <script src="<c:out value="/js/tabs_script.js"/>"></script>
 </body>
 </html>

@@ -2,9 +2,10 @@ document.getElementById("addPhone").onclick = addPhoneField;
 document.getElementById("addMail").onclick = addMailField;
 document.getElementById("reserved").onclick = hiddenReferent;
 
-function addPhoneField(evt) {
-    let button = evt.target;
-    let lastInput = button.previousElementSibling;
+function addPhoneField() {
+    let phone_inputs = document.getElementById("phoneInputs")
+
+    let lastInput = phone_inputs.lastElementChild;
 
     let prefix = "phone";
     let newIndex = parseInt(lastInput.name.substring(prefix.length), 10);
@@ -12,18 +13,18 @@ function addPhoneField(evt) {
     let newInput = document.createElement("input");
     newInput.type = "tel";
     newInput.name = "phone" + (newIndex+1);
-    newInput.size = 20;
     newInput.maxLength = 20;
+    newInput.classList.add("form-control");
+    newInput.classList.add("mt-2")
+    newInput.placeholder = "01.23.45.67.89";
 
-    let br = document.createElement("br");
-
-    lastInput.parentNode.insertBefore(br, lastInput.nextSibling);
-    br.parentNode.insertBefore(newInput, br.nextSibling);
+    phone_inputs.append(newInput);
 }
 
-function addMailField(evt) {
-    let button = evt.target;
-    let lastInput = button.previousElementSibling;
+function addMailField() {
+    let mail_inputs = document.getElementById("mailInputs")
+
+    let lastInput = mail_inputs.lastElementChild;
 
     let prefix = "mail";
     let newIndex = parseInt(lastInput.name.substring(prefix.length), 10);
@@ -31,17 +32,16 @@ function addMailField(evt) {
     let newInput = document.createElement("input");
     newInput.type = "email";
     newInput.name = "mail" + (newIndex+1);
-    newInput.size = 20;
-    newInput.maxLength = 60;
+    newInput.maxLength = 20;
+    newInput.classList.add("form-control");
+    newInput.classList.add("mt-2")
+    newInput.placeholder = "email@exemple.com";
 
-    let br = document.createElement("br");
-
-    lastInput.parentNode.insertBefore(br, lastInput.nextSibling);
-    br.parentNode.insertBefore(newInput, br.nextSibling);
+    mail_inputs.append(newInput);
 }
 
-function hiddenReferent(evt){
-    document.getElementById("referentFormPart").hidden = !document.getElementById("reserved").checked;
+function hiddenReferent(){
+    document.getElementById("referentFormPart").hidden = !document.getElementById("referentFormPart").hidden;
 }
 
-hiddenReferent()
+hiddenReferent();

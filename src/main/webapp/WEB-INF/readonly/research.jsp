@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Research</title>
-    <link type="text/css" rel="stylesheet" href="<c:url value="/style/lib/bootstrap.min.css"/>" />
+    <link rel="stylesheet" href="<c:url value="/style/lib/bootstrap.min.css"/>" />
 </head>
 <body>
     <c:import url="/WEB-INF/utils/menu.jsp"/>
