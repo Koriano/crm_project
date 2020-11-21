@@ -46,7 +46,6 @@ public class AddContactServlet extends HttpServlet {
             new_contact = null;
         }
 
-        System.out.println(errors.toString());
         // Set attributes to request
         this.setFormAttributes(req);
         req.setAttribute(ATT_CONTACT, new_contact);
@@ -65,9 +64,11 @@ public class AddContactServlet extends HttpServlet {
 //        EntityDAO entityDAO = EntityDAO.getInstance();
 //        Entity[] entities = entityDAO.getAllEntities();
 
+        // SIMULATION A SUPPR ***************
         Contact[] contacts = {new Contact("Hamon", "Alexandre", "Ingénieur", null, false, 0)};
         String[] roles = {"Prof", "Eleve", "Responsable de formation", "Chargé de com", "Chargé d'alternance"};
         Entity[] entities = {new Entity("Thalès", "11111111111111", "Entreprise"), new Entity("ENSIBS", null, "Etablissement d'enseignement")};
+        // **********************************
 
         req.setAttribute(ATT_CONTACTS, contacts);
         req.setAttribute(ATT_ROLES, roles);

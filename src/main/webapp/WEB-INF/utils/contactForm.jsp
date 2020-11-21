@@ -1,24 +1,24 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<label for="name">Nom <span class="requis">*</span></label>
+<label for="name">Nom <span>*</span></label>
 <input type="text" id="name" name="name" value="<c:out value="${requestScope.contact.name}"/>" size="20" maxlength="50" />
-<span class="erreur">${requestScope.form.errors['name']}</span>
+<span>${requestScope.form.errors['name']}</span>
 <br>
 
-<label for="surname">Prénom <span class="requis">*</span></label>
+<label for="surname">Prénom <span>*</span></label>
 <input type="text" id="surname" name="surname" value="<c:out value="${requestScope.contact.surname}"/>" size="20" maxlength="50" />
-<span class="erreur">${requestScope.form.errors['surname']}</span>
+<span>${requestScope.form.errors['surname']}</span>
 <br>
 
-<label for="role">Rôle <span class="requis">*</span></label>
+<label for="role">Rôle <span>*</span></label>
 <select id="role" name="role">
     <option value="" <c:out value="${empty requestScope.contact.role ? 'selected':''}"/>>Sélectionnez un rôle</option>
     <c:forEach var="role" items="${requestScope.roles}">
         <option value="<c:out value="${role}"/>" <c:out value="${requestScope.contact.role == role ? 'selected':''}"/>><c:out value="${role}"/></option>
     </c:forEach>
 </select>
-<span class="erreur">${requestScope.form.errors['role']}</span>
+<span>${requestScope.form.errors['role']}</span>
 <br>
 
 <label for="entity">Entité </label>
@@ -28,12 +28,12 @@
         <option value="<c:out value="${entity.name}"/>" <c:out value="${requestScope.contact.entity.name == entity.name ? 'selected':''}"/>><c:out value="${entity.name}"/></option>
     </c:forEach>
 </select>
-<span class="erreur">${requestScope.form.errors['entity']}</span>
+<span>${requestScope.form.errors['entity']}</span>
 <br>
 
 <label for="address">Adresse </label>
 <input type="text" id="address" name="address" value="<c:out value="${requestScope.contact.address}"/>" size="20"/>
-<span class="erreur">${requestScope.form.errors['address']}</span>
+<span>${requestScope.form.errors['address']}</span>
 <br>
 
 <label for="phones">Téléphone </label>
@@ -44,7 +44,7 @@
     </c:if>
 </c:forEach>
 <button type="button" id="addPhone">+</button>
-<span class="erreur">${requestScope.form.errors['phone']}</span>
+<span>${requestScope.form.errors['phone']}</span>
 <br>
 
 <label for="mails">Mail </label>
@@ -55,7 +55,7 @@
     </c:if>
 </c:forEach>
 <button type="button" id="addMail">+</button>
-<span class="erreur">${requestScope.form.errors['mail']}</span>
+<span>${requestScope.form.errors['mail']}</span>
 <br>
 
 <label for="reserved">Réservé ? </label>
@@ -71,6 +71,6 @@
         </c:forEach>
     </select>
 </div>
-<span class="erreur">${requestScope.form.errors['referent']}</span>
+<span>${requestScope.form.errors['referent']}</span>
 <br>
 

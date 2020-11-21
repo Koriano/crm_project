@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <title> <c:out value="${requestScope.contact.name}"/> <c:out value="${requestScope.contact.surname}"/> </title>
-    <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>" />
+    <link type="text/css" rel="stylesheet" href="<c:url value="/style/lib/bootstrap.min.css"/>" />
 </head>
 <body>
     <c:import url="/WEB-INF/utils/menu.jsp"/>
 
-    <div id="corps">
+    <div>
+        <a href="<c:url value="/research/contact/modify"/>"><button>Modifier le contact</button></a>
         <div>
             <h2> <b> <c:out value="${requestScope.contact.name} ${requestScope.contact.surname}"/> </b> </h2>
             <p> <b>Role : </b> <c:out value="${requestScope.contact.role}"/> </p>

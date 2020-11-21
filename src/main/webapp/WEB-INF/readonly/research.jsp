@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Research</title>
-    <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>" />
+    <link type="text/css" rel="stylesheet" href="<c:url value="/style/lib/bootstrap.min.css"/>" />
 </head>
 <body>
     <c:import url="/WEB-INF/utils/menu.jsp"/>
     <a href="<c:url value="/addContact"/>"><button>Ajouter Contact</button></a>
-    <div id="corps">
+    <div>
         <!-- Iterating over contacts -->
         <c:forEach var="contact" items="${requestScope.contacts}" varStatus="boucle">
             <a href="<c:url value="/research/contact">
@@ -39,7 +39,7 @@
 
         <!-- Iterating over entities -->
         <c:forEach var="entity" items="${requestScope.entities}" varStatus="boucle">
-            <a href="<c:url value="/entity">
+            <a href="<c:url value="/research/entity">
                         <c:param name="name" value="${entity.name}"/>
                      </c:url>">
                 

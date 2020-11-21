@@ -1,6 +1,7 @@
 package controller.servlets;
 
 import model.Contact;
+import model.Entity;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -36,16 +37,21 @@ public class ResearchServlet extends HttpServlet {
 //        ContactDAO contactDAO = ContactDAO.getInstance();
 //        EntityDAO entityDAO = EntityDAO.getInstance();
 //
-//        Contact[] contacts = contactDAO.getAllContacts();
-//        Entity[] entities = entityDAO.getAllEntities();
-        ArrayList<Contact> contacts = new ArrayList<>();
+//        ArrayList<Contact> contacts = contactDAO.getAllContacts();
+//        ArrayList<Entity> entities = entityDAO.getAllEntities();
 
+        // SIMULATION A SUPPR **************
+        ArrayList<Contact> contacts = new ArrayList<>();
         Contact contact = new Contact("Hamon", "Alexandre", "Ingénieur", null, false, 0);
         contacts.add(contact);
+        ArrayList<Entity> entities = new ArrayList<>();
+        entities.add(new Entity("Thalès", "11111111111111", "Entreprise"));
+        entities.add(new Entity("ENSIBS", null, "Etablissement d'enseignement"));
+        // *********************************
 
         // Set contacts and entities as request attribute
         req.setAttribute(ATT_CONTACTS, contacts);
-//        req.setAttribute(ATT_ENTITIES, entities);
+        req.setAttribute(ATT_ENTITIES, entities);
 
         req.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
     }

@@ -31,15 +31,13 @@ public class ContactProfileServlet extends HttpServlet {
         String id = (String) session.getAttribute(PARAM_SESSION_CONTACT_ID);
 //        int user_id = ((Account) session.setAttribute(PARAM_SESSION_USER_ID)).getContact().getId();
 
-        Contact contact = null;
-        Comment comment = null;
-        if(this.checkId(id)) {
-//            contact = contactDAO.getContactById(id);
-//            comment = CommentDAO.getCommentByAuthorAndContact(user_id, id);
-        }
+        // Contact contact = contactDAO.getContactById(id);
+        // Comment comment = CommentDAO.getCommentByAuthorAndContact(user_id, id);
 
-        contact = new Contact("Hamon", "Alexandre", "Ingénieur", null, false, 0);
-        comment = new Comment(contact, contact, "oui 1234");
+        // SIMULATION A SUPPR *******************
+        Contact contact = new Contact("Hamon", "Alexandre", "Ingénieur", null, false, 0);
+        Comment comment = new Comment(contact, contact, "oui 1234");
+        // **************************************
 
         // Set contact as request attribute
         req.setAttribute(ATT_CONTACT, contact);

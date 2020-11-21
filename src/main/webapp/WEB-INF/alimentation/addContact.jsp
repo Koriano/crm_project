@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Ajouter un contact</title>
-    <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>" />
+    <link type="text/css" rel="stylesheet" href="<c:url value="/style/lib/bootstrap.min.css"/>" />
 </head>
 <body>
     <c:import url="/WEB-INF/utils/menu.jsp"/>
@@ -13,7 +13,7 @@
             <c:import url="/WEB-INF/utils/contactForm.jsp"/>
             <input type="submit" value="Créer contact">
             <br>
-            <span class="info">${requestScope.form.result}</span>
+            <span>${requestScope.form.result}</span>
         </fieldset>
     </form>
 
