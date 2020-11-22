@@ -41,7 +41,7 @@ function addMailField() {
 }
 
 function hiddenReferent(){
-    document.getElementById("referentFormPart").hidden = !document.getElementById("referentFormPart").hidden;
+    document.getElementById("referentFormPart").hidden = !document.getElementById("reserved").checked;
 }
 
 hiddenReferent();

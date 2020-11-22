@@ -127,10 +127,10 @@ public class ContactForm {
 
 
         if(this.errors.isEmpty()){
-            this.result = "Contact ajouté avec succès.";
+            this.result = "Succès !";
         }
         else {
-            this.result = "Echec de l'ajout du contact.";
+            this.result = "Echec.";
         }
 
         return contact;

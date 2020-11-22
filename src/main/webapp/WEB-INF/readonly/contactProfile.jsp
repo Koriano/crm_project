@@ -11,6 +11,8 @@
 
     <div>
         <a href="<c:url value="/research/contact/modify"/>"><button>Modifier le contact</button></a>
+        <a href="<c:url value="/research/contact/delete"/>"><button>Supprimer le contact</button></a>
+
         <div>
             <h2> <b> <c:out value="${requestScope.contact.name} ${requestScope.contact.surname}"/> </b> </h2>
             <p> <b>Role : </b> <c:out value="${requestScope.contact.role}"/> </p>
@@ -32,14 +34,12 @@
         </div>
 
         <div class="tab">
-            <button class="tablinks" onclick="openTab(this, 'Comment')" id="defaultOpen">Comment</button>
-            <button class="tablinks" onclick="openTab(this, 'History')">History</button>
+            <button class="tablinks" onclick="openTab(event, 'Comment')" id="defaultOpen">Comment</button>
+            <button class="tablinks" onclick="openTab(event, 'History')">History</button>
         </div>
 
         <div id="Comment" class="tabcontent">
-            <textarea name="commentContent" rows="10" cols="100" form="commentForm">
-                <c:out value="${requestScope.comment.content}"/>
-            </textarea>
+            <textarea name="commentContent" rows="10" cols="100" form="commentForm"><c:out value="${requestScope.comment.content}"/></textarea>
             <form method="post" action="<c:url value="/saveComment"/>" id="commentForm">
                 <input type="submit" value="Sauvegarder">
             </form>

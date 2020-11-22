@@ -17,6 +17,15 @@
         <servlet-name>ContactProfile</servlet-name>
         <servlet-class>controller.servlets.ContactProfileServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ModifyContact</servlet-name>
+        <servlet-class>controller.servlets.ModifyContactServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteContact</servlet-name>
+        <servlet-class>controller.servlets.DeleteContactServlet</servlet-class>
+    </servlet>
+
 
     <servlet-mapping>
         <servlet-name>Research</servlet-name>
@@ -34,6 +43,15 @@
         <servlet-name>ContactProfile</servlet-name>
         <url-pattern>/research/contactProfile</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ModifyContact</servlet-name>
+        <url-pattern>/research/contact/modify</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteContact</servlet-name>
+        <url-pattern>/research/contact/delete</url-pattern>
+    </servlet-mapping>
+
 
     <!-- Filters -->
     <filter>
