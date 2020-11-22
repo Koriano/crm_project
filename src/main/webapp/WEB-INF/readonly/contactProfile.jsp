@@ -11,6 +11,8 @@
 
     <div>
         <a href="<c:url value="/research/contact/modify"/>"><button>Modifier le contact</button></a>
+        <a href="<c:url value="/research/contact/delete"/>"><button>Supprimer le contact</button></a>
+
         <div>
             <h2> <b> <c:out value="${requestScope.contact.name} ${requestScope.contact.surname}"/> </b> </h2>
             <p> <b>Role : </b> <c:out value="${requestScope.contact.role}"/> </p>
