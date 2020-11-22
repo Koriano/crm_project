@@ -11,7 +11,7 @@
 
     <div class="tab">
         <button class="tablinks" onclick="openTab(event, 'Contacts')" id="defaultOpen">Contacts</button>
-        <button class="tablinks" onclick="openTab(event, 'Entities')">Entities</button>
+        <button class="tablinks" onclick="openTab(event, 'Entities')">Entités</button>
     </div>
 
     <div id="Contacts" class="tabcontent">
@@ -66,6 +66,6 @@
         </c:forEach>
     </div>
 
-    <script src="/js/tabs_script.js"></script>
+    <script src="<c:out value="/js/tabs_script.js"/>"></script>
 </body>
 </html>

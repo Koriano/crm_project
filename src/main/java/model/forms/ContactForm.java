@@ -103,7 +103,7 @@ public class ContactForm {
         }
 
         // Create the new contact and set properties
-        Contact contact = new Contact(name, surname, role, referent_contact, "on".equals(reserved));
+        Contact contact = new Contact(name.trim(), surname.trim(), role, referent_contact, "on".equals(reserved));
 
         if(!this.errors.containsKey(PARAM_ENTITY)){
             contact.setEntity(entity_object);
@@ -115,13 +115,13 @@ public class ContactForm {
 
         for(String phone:phones){
             if (!phone.isEmpty()) {
-                contact.addPhone(phone);
+                contact.addPhone(phone.trim());
             }
         }
 
         for(String mail:mails){
             if (!mail.isEmpty()) {
-                contact.addMail(mail);
+                contact.addMail(mail.trim());
             }
         }
 
@@ -186,7 +186,7 @@ public class ContactForm {
     private void phoneVerification(String phone) throws Exception{
         if (!phone.isEmpty() && !phone.matches("(?:(?:\\+|00)33|0)\\s*[1-9](?:[\\s.-]*\\d{2}){4}")){
             throw new Exception("Un ou plusieurs numéros de téléphone sont invalides.");
-        }else if(phone.length() > 20){
+        }else if(phone.trim().length() > 20){
             throw new Exception("Un ou plusieurs numéros de téléphone contiennent plus de 20 chiffres.");
         }
     }
@@ -194,7 +194,7 @@ public class ContactForm {
     private void mailVerification(String mail) throws Exception{
         if(!mail.isEmpty() && !mail.matches("([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)")){
             throw new Exception("Une ou plusieurs adresses mail sont invalides.");
-        }else if(mail.length() > 60){
+        }else if(mail.trim().length() > 60){
             throw new Exception("Une ou plusieurs adresses mail contiennent plus de 60 caractères.");
         }
     }

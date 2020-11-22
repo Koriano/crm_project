@@ -2,6 +2,10 @@
 <web-app>
     <!-- Servlets -->
     <servlet>
+        <servlet-name>Connection</servlet-name>
+        <servlet-class>controller.servlets.ConnectionServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>Research</servlet-name>
         <servlet-class>controller.servlets.ResearchServlet</servlet-class>
     </servlet>
@@ -26,7 +30,10 @@
         <servlet-class>controller.servlets.DeleteContactServlet</servlet-class>
     </servlet>
 
-
+    <servlet-mapping>
+        <servlet-name>Connection</servlet-name>
+        <url-pattern>/connection</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Research</servlet-name>
         <url-pattern>/research</url-pattern>
