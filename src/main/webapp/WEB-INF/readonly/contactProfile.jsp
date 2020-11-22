@@ -34,8 +34,8 @@
         </div>
 
         <div class="tab">
-            <button class="tablinks" onclick="openTab(this, 'Comment')" id="defaultOpen">Comment</button>
-            <button class="tablinks" onclick="openTab(this, 'History')">History</button>
+            <button class="tablinks" onclick="openTab(event, 'Comment')" id="defaultOpen">Comment</button>
+            <button class="tablinks" onclick="openTab(event, 'History')">History</button>
         </div>
 
         <div id="Comment" class="tabcontent">
