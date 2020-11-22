@@ -20,7 +20,15 @@ public class ConnectionServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
+        HttpSession session = req.getSession();
+        Account user = (Account) session.getAttribute(ATT_SESSION_USER_ACCOUNT);
+
+        if(user == null){
+            this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
+        }
+        else {
+            resp.sendRedirect(req.getContextPath() + URL_REDIRECT);
+        }
     }
 
     @Override

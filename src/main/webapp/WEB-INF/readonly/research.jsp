@@ -14,8 +14,12 @@
         <button class="tablinks" onclick="openTab(event, 'Entities')">Entités</button>
     </div>
 
+    <c:set var="right" value="${sessionScope.user.right}"/>
+
     <div id="Contacts" class="tabcontent">
-        <a href="<c:url value="/addContact"/>"><button>Ajouter Contact</button></a>
+        <c:if test="${right == 'Alimentation' or right == 'Administrateur'}">
+            <a href="<c:url value="/addContact"/>"><button>Ajouter Contact</button></a>
+        </c:if>
 
         <!-- Iterating over contacts -->
         <c:forEach var="contact" items="${requestScope.contacts}" varStatus="boucle">

@@ -9,7 +9,7 @@
 <body>
     <h1>Connexion au CRM</h1>
 
-    <form method="post" action="<c:url value="/connection"/>">
+    <form method="post" action="<c:url value="/connect"/>">
         <fieldset>
             <label for="username">Nom d'utilisateur </label>
             <input type="text" id="username" name="username" value="<c:out value="${requestScope.account.username}"/>" maxlength="25">

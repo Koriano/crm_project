@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class UserConnectedFilter implements Filter {
     private static final String PARAM_SESSION_USER_ACCOUNT = "user";
 
-    private static final String URL_REDIRECT = "/connection";
+    private static final String URL_REDIRECT = "/connect";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -33,7 +33,7 @@ public class UserConnectedFilter implements Filter {
 
         // If standard resources or connection page, do not filter
         String path = http_request.getRequestURI().substring(http_request.getContextPath().length());
-        if(path.startsWith("/connection") || path.startsWith("/js") || path.startsWith("/style")){
+        if(path.startsWith("/connect") || path.startsWith("/js") || path.startsWith("/style")){
             chain.doFilter(http_request, http_response);
         }
         else {

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app>
     <!-- Servlets -->
+    <!-- Root -->
+    <servlet>
+        <servlet-name>Root</servlet-name>
+        <servlet-class>controller.servlets.RootServlet</servlet-class>
+    </servlet>
 
     <!-- Connect and disconnect -->
     <servlet>
@@ -46,14 +51,21 @@
         <servlet-class>controller.servlets.contact.DeleteContactServlet</servlet-class>
     </servlet>
 
+
+    <!-- Root -->
+    <servlet-mapping>
+        <servlet-name>Root</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
     <!-- Connect and disconnect -->
     <servlet-mapping>
         <servlet-name>Connection</servlet-name>
-        <url-pattern>/connection</url-pattern>
+        <url-pattern>/connect</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Disconnection</servlet-name>
-        <url-pattern>/disconnection</url-pattern>
+        <url-pattern>/disconnect</url-pattern>
     </servlet-mapping>
 
     <!-- Home -->

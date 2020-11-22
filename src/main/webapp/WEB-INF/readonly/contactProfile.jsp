@@ -10,8 +10,12 @@
     <c:import url="/WEB-INF/utils/menu.jsp"/>
 
     <div>
+        <c:set var="right" value="${sessionScope.user.right}" scope="page"/>
+
+        <c:if test="${right == 'Alimentation' or right == 'Administrateur'}">
         <a href="<c:url value="/research/contact/modify"/>"><button>Modifier le contact</button></a>
         <a href="<c:url value="/research/contact/delete"/>"><button>Supprimer le contact</button></a>
+        </c:if>
 
         <div>
             <h2> <b> <c:out value="${requestScope.contact.name} ${requestScope.contact.surname}"/> </b> </h2>
