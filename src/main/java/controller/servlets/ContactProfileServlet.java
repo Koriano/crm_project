@@ -29,13 +29,14 @@ public class ContactProfileServlet extends HttpServlet {
         // Get id of contact to be displayed from session
         HttpSession session = req.getSession();
         String id = (String) session.getAttribute(PARAM_SESSION_CONTACT_ID);
+
 //        int user_id = ((Account) session.setAttribute(PARAM_SESSION_USER_ID)).getContact().getId();
 
         // Contact contact = contactDAO.getContactById(id);
         // Comment comment = CommentDAO.getCommentByAuthorAndContact(user_id, id);
 
         // SIMULATION A SUPPR *******************
-        Contact contact = new Contact("Hamon", "Alexandre", "Ingénieur", null, false, 0);
+        Contact contact = new Contact("Hamon", "Alexandre", "Eleve", null, false, 0);
         Comment comment = new Comment(contact, contact, "oui 1234");
         // **************************************
 
@@ -43,7 +44,7 @@ public class ContactProfileServlet extends HttpServlet {
         req.setAttribute(ATT_CONTACT, contact);
         req.setAttribute(ATT_COMMENT, comment);
 
-        req.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
+        this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
     }
 
     @Override

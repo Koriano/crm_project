@@ -10,7 +10,7 @@ import java.io.IOException;
 public class AddContactSessionServlet extends HttpServlet {
     private static final String PARAM_ID_CONTACT = "id";
 
-    private static final String ATT_SESSION_ID_CONTACT = "id_contact";
+    private static final String ATT_SESSION_ID_CONTACT = "contact_id";
 
     private static final String URL_REDIRECT_SUCCESS = "/research/contactProfile";
     private static final String URL_REDIRECT_FAIL = "/research";

@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -42,7 +43,7 @@ public class ResearchServlet extends HttpServlet {
 
         // SIMULATION A SUPPR **************
         ArrayList<Contact> contacts = new ArrayList<>();
-        Contact contact = new Contact("Hamon", "Alexandre", "Ingénieur", null, false, 0);
+        Contact contact = new Contact("Hamon", "Alexandre", "Eleve", null, false, 0);
         contacts.add(contact);
         ArrayList<Entity> entities = new ArrayList<>();
         entities.add(new Entity("Thalès", "11111111111111", "Entreprise"));
@@ -53,6 +54,6 @@ public class ResearchServlet extends HttpServlet {
         req.setAttribute(ATT_CONTACTS, contacts);
         req.setAttribute(ATT_ENTITIES, entities);
 
-        req.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
+        this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
     }
 }
