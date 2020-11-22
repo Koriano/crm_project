@@ -30,14 +30,20 @@ public class ConnectForm {
         this.usernameVerification(username);
         this.passwordVerification(password);
 
-//        Account user = this.accountDAO.getAccountByUsernameAndPassword(username, password);
+        Account user = null;
+        if(!this.error){
+//            this.error = !this.accountDAO.checkLogin(username, password);
+            if(!this.error){
+//                user = this.accountDAO.getAccountByName(username);
+            }
+        }
 
         // SIMULATION A SUPPR ************
         Contact contact = new Contact("Hamon", "Alexandre", "Eleve", null, false, 0);
         ArrayList<Sector> sectors = new ArrayList<>();
         sectors.add(new Sector("slt"));
 
-        Account user = new Account("alex29", "1234azerty", "Alex", "Administrateur", contact, sectors);
+        user = new Account("alex29", "1234azerty", "Alex", "Administrateur", contact, sectors);
         // *******************************
 
         // If a field is not correct, then do not return user

@@ -11,12 +11,12 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class ConnectionServlet extends HttpServlet {
-    private static final String ATT_SESSION_USERNAME = "username";
+    private static final String ATT_SESSION_USER_ACCOUNT = "user";
     private static final String ATT_ACCOUNT = "account";
     private static final String ATT_FORM = "form";
 
     private static final String VIEW = "/WEB-INF/public/connection.jsp";
-    private static final String URL_REDIRECT = "/research";
+    private static final String URL_REDIRECT = "/home";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -36,7 +36,7 @@ public class ConnectionServlet extends HttpServlet {
         }
         else {
             HttpSession session = req.getSession();
-            session.setAttribute(ATT_SESSION_USERNAME, user.getUsername());
+            session.setAttribute(ATT_SESSION_USER_ACCOUNT, user);
 
             resp.sendRedirect(req.getContextPath() + URL_REDIRECT);
         }

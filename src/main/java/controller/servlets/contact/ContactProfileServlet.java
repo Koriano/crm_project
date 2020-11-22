@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class ContactProfileServlet extends HttpServlet {
     private static final String PARAM_SESSION_CONTACT_ID = "contact_id";
-    private static final String PARAM_SESSION_USER_ID = "user_id";
+    private static final String PARAM_SESSION_USER_ACCOUNT = "user";
 
     private static final String ATT_CONTACT = "contact";
     private static final String ATT_COMMENT = "comment";
@@ -30,7 +30,7 @@ public class ContactProfileServlet extends HttpServlet {
         HttpSession session = req.getSession();
         String id = (String) session.getAttribute(PARAM_SESSION_CONTACT_ID);
 
-//        int user_id = ((Account) session.setAttribute(PARAM_SESSION_USER_ID)).getContact().getId();
+//        int user_id = ((Account) session.getAttribute(PARAM_SESSION_USER_ACCOUNT)).getContact().getId();
 
         // Contact contact = contactDAO.getContactById(id);
         // Comment comment = CommentDAO.getCommentByAuthorAndContact(user_id, id);
