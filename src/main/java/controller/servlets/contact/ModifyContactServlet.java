@@ -1,4 +1,4 @@
-package controller.servlets;
+package controller.servlets.contact;
 
 import model.Contact;
 import model.Entity;

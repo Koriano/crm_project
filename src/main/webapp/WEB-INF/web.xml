@@ -1,43 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app>
     <!-- Servlets -->
+
+    <!-- Connect and disconnect -->
     <servlet>
         <servlet-name>Connection</servlet-name>
-        <servlet-class>controller.servlets.ConnectionServlet</servlet-class>
+        <servlet-class>controller.servlets.connection.ConnectionServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Disconnection</servlet-name>
+        <servlet-class>controller.servlets.connection.DisconnectionServlet</servlet-class>
+    </servlet>
+
+    <!-- Contact and entities -->
     <servlet>
         <servlet-name>Research</servlet-name>
         <servlet-class>controller.servlets.ResearchServlet</servlet-class>
     </servlet>
+    <!-- Contacts -->
     <servlet>
         <servlet-name>SetSessionContactDisplayed</servlet-name>
-        <servlet-class>controller.servlets.AddContactSessionServlet</servlet-class>
+        <servlet-class>controller.servlets.contact.AddContactSessionServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AddContact</servlet-name>
-        <servlet-class>controller.servlets.AddContactServlet</servlet-class>
+        <servlet-class>controller.servlets.contact.AddContactServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ContactProfile</servlet-name>
-        <servlet-class>controller.servlets.ContactProfileServlet</servlet-class>
+        <servlet-class>controller.servlets.contact.ContactProfileServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ModifyContact</servlet-name>
-        <servlet-class>controller.servlets.ModifyContactServlet</servlet-class>
+        <servlet-class>controller.servlets.contact.ModifyContactServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DeleteContact</servlet-name>
-        <servlet-class>controller.servlets.DeleteContactServlet</servlet-class>
+        <servlet-class>controller.servlets.contact.DeleteContactServlet</servlet-class>
     </servlet>
 
+    <!-- Connect and disconnect -->
     <servlet-mapping>
         <servlet-name>Connection</servlet-name>
         <url-pattern>/connection</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>Disconnection</servlet-name>
+        <url-pattern>/disconnection</url-pattern>
+    </servlet-mapping>
+
+    <!-- Contacts and entities -->
+    <servlet-mapping>
         <servlet-name>Research</servlet-name>
         <url-pattern>/research</url-pattern>
     </servlet-mapping>
+    <!-- Contacts -->
     <servlet-mapping>
         <servlet-name>SetSessionContactDisplayed</servlet-name>
         <url-pattern>/research/contact</url-pattern>

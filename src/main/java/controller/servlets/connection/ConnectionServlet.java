@@ -1,4 +1,4 @@
-package controller.servlets;
+package controller.servlets.connection;
 
 import model.Account;
 import model.forms.ConnectForm;
