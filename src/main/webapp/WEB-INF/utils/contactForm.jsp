@@ -95,4 +95,3 @@
     <span>${requestScope.form.errors['referent']}</span>
 </div>
 
-
