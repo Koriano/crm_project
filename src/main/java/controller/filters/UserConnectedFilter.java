@@ -33,7 +33,7 @@ public class UserConnectedFilter implements Filter {
 
         // If standard resources or connection page, do not filter
         String path = http_request.getRequestURI().substring(http_request.getContextPath().length());
-        if(path.startsWith("/connect") || path.startsWith("/js") || path.startsWith("/style")){
+        if(path.startsWith("/favicon.ico") || path.startsWith("/connect") || path.startsWith("/js") || path.startsWith("/style")){
             chain.doFilter(http_request, http_response);
         }
         else {

@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app>
     <!-- Servlets -->
-    <!-- Root -->
-    <servlet>
-        <servlet-name>Root</servlet-name>
-        <servlet-class>controller.servlets.RootServlet</servlet-class>
-    </servlet>
-
     <!-- Connect and disconnect -->
     <servlet>
         <servlet-name>Connection</servlet-name>
@@ -43,6 +37,10 @@
         <servlet-class>controller.servlets.contact.ContactProfileServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>SaveComment</servlet-name>
+        <servlet-class>controller.servlets.contact.SaveCommentServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ModifyContact</servlet-name>
         <servlet-class>controller.servlets.contact.ModifyContactServlet</servlet-class>
     </servlet>
@@ -51,12 +49,6 @@
         <servlet-class>controller.servlets.contact.DeleteContactServlet</servlet-class>
     </servlet>
 
-
-    <!-- Root -->
-    <servlet-mapping>
-        <servlet-name>Root</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
 
     <!-- Connect and disconnect -->
     <servlet-mapping>
@@ -94,12 +86,16 @@
         <url-pattern>/research/contactProfile</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>SaveComment</servlet-name>
+        <url-pattern>/research/contactProfile/saveComment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ModifyContact</servlet-name>
-        <url-pattern>/research/contact/modify</url-pattern>
+        <url-pattern>/research/contactProfile/modify</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>DeleteContact</servlet-name>
-        <url-pattern>/research/contact/delete</url-pattern>
+        <url-pattern>/research/contactProfile/delete</url-pattern>
     </servlet-mapping>
 
 

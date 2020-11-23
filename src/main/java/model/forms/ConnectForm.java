@@ -43,7 +43,7 @@ public class ConnectForm {
         ArrayList<Sector> sectors = new ArrayList<>();
         sectors.add(new Sector("slt"));
 
-        user = new Account("alex29", "1234azerty", "Alex", "Lecture seule", contact, sectors);
+        user = new Account("alex29", "1234azerty", "Alex", "Administrateur", contact, sectors);
         // *******************************
 
         // If a field is not correct, then do not return user

@@ -44,7 +44,7 @@
 
         <div id="Comment" class="tabcontent">
             <textarea name="commentContent" rows="10" cols="100" form="commentForm"><c:out value="${requestScope.comment.content}"/></textarea>
-            <form method="post" action="<c:url value="/saveComment"/>" id="commentForm">
+            <form method="post" action="<c:url value="/research/contactProfile/saveComment"/>" id="commentForm">
                 <input type="submit" value="Sauvegarder">
             </form>
         </div>
