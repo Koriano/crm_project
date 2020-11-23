@@ -36,7 +36,8 @@ public class ContactProfileServlet extends HttpServlet {
         // Comment comment = CommentDAO.getCommentByAuthorAndContact(user_id, id);
 
         // SIMULATION A SUPPR *******************
-        Contact contact = new Contact("Hamon", "Alexandre", "Eleve", null, false, 0);
+        Contact referent = new Contact("Gros-taxi", "Oui-oui", "Professeur", null, false, 3);
+        Contact contact = new Contact("Hamon", "Alexandre", "Eleve", referent, true, 0);
         Comment comment = new Comment(contact, contact, "oui 1234");
         // **************************************
 

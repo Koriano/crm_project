@@ -13,52 +13,72 @@
         <c:set var="right" value="${sessionScope.user.right}" scope="page"/>
 
         <c:if test="${right == 'Alimentation' or right == 'Administrateur'}">
-        <a href="<c:url value="/research/contact/modify"/>"><button>Modifier le contact</button></a>
-        <a href="<c:url value="/research/contact/delete"/>"><button>Supprimer le contact</button></a>
+            <a href="<c:url value="/research/contact/modify"/>"><button>Modifier le contact</button></a>
+            <a href="<c:url value="/research/contact/delete"/>"><button>Supprimer le contact</button></a>
         </c:if>
 
-        <div>
-            <h2> <b> <c:out value="${requestScope.contact.name} ${requestScope.contact.surname}"/> </b> </h2>
-            <p> <b>Role : </b> <c:out value="${requestScope.contact.role}"/> </p>
-            <p> <b>Entité : </b> <c:out value="${requestScope.contact.entity}"/> </p>
-
-            <p> <b>Mail : </b>
-                <c:forEach var="mail" items="${requestScope.contact.mailsList}">
-                    <p><c:out value="${mail}"/></p> <br>
-                </c:forEach>
-            </p>
-
-            <p> <b>Téléphone : </b>
-                <c:forEach var="phone" items="${requestScope.contact.phonesList}">
-                    <p><c:out value="${phone}"/></p> <br>
-                </c:forEach>
-            </p>
-
-            <p> <b>Adresse : </b> <c:out value="${requestScope.contact.address}"/> </p>
-        </div>
-
-        <div class="tab">
-            <button class="tablinks" onclick="openTab(event, 'Comment')" id="defaultOpen">Comment</button>
-            <button class="tablinks" onclick="openTab(event, 'History')">History</button>
-        </div>
-
-        <div id="Comment" class="tabcontent">
-            <textarea name="commentContent" rows="10" cols="100" form="commentForm"><c:out value="${requestScope.comment.content}"/></textarea>
-            <form method="post" action="<c:url value="/research/contactProfile/saveComment"/>" id="commentForm">
-                <input type="submit" value="Sauvegarder">
-            </form>
-        </div>
-
-        <div id="History" class="tabcontent">
-            <c:forEach var="event" items="${requestScope.contact.eventsList}">
+        <c:choose>
+            <c:when test="${requestScope.contact.reserved}">
                 <div>
-                    <h4><c:out value="${event.name}"/> (<c:out value="${event.type}"/>)</h4>
-                    <p><b>Date : </b> <c:out value="${event.date}"/></p>
-                    <p><b>Description : </b> <c:out value="${event.description}"/></p>
+                    <h2> <b> <c:out value="${requestScope.contact.name} ${requestScope.contact.surname}"/> </b> </h2>
+                    <p>Ce contact est réservé par :
+
+                        <c:url var="referent_link" value="/research/contact">
+                            <c:param name="id" value="${requestScope.contact.referent.id}"/>
+                        </c:url>
+
+                        <a href="${referent_link}"><c:out value="${requestScope.contact.referent.name} ${requestScope.contact.referent.surname}"/></a>
+                    </p>
                 </div>
-            </c:forEach>
-        </div>
-    </div>
+            </c:when>
+            <c:otherwise>
+                    <div>
+
+                        <div>
+                            <h2> <b> <c:out value="${requestScope.contact.name} ${requestScope.contact.surname}"/> </b> </h2>
+                            <p> <b>Role : </b> <c:out value="${requestScope.contact.role}"/> </p>
+                            <p> <b>Entité : </b> <c:out value="${requestScope.contact.entity}"/> </p>
+
+                            <p> <b>Mail : </b>
+                                <c:forEach var="mail" items="${requestScope.contact.mailsList}">
+                            <p><c:out value="${mail}"/></p> <br>
+                            </c:forEach>
+                            </p>
+
+                            <p> <b>Téléphone : </b>
+                                <c:forEach var="phone" items="${requestScope.contact.phonesList}">
+                            <p><c:out value="${phone}"/></p> <br>
+                            </c:forEach>
+                            </p>
+
+                            <p> <b>Adresse : </b> <c:out value="${requestScope.contact.address}"/> </p>
+                        </div>
+
+                        <div class="tab">
+                            <button class="tablinks" onclick="openTab(event, 'Comment')" id="defaultOpen">Comment</button>
+                            <button class="tablinks" onclick="openTab(event, 'History')">History</button>
+                        </div>
+
+                        <div id="Comment" class="tabcontent">
+                            <textarea name="commentContent" rows="10" cols="100" form="commentForm"><c:out value="${requestScope.comment.content}"/></textarea>
+                            <form method="post" action="<c:url value="/research/contactProfile/saveComment"/>" id="commentForm">
+                                <input type="submit" value="Sauvegarder">
+                            </form>
+                        </div>
+
+                        <div id="History" class="tabcontent">
+                            <c:forEach var="event" items="${requestScope.contact.eventsList}">
+                                <div>
+                                    <h4><c:out value="${event.name}"/> (<c:out value="${event.type}"/>)</h4>
+                                    <p><b>Date : </b> <c:out value="${event.date}"/></p>
+                                    <p><b>Description : </b> <c:out value="${event.description}"/></p>
+                                </div>
+                            </c:forEach>
+                        </div>
+                    </div>
+                </div>
+            </c:otherwise>
+        </c:choose>
 
     <script src="<c:out value="/js/tabs_script.js"/>"></script>
 </body>
