@@ -1,9 +1,11 @@
-package crm_project.controller.DAO;
+package controller.DAO;
 import model.*;
 import java.sql.*;
 import java.util.ArrayList;
+
+import com.google.protobuf.BoolValueOrBuilder;
 /**
- * CommentDAO : Class that handle the model Entity with the database
+ * CommentDAO : Class that handle the communication between Comment & the database
  * @author Gurvan.R
  */
 public class CommentDAO {
@@ -12,6 +14,10 @@ public class CommentDAO {
      * Instance of the object
      */
     public static CommentDAO instance;
+    
+    /**
+     * Database connection
+     */
     private Connection db;
 
     private CommentDAO() {
@@ -20,7 +26,6 @@ public class CommentDAO {
 
     /**
      * Get the instance of the DAO class
-     *
      * @return unique instance of CommentDAO
      */
     public static CommentDAO getInstance() {
@@ -32,110 +37,207 @@ public class CommentDAO {
 
     /**
      * Save a comment in the databse
+     * @pre cmt != null && cmt.getAuthor()!=null && cmt.getConcernedContact()!=null
      * @param Comment comment
      */
-    public void saveCommsent(Comment cmt){
-        assert (cmt != null);
-        // Get Data from cont
-        int author = cmt.getAuthor().getId();
-        int contact= cmt.getConcernedContact().getId();
-        String content = cmt.getContent();
-        if (content == null){
-            content = "";
+    public boolean saveComment(Comment cmt){
+        assert (cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null);
+        boolean ret=true;
+        if (cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null){
+            
+            // Retrieve Data from Author 
+            int author = cmt.getAuthor().getId();
+            int contact= cmt.getConcernedContact().getId();
+            String content = cmt.getContent();
+            // Check if content is null 
+            if (content == null){
+                content = "";
+            }
+
+            // Request ton insert a Comment 
+            String req_insert ="INSERT INTO Comment(authorId,contactId,content) VALUES (?,?,?)";
+
+            try {
+
+                // Forge request
+                PreparedStatement req_insertcmt_prep = db.prepareStatement(req_insert);
+                req_insertcmt_prep.setInt(1,author);
+                req_insertcmt_prep.setInt(2,contact);
+                req_insertcmt_prep.setString(3,content);
+
+                //Insert Comment
+                int insert = req_insertcmt_prep.executeUpdate();
+                if (insert==0){
+                    ret=false;
+                }
+            } catch( Exception e){
+                e.printStackTrace();
+                ret=false;
+            }
         }
-        // Requête
-        String req_insert ="INSERT INTO Commment(author,contact,content) VALUES (?,?,?)";
-
-        try {
-
-            // Insert Comment
-            PreparedStatement req_insertcmt_prep = db.prepareStatement(req_insert);
-            req_insertcmt_prep.setInt(1,author);
-            req_insertcmt_prep.setInt(2,contact);
-            req_insertcmt_prep.setString(3,content);
-            req_insertcmt_prep.executeQuery();
-
-        } catch(Exception e){ System.out.println(e);}
+        else{
+            ret=false;
+            if (cmt==null){
+                System.out.println("ERROR CommentDAO : Impossible to insert data, Comment is null");
+            }
+            else{
+                System.out.println("ERROR CommentDAO : Impossible to insert data, Author or ConcernedContact is null");
+            }
+        }
+        return ret;
     }
 
     /**
      * Update a comment in the database
-     * @param Comment cmt s
+     * @param Comment cmt 
+     * @pre cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null
      */
-    public void updateComment(Comment cmt ){
+    public boolean updateComment(Comment cmt ){
         assert (cmt != null);
-        // Get Data from cont
-        int author = cmt.getAuthor().getId();
-        int contact= cmt.getConcernedContact().getId();
-        String content = cmt.getContent();
-        if (content == null){
-            content = "";
+        boolean ret =true;
+        if (cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null){
+            
+            // Retrieve data from author and concerned contact
+            int author = cmt.getAuthor().getId();
+            int contact= cmt.getConcernedContact().getId();
+            String content = cmt.getContent();
+            if (content == null){
+                content = "";
+            }
+            // Request to uodate a Comment
+            String req_update = "UPDATE Comment SET authorId= ? , contactId= ? , content= ?   where authorId= ? AND contactId= ? ";
+
+            try {
+                
+                // Forge request 
+                PreparedStatement req_updatcmt_prep = db.prepareStatement(req_update);
+                req_updatcmt_prep.setInt(1,author);
+                req_updatcmt_prep.setInt(2,contact);
+                req_updatcmt_prep.setString(3,content);
+                //WHERE
+                req_updatcmt_prep.setInt(4,author);
+                req_updatcmt_prep.setInt(5,contact);
+                
+                //Update Comment
+                int insert =req_updatcmt_prep.executeUpdate();
+                if (insert==0){
+                    ret=false;
+                }
+
+            }catch (SQLException e) {
+                ret=false;
+                System.out.println(e);
+            }catch (Exception e) {
+                e.printStackTrace();
+                ret=false;
+            }
         }
-        // Requête
-        String req_update = "UPDATE Entity set author= ? and contact= ? and content= ?  where author = ?  and contact=?";
-
-        try {
-            // Insert Comment
-            PreparedStatement req_updatcmt_prep = db.prepareStatement(req_update);
-            req_updatcmt_prep.setInt(1,author);
-            req_updatcmt_prep.setInt(2,contact);
-            req_updatcmt_prep.setString(3,content);
-            //WHERE
-            req_updatcmt_prep.setInt(4,author);
-            req_updatcmt_prep.setInt(5,contact);
-            req_updatcmt_prep.executeQuery();
-
-        } catch(Exception e){ System.out.println(e);}
+        else{
+            
+            //ERROR 
+            ret=false;
+            if (cmt==null){
+                System.out.println("ERROR CommentDAO : Impossible to update data, Comment is null");
+            }
+            else{
+                System.out.println("ERROR CommentDAO : Impossible to update data, Author or ConcernedContact is null");
+            }
+        }
+        return ret;
     }
     /**
-     * Delete comment in the database
-     */
-    public void deleteComment(Comment cmt){
-        int author = cmt.getAuthor().getId();
-        int contact= cmt.getConcernedContact().getId();
-        String content = cmt.getContent();
-        if (content == null){
-            content = "";
-        }
-        // Requête
-        String req_del = "DELETE FROM Comment WHERE author=? and contact=?";
-        try {
-            // Insert Comment
-            PreparedStatement req_del_prep = db.prepareStatement(req_del);
-            req_del_prep.setInt(1,author);
-            req_del_prep.setInt(2,contact);
-            req_del_prep.setString(3,content);
-            //WHERE
-            req_del_prep.setInt(4,author);
-            req_del_prep.setInt(5,contact);
-            req_del_prep.executeQuery();
+    * Delete comment in the database
+    * @param Comment cmt 
+    * @pre cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null
+    */
+    public boolean deleteComment(Comment cmt){
+        assert(cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null);
+        boolean ret = true;
+        if (cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null){
 
-        } catch(Exception e){ System.out.println(e);
-        }
-    }
-    public Comment getCommentByAuthorAndContact(Contact author,Contact contact){
-        assert(author!=null && contact!=null);
-        Comment ret = null;
-        int author_id = author.getId();
-        int contact_id = contact.getId();
-        String content;
-        String req_select = "SELECT * FROM Comment WHERE author=? AND contact=?";
-        try {
-            // Insert Comment
-            PreparedStatement req_select_prep = db.prepareStatement(req_select );
-            req_select_prep.setInt(1,author_id);
-            req_select_prep.setInt(2,contact_id);
-            ResultSet res = req_select_prep.executeQuery();
-
-            while (res.next()){
-                content = res.getString("content");
-                if (content==null){
-                    content ="";
-                }
-                ret = new Comment(author,contact,content);
-
+            int author = cmt.getAuthor().getId();
+            int contact= cmt.getConcernedContact().getId();
+            String content = cmt.getContent();
+            if (content == null){
+                content = "";
             }
-        }catch(Exception e){ System.out.println(e); }
+            // Requête
+            String req_del = "DELETE FROM Comment WHERE authorId=? and contactId=?";
+            try {
+                // Insert Comment
+                PreparedStatement req_del_prep = db.prepareStatement(req_del);
+                req_del_prep.setInt(1,author);
+                req_del_prep.setInt(2,contact);
+                int insert=req_del_prep.executeUpdate();
+                if (insert==0){
+                    ret=false;
+                }
+
+            }catch (SQLException e) {
+                System.out.println(e);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            //ERROR
+            if (cmt == null){
+                System.out.println("ERROR CommentDAO : Impossible to delete data, Comment is null ");
+                ret=false;
+            }
+            else{
+                System.out.println("ERROR CommentDAO : Impossible to delete data, Author or ConcernedContact is null ");
+                ret=false;
+            }
+        }
+        return ret;
+    }
+    /**
+     * Get a list of Comments from an author and a contact
+     * @return ret list of comments
+     * @pre author != null && contact !=null
+     * @post ret != null 
+     */
+    public ArrayList<Comment> getCommentByAuthorAndContact(Contact author,Contact contact){
+        assert(author!=null && contact!=null);
+        ArrayList<Comment> ret =new ArrayList<>();
+        if (author!=null && contact!=null){
+            
+            //Retrieve data from author and contact 
+            int author_id = author.getId();
+            int contact_id = contact.getId();
+            String content;
+            
+            //Request to select commments from authorID and contactID 
+            String req_select = "SELECT * FROM Comment WHERE authorId=? AND contactId=?";
+            try {
+                
+                // Forge request 
+                PreparedStatement req_select_prep = db.prepareStatement(req_select );
+                req_select_prep.setInt(1,author_id);
+                req_select_prep.setInt(2,contact_id);
+                
+                // Get query results 
+                ResultSet res = req_select_prep.executeQuery();
+
+                while (res.next()){
+                    content = res.getString("content");
+                    if (content==null){
+                        content ="";
+                    }
+                    //Add comment in the list 
+                    ret.add(new Comment(author,contact,content));
+
+                }
+            }catch (SQLException e) {
+                System.out.println(e);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            System.out.println("ERROR CommentDAO : Impossible to retrieve data : author or contact is null ");
+        }
         assert(ret!=null);
         return ret;
     }
