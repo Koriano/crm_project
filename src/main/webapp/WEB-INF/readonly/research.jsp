@@ -11,11 +11,15 @@
 
     <div class="tab">
         <button class="tablinks" onclick="openTab(event, 'Contacts')" id="defaultOpen">Contacts</button>
-        <button class="tablinks" onclick="openTab(event, 'Entities')">Entities</button>
+        <button class="tablinks" onclick="openTab(event, 'Entities')">Entités</button>
     </div>
 
+    <c:set var="right" value="${sessionScope.user.right}"/>
+
     <div id="Contacts" class="tabcontent">
-        <a href="<c:url value="/addContact"/>"><button>Ajouter Contact</button></a>
+        <c:if test="${right == 'Alimentation' or right == 'Administrateur'}">
+            <a href="<c:url value="/addContact"/>"><button>Ajouter Contact</button></a>
+        </c:if>
 
         <!-- Iterating over contacts -->
         <c:forEach var="contact" items="${requestScope.contacts}" varStatus="boucle">
@@ -67,6 +71,6 @@
     </div>
 
     <c:import url="/WEB-INF/utils/footer.jsp"/>
-    <script src="/js/tabs_script.js"></script>
+    <script src="<c:out value="/js/tabs_script.js"/>"></script>
 </body>
 </html>

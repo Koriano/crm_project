@@ -1,36 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app>
     <!-- Servlets -->
+    <!-- Connect and disconnect -->
+    <servlet>
+        <servlet-name>Connection</servlet-name>
+        <servlet-class>controller.servlets.connection.ConnectionServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Disconnection</servlet-name>
+        <servlet-class>controller.servlets.connection.DisconnectionServlet</servlet-class>
+    </servlet>
+
+    <!-- Home -->
+    <servlet>
+        <servlet-name>Home</servlet-name>
+        <servlet-class>controller.servlets.HomeServlet</servlet-class>
+    </servlet>
+
+    <!-- Contact and entities research -->
     <servlet>
         <servlet-name>Research</servlet-name>
         <servlet-class>controller.servlets.ResearchServlet</servlet-class>
     </servlet>
+
+    <!-- Contacts -->
     <servlet>
         <servlet-name>SetSessionContactDisplayed</servlet-name>
-        <servlet-class>controller.servlets.AddContactSessionServlet</servlet-class>
+        <servlet-class>controller.servlets.contact.AddContactSessionServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AddContact</servlet-name>
-        <servlet-class>controller.servlets.AddContactServlet</servlet-class>
+        <servlet-class>controller.servlets.contact.AddContactServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ContactProfile</servlet-name>
-        <servlet-class>controller.servlets.ContactProfileServlet</servlet-class>
+        <servlet-class>controller.servlets.contact.ContactProfileServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SaveComment</servlet-name>
+        <servlet-class>controller.servlets.contact.SaveCommentServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ModifyContact</servlet-name>
-        <servlet-class>controller.servlets.ModifyContactServlet</servlet-class>
+        <servlet-class>controller.servlets.contact.ModifyContactServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DeleteContact</servlet-name>
-        <servlet-class>controller.servlets.DeleteContactServlet</servlet-class>
+        <servlet-class>controller.servlets.contact.DeleteContactServlet</servlet-class>
     </servlet>
 
 
+    <!-- Connect and disconnect -->
+    <servlet-mapping>
+        <servlet-name>Connection</servlet-name>
+        <url-pattern>/connect</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Disconnection</servlet-name>
+        <url-pattern>/disconnect</url-pattern>
+    </servlet-mapping>
+
+    <!-- Home -->
+    <servlet-mapping>
+        <servlet-name>Home</servlet-name>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+
+    <!-- Contacts and entities research -->
     <servlet-mapping>
         <servlet-name>Research</servlet-name>
         <url-pattern>/research</url-pattern>
     </servlet-mapping>
+
+    <!-- Contacts -->
     <servlet-mapping>
         <servlet-name>SetSessionContactDisplayed</servlet-name>
         <url-pattern>/research/contact</url-pattern>
@@ -44,16 +86,22 @@
         <url-pattern>/research/contactProfile</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>SaveComment</servlet-name>
+        <url-pattern>/research/contactProfile/saveComment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ModifyContact</servlet-name>
-        <url-pattern>/research/contact/modify</url-pattern>
+        <url-pattern>/research/contactProfile/modify</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>DeleteContact</servlet-name>
-        <url-pattern>/research/contact/delete</url-pattern>
+        <url-pattern>/research/contactProfile/delete</url-pattern>
     </servlet-mapping>
 
 
+
     <!-- Filters -->
+    <!-- Default -->
     <filter>
         <filter-name>Set Character Encoding</filter-name>
         <filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>
@@ -66,9 +114,49 @@
             <param-value>false</param-value>
         </init-param>
     </filter>
+
+    <!-- Rights -->
+    <filter>
+        <filter-name>CheckUserConnected</filter-name>
+        <filter-class>controller.filters.UserConnectedFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>CheckAlimentationRight</filter-name>
+        <filter-class>controller.filters.UserAlimentationFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>CheckAdminRight</filter-name>
+        <filter-class>controller.filters.UserAdminFilter</filter-class>
+    </filter>
+
+
+    <!-- Default -->
     <filter-mapping>
         <filter-name>Set Character Encoding</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <!-- Rights -->
+    <filter-mapping>
+        <filter-name>CheckUserConnected</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>CheckAlimentationRight</filter-name>
+        <url-pattern>/addContact</url-pattern>
+        <url-pattern>/research/contact/modify</url-pattern>
+        <url-pattern>/research/contact/delete</url-pattern>
+        <url-pattern>/addEntity</url-pattern>
+        <url-pattern>/research/entity/modify</url-pattern>
+        <url-pattern>/research/entity/delete</url-pattern>
+        <url-pattern>/importContacts</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>CheckAdminRight</filter-name>
+        <url-pattern>/accounts</url-pattern>
+        <url-pattern>/accounts/*</url-pattern>
+        <url-pattern>/sectors</url-pattern>
+        <url-pattern>/sectors/*</url-pattern>
+        <url-pattern>/exportContacts</url-pattern>
+    </filter-mapping>
 </web-app>

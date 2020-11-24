@@ -24,6 +24,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="<c:out value="/exportContacts"/>">Exporter des contacts</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<c:out value="/disconnect"/>">Déconnexion</a>
+            </li>
         </ul>
     </div>
 </nav>

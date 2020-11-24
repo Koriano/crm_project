@@ -1,4 +1,4 @@
-package controller.servlets;
+package controller.servlets.contact;
 
 import model.Account;
 import model.Comment;
@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class ContactProfileServlet extends HttpServlet {
     private static final String PARAM_SESSION_CONTACT_ID = "contact_id";
-    private static final String PARAM_SESSION_USER_ID = "user_id";
+    private static final String PARAM_SESSION_USER_ACCOUNT = "user";
 
     private static final String ATT_CONTACT = "contact";
     private static final String ATT_COMMENT = "comment";
@@ -30,13 +30,14 @@ public class ContactProfileServlet extends HttpServlet {
         HttpSession session = req.getSession();
         String id = (String) session.getAttribute(PARAM_SESSION_CONTACT_ID);
 
-//        int user_id = ((Account) session.setAttribute(PARAM_SESSION_USER_ID)).getContact().getId();
+//        int user_id = ((Account) session.getAttribute(PARAM_SESSION_USER_ACCOUNT)).getContact().getId();
 
         // Contact contact = contactDAO.getContactById(id);
         // Comment comment = CommentDAO.getCommentByAuthorAndContact(user_id, id);
 
         // SIMULATION A SUPPR *******************
-        Contact contact = new Contact("Hamon", "Alexandre", "Eleve", null, false, 0);
+        Contact referent = new Contact("Gros-taxi", "Oui-oui", "Professeur", null, false, 3);
+        Contact contact = new Contact("Hamon", "Alexandre", "Eleve", referent, true, 0);
         Comment comment = new Comment(contact, contact, "oui 1234");
         // **************************************
 

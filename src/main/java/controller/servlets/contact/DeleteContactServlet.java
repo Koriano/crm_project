@@ -1,4 +1,4 @@
-package controller.servlets;
+package controller.servlets.contact;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

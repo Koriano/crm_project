@@ -9,117 +9,156 @@
 <body>
     <c:import url="/WEB-INF/utils/menu.jsp"/>
 
+    <c:set var="right" value="${sessionScope.user.right}" scope="page"/>
 
-    <div class="row">
-        <div class="col"></div>
+    <c:choose>
+        <c:when test="${requestScope.contact.reserved}">
+            <div>
+                <h2> <b> <c:out value="${requestScope.contact.name} ${requestScope.contact.surname}"/> </b> </h2>
+                <p>Ce contact est réservé par :
 
-        <div class="col pt-4">
-            <div class="container-lg pt-3 pb-3">
-                <div class="card">
-                    <div class="card-header flex-column" style="height: ">
-                            <h5 class="text-center"> <b> <c:out value="${requestScope.contact.name} ${requestScope.contact.surname}"/> </b> </h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="pt-3">
-                            <p> <b>Role : </b> <c:out value="${requestScope.contact.role}"/> </p>
-                        </div>
+                    <c:url var="referent_link" value="/research/contact">
+                        <c:param name="id" value="${requestScope.contact.referent.id}"/>
+                    </c:url>
 
-                        <div class="pt-3">
-                            <p> <b>Entité : </b> <c:out value="${requestScope.contact.entity}"/> </p>
-                        </div>
+                    <a href="${referent_link}"><c:out value="${requestScope.contact.referent.name} ${requestScope.contact.referent.surname}"/></a>
+                </p>
 
-                        <div class="pt-3">
-                            <p> <b>Mail : </b>
-                                <c:forEach var="mail" items="${requestScope.contact.mailsList}">
-                            <p><c:out value="${mail}"/></p> <br>
-                            </c:forEach>
-                            </p>
-                        </div>
+                <c:if test="${right == 'Alimentation' or right == 'Administrateur'}">
+                    <a href="<c:url value="/research/contact/modify"/>">
+                        <button class="btn btn-primary ">Modifier le contact</button>
+                    </a>
+                </c:if>
 
-                        <div class="pt-3">
-                            <p> <b>Téléphone : </b>
-                                <c:forEach var="phone" items="${requestScope.contact.phonesList}">
-                            <p><c:out value="${phone}"/></p> <br>
-                            </c:forEach>
-                            </p>
-                        </div>
-
-                        <div class="pt-3">
-                            <p> <b>Adresse : </b> <c:out value="${requestScope.contact.address}"/> </p>
-                        </div>
-
-                        <div class="d-flex justify-content-center pt-5 pb-3">
-                            <a href="<c:url value="/research/contact/modify"/>">
-                            <button class="btn btn-primary ">Modifier le contact</button></a>
-                        </div>
-
-                    </div>
-                </div>
+                <c:if test="${right == 'Alimentation' or right == 'Administrateur'}">
+                    <a href="<c:url value="/research/contact/delete"/>">
+                        <button class="btn btn-danger">Supprimer le contact</button>
+                    </a>
+                </c:if>
+                
             </div>
-        </div>
+        </c:when>
+        <c:otherwise>
 
-        <div class="col pt-4">
-            <div class="container-lg pt-3 pb-3">
-                <div class="card">
+            <div class="row">
+                <div class="col"></div>
 
-                    <div class="card-header flex-column" style="height: ">
-                        <h5 class="text-center"> <b> Informations </b> </h5>
-                    </div>
-
-                    <div class="card-body">
-                        <ul class="nav nav-tabs" role="tablist">
-                            <!--Définition des onglets-->
-                            <li class="nav-item">
-                                <a class="nav-link active" id="comment-tab" data-toggle="tab"
-                                   href=# aria-controls="comment" role="tab" aria-selected="true">Comment</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " id= "history-tab" data-toggle="tab"
-                                   href=# aria-controls="history" role="tab" aria-selected="true">History</a>
-                            </li>
-                        </ul>
-
-                        <div class="tab-content">
-
-                            <div id="Comment" class="tab-pane fade show active" id="comment-pane"
-                                 role="tabpanel" aria-labelledby="comment-tab">
-                                <textarea class="form-control rounded-0" name="commentContent" rows="10" cols="40" form="commentForm"><c:out value="${requestScope.comment.content}"/></textarea>
-
-                                <div class="d-flex justify-content-center pt-3">
-                                    <form method="post" action="<c:url value="/saveComment"/>" id="commentForm">
-                                        <button type="submit" class="btn btn-primary">Sauvegarder</button>
-                                    </form>
+                <div class="col pt-4">
+                    <div class="container-lg pt-3 pb-3">
+                        <div class="card">
+                            <div class="card-header flex-column" style="height: ">
+                                    <h5 class="text-center"> <b> <c:out value="${requestScope.contact.name} ${requestScope.contact.surname}"/> </b> </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="pt-3">
+                                    <p> <b>Role : </b> <c:out value="${requestScope.contact.role}"/> </p>
                                 </div>
 
+                                <div class="pt-3">
+                                    <p> <b>Entité : </b> <c:out value="${requestScope.contact.entity}"/> </p>
+                                </div>
+
+                                <div class="pt-3">
+                                    <p> <b>Mail : </b>
+                                        <c:forEach var="mail" items="${requestScope.contact.mailsList}">
+                                            <p><c:out value="${mail}"/></p> <br>
+                                        </c:forEach>
+                                    </p>
+                                </div>
+
+                                <div class="pt-3">
+                                    <p> <b>Téléphone : </b>
+                                        <c:forEach var="phone" items="${requestScope.contact.phonesList}">
+                                            <p><c:out value="${phone}"/></p> <br>
+                                        </c:forEach>
+                                    </p>
+                                </div>
+
+                                <div class="pt-3">
+                                    <p> <b>Adresse : </b> <c:out value="${requestScope.contact.address}"/> </p>
+                                </div>
+
+                                
+                                <div class="d-flex justify-content-center pt-5 pb-3">
+                                    <c:if test="${right == 'Alimentation' or right == 'Administrateur'}">
+                                        <a href="<c:url value="/research/contact/modify"/>">
+                                            <button class="btn btn-primary ">Modifier le contact</button>
+                                        </a>
+                                    </c:if>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                        
+                <div class="col pt-4">
+                    <div class="container-lg pt-3 pb-3">
+                        <div class="card">
+
+                            <div class="card-header flex-column" style="height: ">
+                                <h5 class="text-center"> <b> Informations </b> </h5>
                             </div>
 
-                            <div id="History" class="tab-pane fade" id="history-pane"
-                                 role="tabpanel" aria-labelledby="history-tab">
-                                <c:forEach var="event" items="${requestScope.contact.eventsList}">
-                                    <div>
-                                        <h4><c:out value="${event.name}"/> (<c:out value="${event.type}"/>)</h4>
-                                        <p><b>Date : </b> <c:out value="${event.date}"/></p>
-                                        <p><b>Description : </b> <c:out value="${event.description}"/></p>
+                            <div class="card-body">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <!--Définition des onglets-->
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="comment-tab" data-toggle="tab"
+                                           href=# aria-controls="comment" role="tab" aria-selected="true">Comment</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link " id= "history-tab" data-toggle="tab"
+                                           href=# aria-controls="history" role="tab" aria-selected="true">History</a>
+                                    </li>
+                                </ul>
+
+                                <div class="tab-content">
+
+                                    <div id="Comment" class="tab-pane fade show active" id="comment-pane"
+                                         role="tabpanel" aria-labelledby="comment-tab">
+                                        <textarea class="form-control rounded-0" name="commentContent" rows="10" cols="40" form="commentForm"><c:out value="${requestScope.comment.content}"/></textarea>
+
+                                        <div class="d-flex justify-content-center pt-3">
+                                            <form method="post" action="<c:url value="/research/contactProfile/saveComment"/>" id="commentForm">
+                                                <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                                            </form>
+                                        </div>
+
                                     </div>
-                                </c:forEach>
+
+                                    <div id="History" class="tab-pane fade" id="history-pane"
+                                         role="tabpanel" aria-labelledby="history-tab">
+                                        <c:forEach var="event" items="${requestScope.contact.eventsList}">
+                                            <div>
+                                                <h4><c:out value="${event.name}"/> (<c:out value="${event.type}"/>)</h4>
+                                                <p><b>Date : </b> <c:out value="${event.date}"/></p>
+                                                <p><b>Description : </b> <c:out value="${event.description}"/></p>
+                                            </div>
+                                        </c:forEach>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col"></div>
-    </div>
+            <div class="col"></div>
+            </div>
 
-    <div class="d-flex justify-content-center">
-        <div class="pt-5">
-            <a href="<c:url value="/research/contact/delete"/>">
-                <button class="btn btn-danger">Supprimer le contact</button></a>
-        </div>
-    </div>
+            <div class="d-flex justify-content-center">
+                <div class="pt-5">
+                    <c:if test="${right == 'Alimentation' or right == 'Administrateur'}">
+                        <a href="<c:url value="/research/contact/delete"/>">
+                            <button class="btn btn-danger">Supprimer le contact</button>
+                        </a>
+                    </c:if>
+                </div>
+            </div>
+
+        </c:otherwise>
+    </c:choose>
 
     <c:import url="/WEB-INF/utils/footer.jsp"/>
-    <script src="<c:out value="/js/tabs_script.js"/>"></script>
 </body>
 </html>
