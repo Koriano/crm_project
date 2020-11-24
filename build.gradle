@@ -16,13 +16,23 @@ ext {
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-
+task fatJar(type: Jar) {
+  manifest {
+    attributes  'Implementation-Title': 'My Tool',
+                'Implementation-Version': version,
+                'Main-Class': 'controller.DAO.test.TestConnection'
+  }
+  baseName = project.name + '-all'
+  from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+  with jar
+}
 dependencies {
     compileOnly('javax.mvc:javax.mvc-api:1.0.0')
     compileOnly('javax.servlet:javax.servlet-api:4.0.1')
 
     compile group: 'javax.servlet', name: 'jstl', version: '1.2'
-
+    // JDBC
+    implementation ('mysql:mysql-connector-java:8.0.15')
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }
