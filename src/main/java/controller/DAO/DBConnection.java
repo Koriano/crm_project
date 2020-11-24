@@ -1,4 +1,4 @@
-package crm_project.controller.DAO;
+package controller.DAO;
 import java.sql.*;
 /**
  * ContactDAO : Class that handle the model Contact with the database
@@ -27,9 +27,10 @@ public class DBConnection  {
      */
     public static void connect(){
         try{
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con=DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/sonoo","root","root");
+            Class.forName( "com.mysql.cj.jdbc.Driver" );
+            Connection con= DriverManager.getConnection(
+                    "jdbc:mysql://localhost:63306/crm_bdd","crm_app","m0tD3P&s$e*");
+            System.out.println("Connected to the database....");
             instance= con;
 
         }catch(Exception e){ System.out.println(e);}
