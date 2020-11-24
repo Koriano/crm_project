@@ -55,6 +55,12 @@
         <servlet-class>controller.servlets.entity.EntityProfileServlet</servlet-class>
     </servlet>
 
+    <!-- Accounts and rights -->
+    <servlet>
+        <servlet-name>AccountHome</servlet-name>
+        <servlet-class>controller.servlets.account.RightsServlet</servlet-class>
+    </servlet>
+
 
     <!-- Connect and disconnect -->
     <servlet-mapping>
@@ -110,6 +116,11 @@
         <url-pattern>/research/entityProfile</url-pattern>
     </servlet-mapping>
 
+    <!-- Accounts and rights -->
+    <servlet-mapping>
+        <servlet-name>AccountHome</servlet-name>
+        <url-pattern>/rights</url-pattern>
+    </servlet-mapping>
 
 
 
@@ -166,8 +177,8 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>CheckAdminRight</filter-name>
-        <url-pattern>/accounts</url-pattern>
-        <url-pattern>/accounts/*</url-pattern>
+        <url-pattern>/rights</url-pattern>
+        <url-pattern>/rights/*</url-pattern>
         <url-pattern>/sectors</url-pattern>
         <url-pattern>/sectors/*</url-pattern>
         <url-pattern>/exportContacts</url-pattern>

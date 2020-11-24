@@ -37,7 +37,7 @@ public class ContactProfileServlet extends HttpServlet {
 
         // SIMULATION A SUPPR *******************
         Contact referent = new Contact("Gros-taxi", "Oui-oui", "Professeur", null, false, 3);
-        Contact contact = new Contact("Hamon", "Alexandre", "Eleve", referent, true, 0);
+        Contact contact = new Contact("Hamon", "Alexandre", "Eleve", null, false, 0);
         Comment comment = new Comment(contact, contact, "oui 1234");
         // **************************************
 

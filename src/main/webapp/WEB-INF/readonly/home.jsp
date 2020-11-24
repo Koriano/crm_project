@@ -28,7 +28,7 @@
             <br>
         </c:if>
         <c:if test="${right == 'Administrateur'}">
-            <a href="<c:url value="/accounts"/> ">Gérer les comptes</a>
+            <a href="<c:url value="/rights"/> ">Gérer les comptes</a>
             <br>
             <a href="<c:url value="/sectors"/> ">Gérer les secteurs</a>
             <br>
