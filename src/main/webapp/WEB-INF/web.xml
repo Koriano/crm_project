@@ -49,6 +49,12 @@
         <servlet-class>controller.servlets.contact.DeleteContactServlet</servlet-class>
     </servlet>
 
+    <!-- Entity -->
+    <servlet>
+        <servlet-name>EntityProfile</servlet-name>
+        <servlet-class>controller.servlets.entity.EntityProfileServlet</servlet-class>
+    </servlet>
+
 
     <!-- Connect and disconnect -->
     <servlet-mapping>
@@ -97,6 +103,13 @@
         <servlet-name>DeleteContact</servlet-name>
         <url-pattern>/research/contactProfile/delete</url-pattern>
     </servlet-mapping>
+
+    <!-- Entity -->
+    <servlet-mapping>
+        <servlet-name>EntityProfile</servlet-name>
+        <url-pattern>/research/entityProfile</url-pattern>
+    </servlet-mapping>
+
 
 
 
