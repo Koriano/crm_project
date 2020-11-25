@@ -169,7 +169,7 @@ public class SectorDAO {
         ArrayList<Sector> ret = new ArrayList<>();
         String name;
         String username = acc.getUsername();
-
+        Sector sec;
         String req_select = "SELECT sectorName FROM Account_Sector_Asso WHERE accountUsername=? GROUP BY sectorName";
         
         try {
@@ -178,8 +178,11 @@ public class SectorDAO {
             req_select_prep.executeQuery();
             ResultSet res = req_select_prep.getResultSet();
             while (res.next()){
+
                 name = res.getString("sectorName");
-                ret.add(new Sector(name));
+                sec = new Sector(name);
+                this.getContactList(sec);
+                ret.add(sec);
             }
             
         } catch (Exception e) {
@@ -187,6 +190,9 @@ public class SectorDAO {
         }
         return ret;
     }
+    /**
+     * Get all Sectors
+     */
     public ArrayList<Sector> getAllSectors(){
         ArrayList<Sector> ret = new ArrayList<>();
         String name;
