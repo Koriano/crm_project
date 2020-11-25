@@ -10,11 +10,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AddContactServlet extends HttpServlet {
+    private static final String PARAM_SESSION_CONTACT_ID = "contact_id";
 
     private static final String ATT_CONTACTS = "contacts";
     private static final String ATT_ROLES = "roles";
@@ -26,6 +28,10 @@ public class AddContactServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // Remove contact_id from session
+        HttpSession session = req.getSession();
+        session.removeAttribute(PARAM_SESSION_CONTACT_ID);
+        
         // Set contact list, entity list and roles list for view
         this.setFormAttributes(req);
 

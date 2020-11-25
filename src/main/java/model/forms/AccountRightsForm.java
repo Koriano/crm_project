@@ -86,7 +86,7 @@ public class AccountRightsForm {
         }
     }
 
-    
+
     // UTILS
 
     /**

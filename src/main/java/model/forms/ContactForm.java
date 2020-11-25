@@ -8,10 +8,12 @@ import sun.reflect.annotation.ExceptionProxy;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ContactForm {
+    private static final String PARAM_SESSION_ID_CONTACT = "contact_id";
 
     private static final String PARAM_NAME = "name";
     private static final String PARAM_SURNAME = "surname";
@@ -48,6 +50,10 @@ public class ContactForm {
         ArrayList<String> mails = this.getAllParam(req, PARAM_PREFIX_MAIL);
         String reserved = req.getParameter(PARAM_RESERVED);
         String referent = req.getParameter(PARAM_REFERENT);
+
+        // Get contact from session id
+        HttpSession session = req.getSession();
+        String id = (String) session.getAttribute(PARAM_SESSION_ID_CONTACT);
 
         // Verify name
         try{
@@ -107,7 +113,12 @@ public class ContactForm {
         }
 
         // Create the new contact and set properties
-        Contact contact = new Contact(name.trim(), surname.trim(), role, referent_contact, "on".equals(reserved));
+        Contact contact;
+        if(id != null){
+            contact = new Contact(name.trim(), surname.trim(), role, referent_contact, "on".equals(reserved), Integer.parseInt(id));
+        } else {
+            contact = new Contact(name.trim(), surname.trim(), role, referent_contact, "on".equals(reserved));
+        }
 
         if(!this.errors.containsKey(PARAM_ENTITY)){
             contact.setEntity(entity_object);
@@ -168,6 +179,11 @@ public class ContactForm {
 
     private Entity entityVerification(String entity) throws Exception{
         if(entity != null) {
+
+            if(entity.isEmpty()){
+                return null;
+            }
+            
             Entity entity_obj = this.entityDAO.getEntityByName(entity);
 
             if(entity_obj == null){

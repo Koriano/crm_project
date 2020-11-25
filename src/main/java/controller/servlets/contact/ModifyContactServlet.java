@@ -32,13 +32,12 @@ public class ModifyContactServlet extends HttpServlet {
         // Get DAO instance
         ContactDAO contactDAO = ContactDAO.getInstance();
 
-        // Get user from session id
+        // Get contact from session id
         HttpSession session = req.getSession();
         String id = (String) session.getAttribute(PARAM_SESSION_ID_CONTACT);
 
-        Contact contact = null;
         try {
-            contact = contactDAO.getContactById(Integer.parseInt(id));
+            Contact contact = contactDAO.getContactById(Integer.parseInt(id));
 
             // Set request attributes for the view
             req.setAttribute(ATT_CONTACT, contact);
