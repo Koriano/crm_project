@@ -15,7 +15,7 @@
         <div class="col pt-3">
             <div class="container-md pt-3 pb-3">
 
-                <form method="post" action="<c:url value="/research/contact/modify"/>">
+                <form method="post" action="<c:url value="/research/contactProfile/modify"/>">
                     <fieldset>
 
                         <c:import url="/WEB-INF/utils/contactForm.jsp"/>

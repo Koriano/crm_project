@@ -19,7 +19,7 @@
 
         <c:set var="right" value="${sessionScope.user.right}" scope="page"/>
 
-        <c:if test="${right == 'Alimentation' or right == 'Administrateur'}">
+        <c:if test="${right == 'Alimentation CRM' or right == 'Administrateur'}">
             <a href="<c:url value="/addContact"/> ">Ajouter un contact</a>
             <br>
             <a href="<c:url value="/addEntity"/> ">Ajouter une entité</a>

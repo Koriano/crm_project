@@ -1,5 +1,7 @@
 package model.forms;
 
+import controller.DAO.ContactDAO;
+import controller.DAO.EntityDAO;
 import model.Contact;
 import model.Entity;
 import sun.reflect.annotation.ExceptionProxy;
@@ -23,14 +25,16 @@ public class ContactForm {
 
     private String result;
     private HashMap<String, String> errors;
-//    private ContactDAO contactDAO;
-//    private EntityDAO entityDAO;
+
+    private ContactDAO contactDAO;
+    private EntityDAO entityDAO;
 
     public ContactForm(){
         this.result = "";
         this.errors = new HashMap<>();
-//        this.contactDAO = ContactDAO.getInstance();
-//        this.entityDAO = EntityDAO.getInstance();
+
+        this.contactDAO = ContactDAO.getInstance();
+        this.entityDAO = EntityDAO.getInstance();
     }
 
     public Contact createContact(HttpServletRequest req){
@@ -155,13 +159,7 @@ public class ContactForm {
     }
 
     private void roleVerification(String role) throws Exception{
-//        ArrayList<String> roles = this.contactDAO.getAllRoles();
-        ArrayList<String> roles = new ArrayList<>();
-        roles.add("Prof");
-        roles.add("Eleve");
-        roles.add("Responsable de formation");
-        roles.add("Chargé de com");
-        roles.add("Chargé d'alternance");
+        ArrayList<String> roles = this.contactDAO.getAllRoles();
 
         if(!roles.contains(role)){
             throw new Exception("Merci de rentrer un role valide.");
@@ -170,8 +168,8 @@ public class ContactForm {
 
     private Entity entityVerification(String entity) throws Exception{
         if(entity != null) {
-//            Entity entity_obj = this.entityDAO.getEntityByName(entity);
-            Entity entity_obj = new Entity("Thalès", "11111111111111", "Entreprise");
+            Entity entity_obj = this.entityDAO.getEntityByName(entity);
+
             if(entity_obj == null){
                 throw new Exception("Cette entité n'existe pas, merci de renseigner une entité existante.");
             }
@@ -184,7 +182,7 @@ public class ContactForm {
     }
 
     private void phoneVerification(String phone) throws Exception{
-        if (!phone.isEmpty() && !phone.matches("(?:(?:\\+|00)33|0)\\s*[1-9](?:[\\s.-]*\\d{2}){4}")){
+        if (!phone.isEmpty() && !phone.matches("^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$")){
             throw new Exception("Un ou plusieurs numéros de téléphone sont invalides.");
         }else if(phone.trim().length() > 20){
             throw new Exception("Un ou plusieurs numéros de téléphone contiennent plus de 20 chiffres.");
@@ -211,8 +209,8 @@ public class ContactForm {
             if(is_reserved && referent != null && !referent.isEmpty()){
                 try{
                     int id = Integer.parseInt(referent);
-//                    return this.contactDAO.getContactById(id);
-                    return new Contact("Hamon", "Alexandre", "Ingénieur", null, false, 0);
+                    return this.contactDAO.getContactById(id);
+
                 }catch (Exception e){
                     throw new Exception("Merci de sélectionner un référent valide.");
                 }

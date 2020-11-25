@@ -1,15 +1,13 @@
 package controller.filters;
 
+import controller.DAO.AccountDAO;
 import model.Account;
-import model.Contact;
-import model.Sector;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class UserConnectedFilter implements Filter {
     private static final String PARAM_SESSION_USER_ACCOUNT = "user";
@@ -36,29 +34,28 @@ public class UserConnectedFilter implements Filter {
         if(path.startsWith("/favicon.ico") || path.startsWith("/connect") || path.startsWith("/js") || path.startsWith("/style")){
             chain.doFilter(http_request, http_response);
         }
+        // Else verify actual user
         else {
-//            AccountDAO accountDAO = AccountDAO.getInstance();
+            AccountDAO accountDAO = AccountDAO.getInstance();
 
             HttpSession session = http_request.getSession();
             Account user = (Account) session.getAttribute(PARAM_SESSION_USER_ACCOUNT);
 
+            // If null, redirect to connection
             if(user == null){
                 http_response.sendRedirect(http_request.getContextPath() + URL_REDIRECT);
             }
+            // Else verify up-to-date account in database
             else {
-//                user = accountDAO.getAccountByUsername(user.getName());
+                user = accountDAO.getAccountByName(user.getUsername());
 
-                // SIMULATION A SUPPR ****************
-                Contact contact = new Contact("Hamon", "Alexandre", "Eleve", null, false, 0);
-                ArrayList<Sector> sectors = new ArrayList<>();
-                sectors.add(new Sector("slt"));
-
-                user = new Account("alex29", "1234azerty", "Alex", "Administrateur", contact, sectors);
-                // ***********************************
+                // If delete redirect to connection
                 if(user == null){
                     http_response.sendRedirect(http_request.getContextPath() + URL_REDIRECT);
                 }
+                // Else continue
                 else {
+                    session.setAttribute(PARAM_SESSION_USER_ACCOUNT, user);
                     chain.doFilter(http_request, http_response);
                 }
             }

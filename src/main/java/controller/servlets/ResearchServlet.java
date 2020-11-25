@@ -1,5 +1,7 @@
 package controller.servlets;
 
+import controller.DAO.ContactDAO;
+import controller.DAO.EntityDAO;
 import model.Contact;
 import model.Entity;
 
@@ -7,7 +9,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -35,20 +36,11 @@ public class ResearchServlet extends HttpServlet {
      */
     private void displayContactsAndEntities(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Create contact and entities DAO to get them all
-//        ContactDAO contactDAO = ContactDAO.getInstance();
-//        EntityDAO entityDAO = EntityDAO.getInstance();
-//
-//        ArrayList<Contact> contacts = contactDAO.getAllContacts();
-//        ArrayList<Entity> entities = entityDAO.getAllEntities();
+        ContactDAO contactDAO = ContactDAO.getInstance();
+        EntityDAO entityDAO = EntityDAO.getInstance();
 
-        // SIMULATION A SUPPR **************
-        ArrayList<Contact> contacts = new ArrayList<>();
-        Contact contact = new Contact("Hamon", "Alexandre", "Eleve", null, false, 0);
-        contacts.add(contact);
-        ArrayList<Entity> entities = new ArrayList<>();
-        entities.add(new Entity("Thalès", "11111111111111", "Entreprise"));
-        entities.add(new Entity("ENSIBS", null, "Etablissement d'enseignement"));
-        // *********************************
+        ArrayList<Contact> contacts = contactDAO.getAllContacts();
+        ArrayList<Entity> entities = entityDAO.getAllEntities();
 
         // Set contacts and entities as request attribute
         req.setAttribute(ATT_CONTACTS, contacts);

@@ -1,6 +1,10 @@
 package controller.servlets.contact;
 
+import controller.DAO.CommentDAO;
+import controller.DAO.ContactDAO;
 import model.Account;
+import model.Comment;
+import model.Contact;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -8,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class SaveCommentServlet extends HttpServlet {
     private static final String PARAM_COMMENT_CONTENT = "commentContent";
@@ -28,24 +34,30 @@ public class SaveCommentServlet extends HttpServlet {
 
     private void saveComment(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Get comment and contact DAO
-//        CommentDAO commentDAO = CommentDAO.getInstance();
-//        ContactDAO contactDAO = ContactDAO.getInstance();
+        CommentDAO commentDAO = CommentDAO.getInstance();
+        ContactDAO contactDAO = ContactDAO.getInstance();
 
         // Get session and parameters
         HttpSession session = req.getSession();
         Account user = (Account) session.getAttribute(PARAM_SESSION_USER_ACCOUNT);
         String contact_id = (String) session.getAttribute(PARAM_SESSION_ID_CONTACT);
-        String content = (String) req.getAttribute(PARAM_COMMENT_CONTENT);
+        String content = req.getParameter(PARAM_COMMENT_CONTENT);
 
         try{
-//            Contact contact = contactDAO.getContactById(Integer.parseInt(contact_id));
-//            commentDAO.updateComment(new Comment(user.getContact(), contact, content));
+            Contact contact = contactDAO.getContactById(Integer.parseInt(contact_id));
+            ArrayList<Comment> comment = commentDAO.getCommentByAuthorAndContact(user.getContact(), contact);
+
+            if(comment.size() == 0) {
+                commentDAO.saveComment(new Comment(user.getContact(), contact, content));
+            } else {
+                comment.get(0).setContent(content);
+                commentDAO.updateComment(comment.get(0));
+            }
 
             resp.sendRedirect(req.getContextPath() + URL_REDIRECT);
         }
         catch (Exception e){
             e.printStackTrace();
         }
-
     }
 }

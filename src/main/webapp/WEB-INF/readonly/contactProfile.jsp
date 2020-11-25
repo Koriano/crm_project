@@ -12,9 +12,9 @@
     <div>
         <c:set var="right" value="${sessionScope.user.right}" scope="page"/>
 
-        <c:if test="${right == 'Alimentation' or right == 'Administrateur'}">
-            <a href="<c:url value="/research/contact/modify"/>"><button>Modifier le contact</button></a>
-            <a href="<c:url value="/research/contact/delete"/>"><button>Supprimer le contact</button></a>
+        <c:if test="${right == 'Alimentation CRM' or right == 'Administrateur'}">
+            <a href="<c:url value="/research/contactProfile/modify"/>"><button>Modifier le contact</button></a>
+            <a href="<c:url value="/research/contactProfile/delete"/>"><button>Supprimer le contact</button></a>
         </c:if>
 
         <c:choose>
@@ -37,7 +37,7 @@
                         <div>
                             <h2> <b> <c:out value="${requestScope.contact.name} ${requestScope.contact.surname}"/> </b> </h2>
                             <p> <b>Role : </b> <c:out value="${requestScope.contact.role}"/> </p>
-                            <p> <b>Entité : </b> <c:out value="${requestScope.contact.entity}"/> </p>
+                            <p> <b>Entité : </b> <c:out value="${requestScope.contact.entity.name}"/> </p>
 
                             <p> <b>Mail : </b>
                                 <c:forEach var="mail" items="${requestScope.contact.mailsList}">

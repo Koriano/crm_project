@@ -1,8 +1,7 @@
 package model.forms;
 
+import controller.DAO.AccountDAO;
 import model.Account;
-import model.Contact;
-import model.Sector;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -15,28 +14,18 @@ public class AccountRightsForm {
     private HashMap<String, String> error;
     private String result;
 
-//    private AccountDAO accountDAO;
+    private AccountDAO accountDAO;
 
     public AccountRightsForm(){
         this.error = new HashMap<>();
         this.result = "";
-//        this.accountDAO = AccountDAO.getInstance();
+
+        this.accountDAO = AccountDAO.getInstance();
     }
 
     public ArrayList<Account> updateRights(HttpServletRequest req){
         // Get all accounts and get every parameter
-//        ArrayList<Account> accounts = accountDAO.getAllAccounts();
-
-        // SIMULATION A SUPPR ************************
-        ArrayList<Account> accounts = new ArrayList<>();
-
-        Contact contact = new Contact("Hamon", "Alexandre", "Eleve", null, false, 0);
-        ArrayList<Sector> sectors = new ArrayList<>();
-        sectors.add(new Sector("slt"));
-
-        accounts.add(new Account("alex29", "1234azerty", "Alex", "Administrateur", contact, sectors));
-        accounts.add(new Account("bibi29","1234","Bibi", "Lecture seule", contact, sectors));
-        // **********************************************
+        ArrayList<Account> accounts = accountDAO.getAllAccounts();
 
         // Get all rights
         HashMap<Account, String> modifications = new HashMap<>();
@@ -48,7 +37,7 @@ public class AccountRightsForm {
             try{
                 rightVerification(right);
                 modifications.put(acc, right);
-//                accountDAO.updateAccount(acc);
+                accountDAO.updateAccount(acc);
             } catch (Exception e){
                 this.setError(PARAM_RIGHT, e.getMessage());
             }
@@ -65,7 +54,7 @@ public class AccountRightsForm {
         if (this.error.isEmpty()) {
             for (Account acc : modifications.keySet()) {
                 acc.setRight(modifications.get(acc));
-//                accountDAO.updateAccount(acc);
+                accountDAO.updateAccount(acc);
             }
 
             this.result = "Succes.";
@@ -74,7 +63,7 @@ public class AccountRightsForm {
             this.result = "Echec.";
         }
 
-//        accounts = accountDAO.getAllAccounts();
+        accounts = accountDAO.getAllAccounts();
 
         return accounts;
     }
@@ -82,14 +71,7 @@ public class AccountRightsForm {
     // VERIFICATION
 
     private void rightVerification(String right) throws Exception {
-//        ArrayList<String> rights = AccountDAO.getAllRights();
-
-        // SIMULATION A SUPPR *********************
-        ArrayList<String> rights = new ArrayList<>();
-        rights.add("Administrateur");
-        rights.add("Alimentation");
-        rights.add("Lecture seule");
-        // ****************************************
+        ArrayList<String> rights = this.accountDAO.getAllRight();
 
         if(right == null){
             throw new Exception("Merci d'indiquer des droits pour tous les comptes.");
@@ -104,7 +86,7 @@ public class AccountRightsForm {
         }
     }
 
-
+    
     // UTILS
 
     /**

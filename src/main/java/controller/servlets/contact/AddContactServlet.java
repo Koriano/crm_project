@@ -1,5 +1,7 @@
 package controller.servlets.contact;
 
+import controller.DAO.ContactDAO;
+import controller.DAO.EntityDAO;
 import model.Contact;
 import model.Entity;
 import model.forms.ContactForm;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AddContactServlet extends HttpServlet {
@@ -32,7 +35,7 @@ public class AddContactServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Get contactDAO instance
-//        ContactDAO contactDAO = ContactDAO.getInstance();
+        ContactDAO contactDAO = ContactDAO.getInstance();
 
         // Create form object and create Contact
         ContactForm form = new ContactForm();
@@ -42,7 +45,7 @@ public class AddContactServlet extends HttpServlet {
         HashMap<String, String> errors = form.getErrors();
 
         if(errors.isEmpty()){
-//            contactDAO.saveContact(new_contact);
+            contactDAO.saveContact(new_contact);
             new_contact = null;
         }
 
@@ -56,19 +59,13 @@ public class AddContactServlet extends HttpServlet {
 
     private void setFormAttributes(HttpServletRequest req){
         // Get contact DAO instance, get all contacts and every role
-//        ContactDAO contactDAO = ContactDAO.getInstance();
-//        Contact[] contacts = contactDAO.getAllContacts();
-//        String[] roles = contactDAO.getAllRoles();
+        ContactDAO contactDAO = ContactDAO.getInstance();
+        ArrayList<Contact> contacts = contactDAO.getAllContacts();
+        ArrayList<String> roles = contactDAO.getAllRoles();
 
         // Get entity DAO instance and get all entities
-//        EntityDAO entityDAO = EntityDAO.getInstance();
-//        Entity[] entities = entityDAO.getAllEntities();
-
-        // SIMULATION A SUPPR ***************
-        Contact[] contacts = {new Contact("Hamon", "Alexandre", "Eleve", null, false, 0)};
-        String[] roles = {"Prof", "Eleve", "Responsable de formation", "Chargé de com", "Chargé d'alternance"};
-        Entity[] entities = {new Entity("Thalès", "11111111111111", "Entreprise"), new Entity("ENSIBS", null, "Etablissement d'enseignement")};
-        // **********************************
+        EntityDAO entityDAO = EntityDAO.getInstance();
+        ArrayList<Entity> entities = entityDAO.getAllEntities();
 
         req.setAttribute(ATT_CONTACTS, contacts);
         req.setAttribute(ATT_ROLES, roles);

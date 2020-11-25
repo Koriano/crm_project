@@ -32,7 +32,7 @@ function addMailField() {
     let newInput = document.createElement("input");
     newInput.type = "email";
     newInput.name = "mail" + (newIndex+1);
-    newInput.maxLength = 20;
+    newInput.maxLength = 60;
     newInput.classList.add("form-control");
     newInput.classList.add("mt-2")
     newInput.placeholder = "email@exemple.com";

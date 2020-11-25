@@ -28,9 +28,6 @@ public class UserAdminFilter implements Filter {
         HttpServletRequest http_request = (HttpServletRequest) request;
         HttpServletResponse http_response = (HttpServletResponse) response;
 
-        // Get accountDAO instance
-//        ContactDAO contactDAO = ContactDAO.getInstance();
-
         // Get session and get user account
         HttpSession session = http_request.getSession();
         Account user = (Account) session.getAttribute(PARAM_SESSION_USER_ACCOUNT);

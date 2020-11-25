@@ -17,7 +17,7 @@
     <c:set var="right" value="${sessionScope.user.right}"/>
 
     <div id="Contacts" class="tabcontent">
-        <c:if test="${right == 'Alimentation' or right == 'Administrateur'}">
+        <c:if test="${right == 'Alimentation CRM' or right == 'Administrateur'}">
             <a href="<c:url value="/addContact"/>"><button>Ajouter Contact</button></a>
         </c:if>
 
@@ -29,7 +29,7 @@
                 <div>
                     <h4> <b> <c:out value="${contact.name} ${contact.surname}"/> </b> </h4>
                     <p> <b>Role : </b> <c:out value="${contact.role}"/> </p>
-                    <p> <b>Entité : </b> <c:out value="${contact.entity}"/> </p>
+                    <p> <b>Entité : </b> <c:out value="${contact.entity.name}"/> </p>
 
                     <p> <b>Mail : </b>
                         <c:forEach var="mail" items="${contact.mailsList}">

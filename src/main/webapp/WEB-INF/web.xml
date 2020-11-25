@@ -168,8 +168,8 @@
     <filter-mapping>
         <filter-name>CheckAlimentationRight</filter-name>
         <url-pattern>/addContact</url-pattern>
-        <url-pattern>/research/contact/modify</url-pattern>
-        <url-pattern>/research/contact/delete</url-pattern>
+        <url-pattern>/research/contactProfile/modify</url-pattern>
+        <url-pattern>/research/contactProfile/delete</url-pattern>
         <url-pattern>/addEntity</url-pattern>
         <url-pattern>/research/entity/modify</url-pattern>
         <url-pattern>/research/entity/delete</url-pattern>
