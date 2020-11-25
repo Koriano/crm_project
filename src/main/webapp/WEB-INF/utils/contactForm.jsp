@@ -1,19 +1,19 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<div class="form-group">
+<div class="form-group pt-3">
     <label for="name">Nom <span>*</span></label>
     <input type="text" id="name" name="name" value="<c:out value="${requestScope.contact.name}"/>" maxlength="50" class="form-control" placeholder="Nom"/>
 </div>
 <span>${requestScope.form.errors['name']}</span>
 
-<div class="form-group">
+<div class="form-group pt-3">
     <label for="surname">Prénom <span>*</span></label>
     <input type="text" id="surname" name="surname" value="<c:out value="${requestScope.contact.surname}"/>" maxlength="50" class="form-control" placeholder="Prénom"/>
 </div>
 <span>${requestScope.form.errors['surname']}</span>
 
-<div class="form-group">
+<div class="form-group pt-3">
     <label for="role">Rôle <span>*</span></label>
     <select id="role" name="role" class="form-control">
         <option value="" <c:out value="${empty requestScope.contact.role ? 'selected':''}"/>>Sélectionnez un rôle</option>
@@ -24,7 +24,7 @@
 </div>
 <span>${requestScope.form.errors['role']}</span>
 
-<div class="form-group">
+<div class="form-group pt-3">
     <label for="entity">Entité </label>
     <select id="entity" name="entity" class="form-control">
         <option value="" <c:out value="${empty requestScope.contact.entity.name ? 'selected':''}"/>>Sélectionnez une entité</option>
@@ -35,13 +35,13 @@
 </div>
 <span>${requestScope.form.errors['entity']}</span>
 
-<div class="form-group">
+<div class="form-group pt-3">
     <label for="address">Adresse </label>
     <input type="text" id="address" name="address" value="<c:out value="${requestScope.contact.address}"/>" class="form-control" placeholder="Adresse"/>
 </div>
 <span>${requestScope.form.errors['address']}</span>
 
-<div class="form-row align-items-end">
+<div class="form-row align-items-end pt-3 pb-3">
     <div class="col justify-content-end" id="phoneInputs">
         <label for="phones">Téléphone </label>
         <input type="tel" id="phones" name="phone0" value="<c:out value="${requestScope.contact.phonesList[0]}"/>" maxlength="20" class="form-control" placeholder="01.23.45.67.89" >
@@ -52,13 +52,13 @@
         </c:forEach>
     </div>
 
-    <div class="col-auto pt-3">
+    <div class="col-auto pt-4">
         <button class="btn btn-primary" type="button" id="addPhone">+</button>
     </div>
 </div>
 <span>${requestScope.form.errors['phone']}</span>
 
-<div class="form-row align-items-end">
+<div class="form-row align-items-end pt-3">
     <div class="col justify-content-end" id="mailInputs">
         <label for="mails">Mail </label>
         <input type="email" id="mails" name="mail0" value="<c:out value="${requestScope.contact.mailsList[0]}"/>" maxlength="60" class="form-control" placeholder="email@exemple.com"/>
@@ -84,7 +84,7 @@
     </div>
 </div>
 
-<div class="form-group" id="referentFormPart" <c:out value="${requestScope.contact.reserved ? '':'hidden'}"/>>
+<div class="form-group pt-3" id="referentFormPart" <c:out value="${requestScope.contact.reserved ? '':'hidden'}"/>>
     <label for="referent">Référent </label>
     <select id="referent" name="referent" class="form-control">
         <option value="" <c:out value="${empty requestScope.contact.referent ? 'selected':''}"/>>Sélectionnez un référent</option>
@@ -94,5 +94,4 @@
     </select>
     <span>${requestScope.form.errors['referent']}</span>
 </div>
-
 

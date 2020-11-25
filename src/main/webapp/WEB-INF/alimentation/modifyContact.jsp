@@ -35,6 +35,7 @@
         <div class="col"></div>
     </div>
 
+    <c:import url="/WEB-INF/utils/footer.jsp"/>
     <script src="<c:url value="/js/contact_form_script.js"/>"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="<c:url value="/style/scripts/bootstrap.min.js"/>"></script>

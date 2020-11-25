@@ -70,6 +70,7 @@
         </c:forEach>
     </div>
 
+    <c:import url="/WEB-INF/utils/footer.jsp"/>
     <script src="<c:out value="/js/tabs_script.js"/>"></script>
 </body>
 </html>
