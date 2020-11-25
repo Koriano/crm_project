@@ -267,6 +267,11 @@ public class AccountDAO {
                 contact_id = res.getInt("contactId");
                 contact = ContactDAO.getInstance().getContactById(contact_id);
                 acc = new Account(username, password, name, right, contact, sectors);
+                sectors = SectorDAO.getInstance().getSectorsByAccount(acc);
+                for (Sector sector : sectors){
+                    acc.addSector(sector);
+                }
+                
                 ret.add(acc);
             }
 
@@ -299,7 +304,13 @@ public class AccountDAO {
                 right = res.getString("right");
                 contact_id = res.getInt("contactId");
                 contact = ContactDAO.getInstance().getContactById(contact_id);
+                
                 acc = new Account(username, password, name, right, contact, sectors);
+                sectors = SectorDAO.getInstance().getSectorsByAccount(acc);
+                for (Sector sector : sectors){
+                    acc.addSector(sector);
+                }
+                
                 ret =acc;
             }
 
