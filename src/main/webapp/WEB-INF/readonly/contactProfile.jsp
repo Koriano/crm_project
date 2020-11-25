@@ -103,7 +103,7 @@
                                 
                                 <div class="d-flex justify-content-center pt-5 pb-3">
                                     <c:if test="${right == 'Alimentation CRM' or right == 'Administrateur'}">
-                                        <a href="<c:url value="/research/contact/modify"/>">
+                                        <a href="<c:url value="/research/contactProfile/modify"/>">
                                             <button class="btn btn-primary ">Modifier le contact</button>
                                         </a>
                                     </c:if>
@@ -126,18 +126,18 @@
                                 <ul class="nav nav-tabs" role="tablist">
                                     <!--Définition des onglets-->
                                     <li class="nav-item">
-                                        <a class="nav-link active" id="comment-tab" data-toggle="tab"
-                                           href=# aria-controls="comment" role="tab" aria-selected="true">Comment</a>
+                                        <a class="nav-link active" id="comment-tab" data-toggle="tab" href="#comment"
+                                           role="tab" aria-controls="comment" aria-selected="true">Comment</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link " id= "history-tab" data-toggle="tab"
-                                           href=# aria-controls="history" role="tab" aria-selected="true">History</a>
+                                        <a class="nav-link" id="history-tab" data-toggle="tab" href="#history"
+                                           role="tab" aria-controls="history" aria-selected="false">History</a>
                                     </li>
                                 </ul>
 
                                 <div class="tab-content">
 
-                                    <div id="Comment" class="tab-pane fade show active" id="comment-pane"
+                                    <div class="tab-pane fade show active" id="comment"
                                          role="tabpanel" aria-labelledby="comment-tab">
                                         <textarea class="form-control rounded-0" name="commentContent" rows="10" cols="40" form="commentForm"><c:out value="${requestScope.comment.content}"/></textarea>
 
@@ -149,7 +149,7 @@
 
                                     </div>
 
-                                    <div id="History" class="tab-pane fade" id="history-pane"
+                                    <div class="tab-pane fade" id="history"
                                          role="tabpanel" aria-labelledby="history-tab">
                                         <c:forEach var="event" items="${requestScope.contact.eventsList}">
                                             <div>
@@ -185,5 +185,7 @@
     </c:choose>
 
     <c:import url="/WEB-INF/utils/footer.jsp"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="<c:url value="/style/scripts/bootstrap.min.js"/>"></script>
 </body>
 </html>
