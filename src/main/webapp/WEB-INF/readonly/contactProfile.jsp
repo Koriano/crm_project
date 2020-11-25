@@ -13,30 +13,49 @@
 
     <c:choose>
         <c:when test="${requestScope.contact.reserved}">
-            <div>
-                <h2> <b> <c:out value="${requestScope.contact.name} ${requestScope.contact.surname}"/> </b> </h2>
-                <p>Ce contact est réservé par :
+            <div class="row">
+                <div class="col"></div>
 
-                    <c:url var="referent_link" value="/research/contact">
-                        <c:param name="id" value="${requestScope.contact.referent.id}"/>
-                    </c:url>
+                <div class="col pt-4">
+                    <div class="container-lg pt-3 pb-3">
+                        <div class="card">
+                            <div class="card-header flex-column">
+                                <h2> <b> <c:out value="${requestScope.contact.name} ${requestScope.contact.surname}"/> </b> </h2>
+                            </div>
+                            <div class="card-body">
+                                <p>Ce contact est réservé par :
 
-                    <a href="${referent_link}"><c:out value="${requestScope.contact.referent.name} ${requestScope.contact.referent.surname}"/></a>
-                </p>
+                                    <c:url var="referent_link" value="/research/contact">
+                                        <c:param name="id" value="${requestScope.contact.referent.id}"/>
+                                    </c:url>
 
-                <c:if test="${right == 'Alimentation' or right == 'Administrateur'}">
-                    <a href="<c:url value="/research/contact/modify"/>">
-                        <button class="btn btn-primary ">Modifier le contact</button>
-                    </a>
-                </c:if>
+                                    <a href="${referent_link}"><c:out value="${requestScope.contact.referent.name} ${requestScope.contact.referent.surname}"/></a>
+                                </p>
 
-                <c:if test="${right == 'Alimentation' or right == 'Administrateur'}">
-                    <a href="<c:url value="/research/contact/delete"/>">
-                        <button class="btn btn-danger">Supprimer le contact</button>
-                    </a>
-                </c:if>
-                
+                                <div class="d-flex justify-content-center pt-5 pb-3">
+                                    <c:if test="${right == 'Alimentation' or right == 'Administrateur'}">
+                                        <a href="<c:url value="/research/contact/modify"/>">
+                                            <button class="btn btn-primary ">Modifier le contact</button>
+                                        </a>
+                                    </c:if>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col"></div>
             </div>
+            <div class="d-flex justify-content-center">
+                <div class="pt-5">
+                    <c:if test="${right == 'Alimentation' or right == 'Administrateur'}">
+                        <a href="<c:url value="/research/contact/delete"/>">
+                            <button class="btn btn-danger">Supprimer le contact</button>
+                        </a>
+                    </c:if>
+                </div>
+            </div>
+
         </c:when>
         <c:otherwise>
 
@@ -45,10 +64,13 @@
 
                 <div class="col pt-4">
                     <div class="container-lg pt-3 pb-3">
+
                         <div class="card">
-                            <div class="card-header flex-column" style="height: ">
+
+                            <div class="card-header flex-column">
                                     <h5 class="text-center"> <b> <c:out value="${requestScope.contact.name} ${requestScope.contact.surname}"/> </b> </h5>
                             </div>
+
                             <div class="card-body">
                                 <div class="pt-3">
                                     <p> <b>Role : </b> <c:out value="${requestScope.contact.role}"/> </p>
@@ -86,6 +108,7 @@
                                         </a>
                                     </c:if>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -95,7 +118,7 @@
                     <div class="container-lg pt-3 pb-3">
                         <div class="card">
 
-                            <div class="card-header flex-column" style="height: ">
+                            <div class="card-header flex-column">
                                 <h5 class="text-center"> <b> Informations </b> </h5>
                             </div>
 
@@ -155,6 +178,8 @@
                     </c:if>
                 </div>
             </div>
+
+
 
         </c:otherwise>
     </c:choose>
