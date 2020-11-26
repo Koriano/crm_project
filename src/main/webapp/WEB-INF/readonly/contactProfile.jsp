@@ -164,13 +164,14 @@
                         </div>
                     </div>
                 </div>
+
+
+                <div class="col"></div>
             </div>
 
-            <div class="col"></div>
-            </div>
 
             <div class="d-flex justify-content-center">
-                <div class="pt-5">
+                <div class="pt-5 pb-5">
                     <c:if test="${right == 'Alimentation CRM' or right == 'Administrateur'}">
                         <a href="<c:url value="/research/contactProfile/delete"/>">
                             <button class="btn btn-danger">Supprimer le contact</button>
