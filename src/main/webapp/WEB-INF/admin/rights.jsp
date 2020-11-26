@@ -24,14 +24,12 @@
                     </select>
                     <br>
 
-                    <c:url var="modify_link" value="/account">
-                        <c:param name="action" value="modify"/>
+                    <c:url var="modify_link" value="/rights/account/modify">
                         <c:param name="username" value="${account.username}"/>
                     </c:url>
                     <a href="${modify_link}"><button type="button">Modifier</button></a>
 
-                    <c:url var="delete_link" value="/account">
-                        <c:param name="action" value="delete"/>
+                    <c:url var="delete_link" value="/rights/account/delete">
                         <c:param name="username" value="${account.username}"/>
                     </c:url>
                     <a href="${delete_link}"><button type="button">Supprimer</button></a>
