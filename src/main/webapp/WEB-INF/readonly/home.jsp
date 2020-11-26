@@ -1,12 +1,12 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
+<html style="height: 100%;">
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
     <link rel="stylesheet" href="<c:url value="/style/lib/bootstrap.min.css"/>" />
 </head>
-<body>
+<body style="height: 100%;">
     <c:import url="/WEB-INF/utils/menu.jsp"/>
 
     <div>
@@ -36,5 +36,11 @@
             <br>
         </c:if>
     </div>
+
+
+
+    <c:import url="/WEB-INF/utils/footer.jsp"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="<c:url value="/style/scripts/bootstrap.min.js"/>"></script>
 </body>
 </html>

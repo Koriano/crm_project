@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-    <footer class="jumpotron bg-dark text-light text-center ">
+    <footer class="jumpotron bg-dark text-light text-center align-items-end fixed-bottom">
         <p> © 2020
             <a href="https://github.com/Koriano" target="_blank">Alexandre HAMON</a>
             <a href="https://github.com/gurvanrenault" target="_blank">Gurvan RENAULT</a>
