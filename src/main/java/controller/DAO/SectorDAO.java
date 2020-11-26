@@ -219,7 +219,7 @@ public class SectorDAO {
      * @param sec sector 
      * @pre sec!=null && sec.getName()!=null
      */
-    private void  getContactList(Sector sec){
+    public void  getContactList(Sector sec){
         assert(sec!=null && sec.getName()!=null);
         String req_selec_sector = "SELECT * FROM Contact_Sector_Asso WHERE sectorName=? ";
         int contactId;
@@ -239,6 +239,37 @@ public class SectorDAO {
         catch (Exception e) {
             e.printStackTrace();
         }
+       
+    }
+    /**
+     * Check if a sector exists
+     * @param sec sector 
+     * @pre name!=null
+     * @return ture if the sector exists
+     */
+    public boolean isSectorExist(String name){
+        assert name!=null;
+        boolean ret = true;
+        String req_selec_sector = "SELECT COUNT(*) FROM Sector WHERE name=? ";
+        String sectorId = name;
+        try {
+
+            
+            PreparedStatement req_selec_prep = this.db.prepareStatement(req_selec_sector);
+            req_selec_prep.setString(1, sectorId);
+            req_selec_prep.executeQuery();
+        
+            ResultSet rs = req_selec_prep.executeQuery();
+            rs.next();
+            int nb_row = rs.getInt("count(*)");
+            if (nb_row==1){
+                ret=true;
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ret;
        
     }
 }
