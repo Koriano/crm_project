@@ -10,6 +10,7 @@
     <c:import url="/WEB-INF/utils/menu.jsp"/>
 
     <h2>Gestion des droits</h2>
+    <a href="<c:url value="/rights/account/add"/>"><button type="button">Créer un compte</button></a>
 
     <div>
         <form method="post" action="<c:url value="/rights"/>">

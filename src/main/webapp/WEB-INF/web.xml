@@ -60,6 +60,10 @@
         <servlet-name>AccountHome</servlet-name>
         <servlet-class>controller.servlets.account.RightsServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddAccount</servlet-name>
+        <servlet-class>controller.servlets.account.AddAccountServlet</servlet-class>
+    </servlet>
 
 
     <!-- Connect and disconnect -->
@@ -120,6 +124,10 @@
     <servlet-mapping>
         <servlet-name>AccountHome</servlet-name>
         <url-pattern>/rights</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddAccount</servlet-name>
+        <url-pattern>/rights/account/add</url-pattern>
     </servlet-mapping>
 
 
