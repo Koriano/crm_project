@@ -198,9 +198,9 @@ public class CommentDAO {
      * @pre author != null && contact !=null
      * @post ret != null 
      */
-    public ArrayList<Comment> getCommentByAuthorAndContact(Contact author,Contact contact){
+    public Comment getCommentByAuthorAndContact(Contact author,Contact contact){
         assert(author!=null && contact!=null);
-        ArrayList<Comment> ret =new ArrayList<>();
+        Comment ret =null;
         if (author!=null && contact!=null){
             
             //Retrieve data from author and contact 
@@ -226,7 +226,7 @@ public class CommentDAO {
                         content ="";
                     }
                     //Add comment in the list 
-                    ret.add(new Comment(author,contact,content));
+                    ret = new Comment(author,contact,content);
 
                 }
             }catch (SQLException e) {
