@@ -68,9 +68,11 @@ public class Account {
         this.name = name;
         this.right = right;
         this.contact = contact;
-        this.contact.setLinkAccount(true);
         this.sectorsList = sectorsList;
 
+        if (contact != null){
+            this.contact.setLinkAccount(true);
+        }
 
         this.inv();
     }
