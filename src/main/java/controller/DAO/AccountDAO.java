@@ -50,7 +50,7 @@ public class AccountDAO {
         String name = acc.getName();
         String password = acc.getPassword();
         String right = acc.getRight();
-        System.out.println(right);
+
         Contact contact = acc.getContact();
     
         ArrayList<Sector> sectors = acc.getSectors();
@@ -92,7 +92,7 @@ public class AccountDAO {
         String name = acc.getName();
         String password = acc.getPassword();
         String right = acc.getRight();
-        System.out.println(right);
+     
         Contact contact = acc.getContact();
         ArrayList<Sector> sectors = acc.getSectors();
         String req_insert = "UPDATE Account SET `username`=?,`password`=?,`name`=?,`right`=?,`contactId`=? WHERE username=?";
@@ -290,7 +290,7 @@ public class AccountDAO {
         Contact contact;
         int contact_id;
         Account acc;
-        ArrayList<Sector> sectors = null;
+        ArrayList<Sector> sectors = new ArrayList<>();
         String req_select ="SELECT * FROM Account WHERE username=?";
         try {
            
