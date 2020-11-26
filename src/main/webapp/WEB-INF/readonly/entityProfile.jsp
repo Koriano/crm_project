@@ -13,8 +13,8 @@
     <c:set var="right" value="${sessionScope.user.right}" scope="page"/>
 
     <c:if test="${right == 'Alimentation CRM' or right == 'Administrateur'}">
-        <a href="<c:url value="/research/entity/modify"/>"><button>Modifier l'entité</button></a>
-        <a href="<c:url value="/research/entity/delete"/>"><button>Supprimer l'entité</button></a>
+        <a href="<c:url value="/research/entityProfile/modify"/>"><button>Modifier l'entité</button></a>
+        <a href="<c:url value="/research/entityProfile/delete"/>"><button>Supprimer l'entité</button></a>
     </c:if>
 
     <div>
