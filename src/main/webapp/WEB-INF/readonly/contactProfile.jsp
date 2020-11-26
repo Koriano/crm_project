@@ -139,7 +139,7 @@
 
                                     <div class="tab-pane fade show active" id="comment"
                                          role="tabpanel" aria-labelledby="comment-tab">
-                                        <textarea class="form-control rounded-0" name="commentContent" rows="10" cols="40" form="commentForm"><c:out value="${requestScope.comment.content}"/></textarea>
+                                        <textarea class="form-control rounded-0" name="commentContent" rows="13" cols="40" form="commentForm"><c:out value="${requestScope.comment.content}"/></textarea>
 
                                         <div class="d-flex justify-content-center pt-3">
                                             <form method="post" action="<c:url value="/research/contactProfile/saveComment"/>" id="commentForm">
