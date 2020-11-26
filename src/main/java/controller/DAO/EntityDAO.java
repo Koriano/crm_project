@@ -301,7 +301,7 @@ public class EntityDAO {
                 name = res.getString("name");
                 address = res.getString("address");
                 siret = res.getString("siret");
-                description = res.getString("siret");
+                description = res.getString("description");
                 intern_nb = res.getInt("intern_nb");
                 type = res.getString("type");
                 
@@ -348,7 +348,7 @@ public class EntityDAO {
                 name = res.getString("name");
                 adress = res.getString("address");
                 siret = res.getString("siret");
-                description = res.getString("siret");
+                description = res.getString("description");
                 intern_nb = res.getInt("intern_nb");
                 type = res.getString("type");
 

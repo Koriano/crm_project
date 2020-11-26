@@ -290,7 +290,7 @@ public class AccountDAO {
         Contact contact;
         int contact_id;
         Account acc;
-        ArrayList<Sector> sectors = null;
+        ArrayList<Sector> sectors = new ArrayList<>();
         String req_select ="SELECT * FROM Account WHERE username=?";
         try {
            
@@ -308,6 +308,7 @@ public class AccountDAO {
                 acc = new Account(username, password, name, right, contact, sectors);
                 sectors = SectorDAO.getInstance().getSectorsByAccount(acc);
                 for (Sector sector : sectors){
+                    System.out.print(sector==null);
                     acc.addSector(sector);
                 }
                 
