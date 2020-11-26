@@ -61,6 +61,28 @@ public class Sector {
         return this.contactList;
     }
 
+
+    /**
+     * Return true if contact is in the contactlist
+     *
+     * @param contact : contact to find
+     *
+     * @return present (true if the contact is in the contactlist)
+     */
+    public boolean hasContact(Contact contact){
+        boolean present;
+
+        if (this.contactList.contains(contact)){
+            present = true;
+        }
+
+        else{
+            present = false;
+        }
+
+        return present;
+    }
+
     //-----------------------------------------------------------------//
 
     /**
