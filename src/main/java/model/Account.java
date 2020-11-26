@@ -10,7 +10,7 @@ import java.util.ArrayList;
  *
  * @inv !this.username.isEmpty() && !this.password.isEmpty() && !this.name.isEmpty() &&
  * !this.right.isEmpty() && this.username != null && this.password != null
- * && this.name != null && this.contact != null && this.sectorsList.size()>0
+ * && this.name != null  && this.sectorsList.size()>0
  */
 public class Account {
     /**
@@ -55,13 +55,13 @@ public class Account {
      *
      * @pre !username.isEmpty() && !password.isEmpty() && !name.isEmpty() && !right.isEmpty() &&
      * username != null && password != null &&  name != null && right!= null
-     * && contact != null && sectorsList.size()>0 && !contact.isLinkAccount()
+     * && sectorsList.size()>0 && !contact.isLinkAccount()
      */
     public Account(String username, String password, String name, String right, Contact contact, ArrayList<Sector> sectorsList) {
         // pre condition
         assert !username.isEmpty() && !password.isEmpty() && !name.isEmpty() && !right.isEmpty(): "Pre condition violated";
         assert username != null && password != null &&  name != null && right!= null: "Pre condition violated";
-        assert contact != null && sectorsList.size()>0 && !contact.isLinkAccount(): "Pre condition violated";
+        assert sectorsList.size()>0 && !contact.isLinkAccount(): "Pre condition violated";
 
         this.username = username;
         this.password = password;
@@ -262,8 +262,8 @@ public class Account {
      */
     private void inv(){
         assert !this.username.isEmpty() && !this.password.isEmpty() && !this.name.isEmpty() && !this.right.isEmpty(): "Invariant violated";
-        assert this.username != null && this.password != null &&  this.name != null : "Invariant violated";
-        assert this.contact != null && this.sectorsList.size()>0 : "Invariant violated";
+        assert this.username != null && this.password != null &&  this.name != null && this.sectorsList.size()>0 : "Invariant violated";
+
     }
 
 }
