@@ -97,6 +97,16 @@ public class Event {
     //-----------------------------------------------------------------//
 
     /**
+     * Return the event id
+     *
+     * @return the event id
+     */
+    public int getId() {
+        return this.id;
+    }
+
+
+    /**
      * Get the event name
      *
      * @return the event name
@@ -149,6 +159,15 @@ public class Event {
 
 
     //-----------------------------------------------------------------//
+
+    /**
+     * Set a new event id
+     *
+     * @param id : the new event id
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
 
     /**
      * Set a new name
