@@ -45,13 +45,13 @@ public class SaveCommentServlet extends HttpServlet {
 
         try{
             Contact contact = contactDAO.getContactById(Integer.parseInt(contact_id));
-            ArrayList<Comment> comment = commentDAO.getCommentByAuthorAndContact(user.getContact(), contact);
+            Comment comment = commentDAO.getCommentByAuthorAndContact(user.getContact(), contact);
 
-            if(comment.size() == 0) {
+            if(comment == null) {
                 commentDAO.saveComment(new Comment(user.getContact(), contact, content));
             } else {
-                comment.get(0).setContent(content);
-                commentDAO.updateComment(comment.get(0));
+                comment.setContent(content);
+                commentDAO.updateComment(comment);
             }
 
             resp.sendRedirect(req.getContextPath() + URL_REDIRECT);

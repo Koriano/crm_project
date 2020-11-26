@@ -29,6 +29,5 @@
     </div>
 </div>
 
-<script src="<c:out value="/js/tabs_script.js"/>"></script>
 </body>
 </html>

@@ -36,15 +36,11 @@ public class ContactProfileServlet extends HttpServlet {
 
         Account user = (Account) session.getAttribute(PARAM_SESSION_USER_ACCOUNT);
 
-        ArrayList<Comment> comment = commentDAO.getCommentByAuthorAndContact(user.getContact(), contact);
+        Comment comment = commentDAO.getCommentByAuthorAndContact(user.getContact(), contact);
 
         // Set contact as request attribute
         req.setAttribute(ATT_CONTACT, contact);
-        if(comment.size() > 0) {
-            req.setAttribute(ATT_COMMENT, comment.get(0));
-        } else {
-            req.setAttribute(ATT_COMMENT, null);
-        }
+        req.setAttribute(ATT_COMMENT, comment);
 
         this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
     }
