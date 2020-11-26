@@ -68,6 +68,10 @@
         <servlet-name>ModifyAccount</servlet-name>
         <servlet-class>controller.servlets.account.ModifyAccountServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeleteAccount</servlet-name>
+        <servlet-class>controller.servlets.account.DeleteAccountServlet</servlet-class>
+    </servlet>
 
 
     <!-- Connect and disconnect -->
@@ -136,6 +140,10 @@
     <servlet-mapping>
         <servlet-name>ModifyAccount</servlet-name>
         <url-pattern>/rights/account/modify</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteAccount</servlet-name>
+        <url-pattern>/rights/account/delete</url-pattern>
     </servlet-mapping>
 
 
