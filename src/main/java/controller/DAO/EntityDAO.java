@@ -34,10 +34,16 @@ public class EntityDAO {
         }
         return instance;
     }
-
+    /**
+     * Save an entity in the database 
+     * @param ent != null &&
+     * !ent.getName().isEmpty() && ent.getName() != null && ent.getSiret().length() == 14 && ent.getType().isEmpty() && ent.getType() != null
+     * @return true if resquest sucess 
+     */
     public boolean saveEntity(Entity ent){
 
         assert (ent != null);
+        assert !ent.getName().isEmpty() && ent.getName() != null && ent.getSiret().length() == 14 && ent.getType().isEmpty() && ent.getType() != null : "Pre condition violated";
         boolean ret=true;
         if (ent!=null){ 
             // Retrieve data from entity
@@ -93,11 +99,14 @@ public class EntityDAO {
     /**
     * Update the entity in the database
     * @param  ent entity object
-    * @pre ent != null
+    * @pre ent != null &&
+    * !ent.getName().isEmpty() && ent.getName() != null && ent.getSiret().length() == 14 && ent.getType().isEmpty() && ent.getType() != null
     */
     public boolean updateEntity(Entity ent) {
 
         assert (ent != null);
+        assert !ent.getName().isEmpty() && ent.getName() != null && ent.getSiret().length() == 14 && ent.getType().isEmpty() && ent.getType() != null : "Pre condition violated";
+
         boolean ret= true;
         if (ent!=null){ 
             // Retrieve data from entity
@@ -154,11 +163,14 @@ public class EntityDAO {
     /**
      * Delete the entity in the database
      * @param  ent entity object
-     * @pre ent != null
+     * @pre ent != null && 
+     * !ent.getName().isEmpty() && ent.getName() != null && ent.getSiret().length() == 14 && ent.getType().isEmpty() && ent.getType() != null
      */
     public boolean deleteEntity(Entity ent){
+        
+        assert (ent!=null);
+        assert !ent.getName().isEmpty() && ent.getName() != null && ent.getSiret().length() == 14 && ent.getType().isEmpty() && ent.getType() != null : "Pre condition violated";
 
-        assert(ent!=null);
         boolean ret = true;
         if (ent !=null && ent.getName()!=null){
             // Retrieve Primary Key
@@ -197,15 +209,19 @@ public class EntityDAO {
     /**
      * Get an entity by his contact
      * @param  name name of the entity
-     * @pre contact != null
+     * @pre contact != null &&
+     * cont.getName().isEmpty() && !cont.getSurname().isEmpty() && !cont.getRole().isEmpty() && cont.getName()!=null && cont.getSurname() != null
+     * cont.getReferent()!= null && cont.isReserved()|| (cont.getReferent()!= null && !cont.isReserved())
      */
-    public Entity getEntityByContact(Contact contact) {
+    public Entity getEntityByContact(Contact cont) {
        
-        assert(contact!=null);
+        assert (cont != null); 
+        assert !cont.getName().isEmpty() && !cont.getSurname().isEmpty() && !cont.getRole().isEmpty() && cont.getName()!=null && cont.getSurname() != null: "Pre condition violated";
+        assert  cont.getReferent()!= null && cont.isReserved()|| (cont.getReferent()!= null && !cont.isReserved()) : "Pre condition violated";
         //Data
         Entity ret = null;
-        if (contact != null){
-            int id = contact.getId();
+        if (cont != null){
+            int id = cont.getId();
             String entity_name = null;
         
             // Request to select the entity of a contact 
@@ -242,7 +258,7 @@ public class EntityDAO {
      */
     public Entity getEntityByName(String name){
         
-        assert(name!=null);
+        assert (name!=null);
 
         // Attributes of the table Entity
         String address;
@@ -336,6 +352,10 @@ public class EntityDAO {
         assert (ret != null);
         return ret;
     }
+    /**
+     * Get the list of types in the database 
+     * @return the list of types in the database 
+     */
     public ArrayList<String> getAllTypes(){
         // Request to check if an given entity  type already exist
         String req_select ="SELECT * FROM Entity_type";

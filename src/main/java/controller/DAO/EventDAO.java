@@ -33,11 +33,14 @@ public class EventDAO {
     /**
      * Save an event in the database
      * @param evt event
-     * @pre evt != null && evt.getContactsList().get(0)==null
+     * @pre evt != null && evt.getContactsList()==null &&
+     * evt.getName() != null && evt.getDate() != null &&  evt.getContactsList().get(0) != null  && evt.getType().isEmpty() && evt.getType()!= null
      * @return true if the request is a sucess
      */
     public boolean saveEvent(Event evt) {
-        assert (evt != null && evt.getContactsList().get(0)==null);
+        assert (evt != null && evt.getContactsList()==null);
+        assert evt.getName() != null && evt.getDate() != null &&  evt.getContactsList().get(0) != null  && evt.getType().isEmpty() && evt.getType()!= null: " Pre condition violated";
+
         boolean ret =false;
         String name = evt.getName();
         String description = evt.getDescription();
@@ -106,11 +109,10 @@ public class EventDAO {
      * Save the list of contacts linked to an Event 
      * @param list list of contacts linked to an Event 
      * @param id id of the event 
-     * @pre list!=null
      * @return true if the request is a sucess 
      */
     private boolean saveContactList(ArrayList<Contact> list,int id){
-        assert list!=null;
+       
         String req_insert_contact ="INSERT INTO Contact_Event_Asso(eventId,contactId) VALUES (?,?)";
         boolean ret = true;
         try {
@@ -141,7 +143,7 @@ public class EventDAO {
      * @return true if the request is a sucess 
      */
     private boolean deleteContactList(int id){
-      
+        
         String req_delete_contact ="DELETE FROM Contact_Event_Asso WHERE eventId=?";
         boolean ret = false;
         try {
@@ -164,11 +166,15 @@ public class EventDAO {
     /**
      * Update the list of contacts linked to an Event 
      * @param evt id events
-     * @pre evt != null && evt.getContactsList().get(0)==null
+     * @pre evt != null && evt.getContactsList()==null &&
+     * evt.getName() != null && evt.getDate() != null &&  evt.getContactsList().get(0) != null  && evt.getType().isEmpty() && evt.getType()!= null
      * @return true if the request is a sucess
      */
     public boolean updateEvent(Event evt){
-        assert evt != null && evt.getContactsList().get(0)==null;
+
+        assert (evt != null && evt.getContactsList()==null);
+        assert evt.getName() != null && evt.getDate() != null &&  evt.getContactsList().get(0) != null  && evt.getType().isEmpty() && evt.getType()!= null: " Pre condition violated";
+
         boolean ret =false;
         String name = evt.getName();
         String description = evt.getDescription();
@@ -233,10 +239,14 @@ public class EventDAO {
     /**
      * Delete an event in the database
      * @param evt event to delete
-     * @pre evt !=null
+     * @pre evt != null && evt.getContactsList()==null &&
+     * evt.getName() != null && evt.getDate() != null &&  evt.getContactsList().get(0) != null  && evt.getType().isEmpty() && evt.getType()!= null
+     * @return true if request success 
      */
     public boolean deleteEvent(Event evt){
-        assert evt !=null;
+        assert (evt != null && evt.getContactsList()==null);
+        assert evt.getName() != null && evt.getDate() != null &&  evt.getContactsList().get(0) != null  && evt.getType().isEmpty() && evt.getType()!= null: " Pre condition violated";
+
         boolean ret = true;
         int name = evt.getId();
         String req_delete = "DELETE FROM Event WHERE id=?";
@@ -260,11 +270,15 @@ public class EventDAO {
    /**
      * Get list of events by contact who create the event
      * @param cont contact
-     * @pre cont!=null
+     * @pre cont!=null && 
+     * !cont.getName().isEmpty() && !cont.getSurname().isEmpty() && !cont.getRole().isEmpty() && cont.getName()!=null && cont.getSurname() != null &&
+     *  cont.getReferent()!= null && cont.isReserved()|| (cont.getReferent()!= null && !cont.isReserved())
      * @return list of events
      */
     public ArrayList<Event> getEventsByCreator(Contact cont){
-        assert cont != null;
+        assert (cont != null); 
+        assert !cont.getName().isEmpty() && !cont.getSurname().isEmpty() && !cont.getRole().isEmpty() && cont.getName()!=null && cont.getSurname() != null: "Pre condition violated";
+        assert  cont.getReferent()!= null && cont.isReserved()|| (cont.getReferent()!= null && !cont.isReserved()) : "Pre condition violated";
         ArrayList<Event> ret = new ArrayList<>();
         Event evt;
         String name;
@@ -301,11 +315,15 @@ public class EventDAO {
     /**
      * Get list of events by contact 
      * @param cont contact
-     * @pre cont!=null
+     * @pre cont!=null &&
+     * !cont.getName().isEmpty() && !cont.getSurname().isEmpty() && !cont.getRole().isEmpty() && cont.getName()!=null && cont.getSurname() != null &&
+     *  cont.getReferent()!= null && cont.isReserved()|| (cont.getReferent()!= null && !cont.isReserved())
      * @return list of events
      */
     public ArrayList<Event> getEventsByContact(Contact cont){
-        assert cont != null;
+        assert (cont != null); 
+        assert !cont.getName().isEmpty() && !cont.getSurname().isEmpty() && !cont.getRole().isEmpty() && cont.getName()!=null && cont.getSurname() != null: "Pre condition violated";
+        assert  cont.getReferent()!= null && cont.isReserved()|| (cont.getReferent()!= null && !cont.isReserved()) : "Pre condition violated";
         ArrayList<Event> ret = new ArrayList<>();
         Event evt;
         String name;

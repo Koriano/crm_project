@@ -29,12 +29,17 @@ public class ContactDAO {
     /**
      * Save the contact
      * @param  cont contact object
-     * @pre cont != null
+     * @pre cont != null &&
+     * !cont.getName().isEmpty() && !cont.getSurname().isEmpty() && !cont.getRole().isEmpty() && cont.getName()!=null && cont.getSurname() != null &&
+     * cont.getReferent()!= null && cont.isReserved()|| (cont.getReferent()!= null && !cont.isReserved()) 
      * @return true if request is a success
      */
     public boolean saveContact(Contact cont){
 
-        assert (cont != null);
+        assert cont != null : "Pre condition violated"; 
+        assert !cont.getName().isEmpty() && !cont.getSurname().isEmpty() && !cont.getRole().isEmpty() && cont.getName()!=null && cont.getSurname() != null : "Pre condition violated";
+        assert cont.getReferent()!= null && cont.isReserved()|| (cont.getReferent()!= null && !cont.isReserved()) : "Pre condition violated";
+
         // Get Data from cont
         boolean ret = true; 
         int contact_id = -1;
@@ -159,13 +164,16 @@ public class ContactDAO {
     /**
      * Update the contact in the database
      * @param  cont contact object
-     * @pre cont != null
+     * @pre cont != null &&
+     * !cont.getName().isEmpty() && !cont.getSurname().isEmpty() && !cont.getRole().isEmpty() && cont.getName()!=null && cont.getSurname() != null &&
+     * cont.getReferent()!= null && cont.isReserved()|| (cont.getReferent()!= null && !cont.isReserved())
      * @return true if the request is a sucess
      */
     public boolean updateContact(Contact cont){
-
-
-        assert (cont != null);
+        
+        assert (cont != null) : "Pre condition violated"; 
+        assert !cont.getName().isEmpty() && !cont.getSurname().isEmpty() && !cont.getRole().isEmpty() && cont.getName()!=null && cont.getSurname() != null: "Pre condition violated";
+        assert  cont.getReferent()!= null && cont.isReserved()|| (cont.getReferent()!= null && !cont.isReserved()) : "Pre condition violated";
         // Get Data from cont
         boolean ret = true;
         int id = cont.getId() ;
@@ -236,11 +244,17 @@ public class ContactDAO {
     /**
      * Delete the contact in the database
      * @param  cont contact object
-     * @pre cont != null
+     * @pre cont != null &&
+     * !cont.getName().isEmpty() && !cont.getSurname().isEmpty() && !cont.getRole().isEmpty() && cont.getName()!=null && cont.getSurname() != null &&
+     * cont.getReferent()!= null && cont.isReserved()|| (cont.getReferent()!= null && !cont.isReserved())
+     * @return true id the request is a sucess 
      */
     public boolean deleteContact(Contact cont){
 
-        assert (cont != null);
+        assert (cont != null) : "Pre condition violated"; 
+        assert !cont.getName().isEmpty() && !cont.getSurname().isEmpty() && !cont.getRole().isEmpty() && cont.getName()!=null && cont.getSurname() != null: "Pre condition violated";
+        assert  cont.getReferent()!= null && cont.isReserved()|| (cont.getReferent()!= null && !cont.isReserved()) : "Pre condition violated";
+    
         // Get Data from cont
         boolean ret = true;
         int id = cont.getId();
@@ -317,10 +331,19 @@ public class ContactDAO {
     /**
      * Get the contact associated with an account
      * @param  acc account object
-     * @pre acc != null
+     * @pre !acc.getUsername().isEmpty() && !acc.getPassword().isEmpty() && !acc.getName().isEmpty() && !acc.getRight().isEmpty()
+     * && acc.getUsername() != null && acc.getPassword()!= null &&  acc.getName() != null && acc.getRight()!= null: "Pre condition violated"
+     * && acc.getSectors()!=null : "Pre condition violated"
+     * && acc.getSectors().size()>0 && !acc.getContact().isLinkAccount(): "Pre condition violated"
+     * @return contact
      */
     public Contact getContactByAccount(Account acc){
-        assert (acc != null); 
+        assert acc != null : "Pre condition violated";
+        assert !acc.getUsername().isEmpty() && !acc.getPassword().isEmpty() && !acc.getName().isEmpty() && !acc.getRight().isEmpty(): "Pre condition violated";
+        assert acc.getUsername() != null && acc.getPassword()!= null &&  acc.getName() != null && acc.getRight()!= null: "Pre condition violated";
+        assert acc.getSectors()!=null : "Pre condition violated";
+        assert acc.getSectors().size()>0 && !acc.getContact().isLinkAccount(): "Pre condition violated";
+
         return AccountDAO.getInstance().getAccountByName(acc.getUsername()).getContact();
     }
 
@@ -328,12 +351,11 @@ public class ContactDAO {
     /**
      * Get the contact associated with an account
      * @param  sec sector object
-     * @pre sec != null
+     * @pre sec!=null && sec.getName()!=null && !sec.getName().isEmpty()
      * @post ret != null
      */
     public ArrayList<Contact> getContactBySector(Sector sec){
-        assert (sec != null);
-        
+        assert sec!=null && sec.getName()!=null && !sec.getName().isEmpty() :"Pre condition violated";
         //Data
         int id;
         String nameSec = sec.getName();
@@ -385,11 +407,14 @@ public class ContactDAO {
     /**
      * Get the contact list associated with an event
      * @param  event event object
-     * @pre event != null
+     * @pre evt != null && evt.getContactsList()==null &&
+     * evt.getName() != null && evt.getDate() != null &&  evt.getContactsList().get(0) != null  && evt.getType().isEmpty() && evt.getType()!= null
      * @post ret != null
      */
-    public ArrayList<Contact> getContactByEvent(Event event) {
-        assert (event != null);
+    public ArrayList<Contact> getContactByEvent(Event evt) {
+        assert (evt != null && evt.getContactsList()==null);
+        assert evt.getName() != null && evt.getDate() != null &&  evt.getContactsList().get(0) != null  && evt.getType().isEmpty() && evt.getType()!= null: " Pre condition violated";
+
         //Data
         int id;
         String name;
@@ -405,7 +430,7 @@ public class ContactDAO {
         try {
 
             PreparedStatement req_select_prep = this.db.prepareStatement(req_select);
-            req_select_prep.setInt(1,1);
+            req_select_prep.setInt(1,evt.getId());
             ResultSet res = req_select_prep.executeQuery();
 
             while (res.next()) {
@@ -442,12 +467,11 @@ public class ContactDAO {
     /**
      * Get the author of a comment
      * @param  cmt comment object
-     * @pre cmt != null && mt.getAuthor()!=null
+     * @pre  cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null && cmt.getContent() 
      * @post ret!=null
      */
     public Contact getAuthorByComment(Comment cmt){
-        
-        assert (cmt != null && cmt.getAuthor()!=null);
+        assert cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null && cmt.getContent() != null: "Pre condition violated";
         //Data
         Contact ret =null;
         String req_select_contact = "SELECT * FROM Contact WHERE id=? ";
@@ -495,11 +519,12 @@ public class ContactDAO {
     /**
      * Get the contact associated by comment
      * @param  cmt comment object
-     * @pre cmt != null && cmt.getConcernedContact()!=null
+     * @pre cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null && cmt.getContent() != nulls
      * @post ret != null
      */
     public Contact getContactByComment(Comment cmt){
-        assert (cmt != null && cmt.getConcernedContact()!=null);
+        assert cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null && cmt.getContent() != null: "Pre condition violated";
+      
         //Data
         Contact ret =null;
         String req_select_contact = "SELECT * FROM Contact WHERE id=? ";
@@ -547,6 +572,7 @@ public class ContactDAO {
 
     /**
      * Get all contact
+     * @return list of contacts 
      * @post ret != null
      */
     public ArrayList<Contact> getAllContacts(){

@@ -40,11 +40,19 @@ public class AccountDAO {
     /**
      * Save an account in the data database 
      * @param acc
-     * @pre acc != null
+     * @pre !acc.getUsername().isEmpty() && !acc.getPassword().isEmpty() && !acc.getName().isEmpty() && !acc.getRight().isEmpty()
+     * && acc.getUsername() != null && acc.getPassword()!= null &&  acc.getName() != null && acc.getRight()!= null: "Pre condition violated"
+     * && acc.getSectors()!=null : "Pre condition violated"
+     * && acc.getSectors().size()>0 && !acc.getContact().isLinkAccount(): "Pre condition violated"
      * @return true if the insertion is performed 
      */
     public boolean saveAccount(Account acc){
-        assert(acc != null);
+        assert acc != null : "Pre condition violated";
+        assert !acc.getUsername().isEmpty() && !acc.getPassword().isEmpty() && !acc.getName().isEmpty() && !acc.getRight().isEmpty(): "Pre condition violated";
+        assert acc.getUsername() != null && acc.getPassword()!= null &&  acc.getName() != null && acc.getRight()!= null: "Pre condition violated";
+        assert acc.getSectors()!=null : "Pre condition violated";
+        assert acc.getSectors().size()>0 && !acc.getContact().isLinkAccount(): "Pre condition violated";
+
         boolean ret=true;
         String username = acc.getUsername();
         String name = acc.getName();
@@ -82,11 +90,20 @@ public class AccountDAO {
     /**
      * Update an account in the database 
      * @param acc account to update
-     * @pre acc != null
+     * @pre !acc.getUsername().isEmpty() && !acc.getPassword().isEmpty() && !acc.getName().isEmpty() && !acc.getRight().isEmpty()
+     * && acc.getUsername() != null && acc.getPassword()!= null &&  acc.getName() != null && acc.getRight()!= null: "Pre condition violated"
+     * && acc.getSectors()!=null : "Pre condition violated"
+     * && acc.getSectors().size()>0 && !acc.getContact().isLinkAccount(): "Pre condition violated"
      * @return true if update performed 
      */
     public boolean updateAccount(Account acc){
-        assert(acc != null);
+
+        assert acc != null : "Pre condition violated";
+        assert !acc.getUsername().isEmpty() && !acc.getPassword().isEmpty() && !acc.getName().isEmpty() && !acc.getRight().isEmpty(): "Pre condition violated";
+        assert acc.getUsername() != null && acc.getPassword()!= null &&  acc.getName() != null && acc.getRight()!= null: "Pre condition violated";
+        assert acc.getSectors()!=null : "Pre condition violated";
+        assert acc.getSectors().size()>0 && !acc.getContact().isLinkAccount(): "Pre condition violated";
+
         boolean ret=true;
         String username = acc.getUsername();
         String name = acc.getName();
@@ -130,7 +147,7 @@ public class AccountDAO {
      * @return true id insertion performed 
      */
     private boolean addSectors(ArrayList<Sector> list, String username){
-        assert(username !=null);
+        assert (username !=null) : "Pre condition violated";
         String req_insert_sector= "INSERT INTO Account_Sector_Asso(sectorName,accountUsername) VALUES (?,?)";
         boolean ret = true;
         try {
@@ -163,7 +180,7 @@ public class AccountDAO {
      * @return true if deletion performed 
      */
     private boolean deleteSectors(String username){
-        assert(username!=null);
+        assert (username!=null)  : "Pre condition violated";
         String req_delete_sector= "DELETE FROM Account_Sector_Asso WHERE accountUsername=?";
         boolean ret = true;
         try {
@@ -187,11 +204,18 @@ public class AccountDAO {
     /**
      * Delete account in the database 
      * @param acc account 
-     * @pre acc !=null 
+     * @pre !acc.getUsername().isEmpty() && !acc.getPassword().isEmpty() && !acc.getName().isEmpty() && !acc.getRight().isEmpty()
+     * && acc.getUsername() != null && acc.getPassword()!= null &&  acc.getName() != null && acc.getRight()!= null: "Pre condition violated"
+     * && acc.getSectors()!=null : "Pre condition violated"
+     * && acc.getSectors().size()>0 && !acc.getContact().isLinkAccount(): "Pre condition violated"
      * @return true if deletion performed 
      */
     public boolean deleteAccount(Account acc){
-        assert(acc != null);
+        assert acc != null : "Pre condition violated";
+        assert !acc.getUsername().isEmpty() && !acc.getPassword().isEmpty() && !acc.getName().isEmpty() && !acc.getRight().isEmpty(): "Pre condition violated";
+        assert acc.getUsername() != null && acc.getPassword()!= null &&  acc.getName() != null && acc.getRight()!= null: "Pre condition violated";
+        assert acc.getSectors()!=null : "Pre condition violated";
+        assert acc.getSectors().size()>0 && !acc.getContact().isLinkAccount(): "Pre condition violated";
         boolean ret=true;
         String username = acc.getUsername();
         String req_delete_account= "DELETE FROM Account WHERE username=?";
@@ -218,7 +242,7 @@ public class AccountDAO {
      * @return true if the tuple match in the database
      */
     public boolean checkLogin(String login,String password){
-        assert(login != null && password != null);
+        assert(login != null && password != null) : "Precondition violated";
         boolean ret =false;
         String req_login ="SELECT COUNT(*) FROM Account WHERE username=? AND password=?";
         try {

@@ -28,9 +28,12 @@ public class SectorDAO {
     }
     /**
      * Save sector in the database 
+     * @pre sec!=null && sec.getName()!=null && !sec.getName().isEmpty() :"Pre condition violated"
      * @param sec sector object 
+     * @return true if request success 
      */
     public boolean saveSector(Sector sec){
+        assert sec!=null && sec.getName()!=null && !sec.getName().isEmpty() :"Pre condition violated";
         boolean ret = true;
         String name = sec.getName();
         int ret_req;
@@ -56,9 +59,10 @@ public class SectorDAO {
      * Update a sector in the database 
      * @param sec sector 
      * @return true if the request is a sucess
-     * @pre sec!= null 
+     * @pre sec!=null && sec.getName()!=null && !sec.getName().isEmpty() 
      */
     public boolean updateSector(Sector sec){
+        assert sec!=null && sec.getName()!=null && !sec.getName().isEmpty() :"Pre condition violated";
         boolean ret = true;
         String name = sec.getName();
         int ret_req;
@@ -143,6 +147,7 @@ public class SectorDAO {
      * @return true if the request is a sucess 
      */
     public boolean deleteSector(Sector sec){
+        assert sec!=null && sec.getName()!=null && !sec.getName().isEmpty() :"Pre condition violated";
         boolean ret = true;
         String name = sec.getName();
         int ret_req;
@@ -162,10 +167,18 @@ public class SectorDAO {
     }
     /**
      * Get sectors from an Account 
-     * @param acc account object 
-     * @return
+     * @pre !acc.getUsername().isEmpty() && !acc.getPassword().isEmpty() && !acc.getName().isEmpty() && !acc.getRight().isEmpty()
+     * && acc.getUsername() != null && acc.getPassword()!= null &&  acc.getName() != null && acc.getRight()!= null: "Pre condition violated"
+     * && acc.getSectors()!=null : "Pre condition violated"
+     * && acc.getSectors().size()>0 && !acc.getContact().isLinkAccount(): "Pre condition violated"
+     * @return list of sectors
      */
     public ArrayList<Sector> getSectorsByAccount(Account acc){
+        assert acc != null : "Pre condition violated";
+        assert !acc.getUsername().isEmpty() && !acc.getPassword().isEmpty() && !acc.getName().isEmpty() && !acc.getRight().isEmpty(): "Pre condition violated";
+        assert acc.getUsername() != null && acc.getPassword()!= null &&  acc.getName() != null && acc.getRight()!= null: "Pre condition violated";
+        assert acc.getSectors()!=null : "Pre condition violated";
+        assert acc.getSectors().size()>0 && !acc.getContact().isLinkAccount(): "Pre condition violated";
         ArrayList<Sector> ret = new ArrayList<>();
         String name;
         String username = acc.getUsername();
@@ -217,10 +230,10 @@ public class SectorDAO {
     /**
      * Get all the contact for one sector 
      * @param sec sector 
-     * @pre sec!=null && sec.getName()!=null
+     * @pre sec!=null && sec.getName()!=null && !sec.getName().isEmpty()
      */
     public void  getContactList(Sector sec){
-        assert(sec!=null && sec.getName()!=null);
+        assert sec!=null && sec.getName()!=null && !sec.getName().isEmpty() :"Pre condition violated";
         String req_selec_sector = "SELECT * FROM Contact_Sector_Asso WHERE sectorName=? ";
         int contactId;
         String sectorId = sec.getName()  ;

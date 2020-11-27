@@ -2,8 +2,6 @@ package controller.DAO;
 import model.*;
 import java.sql.*;
 import java.util.ArrayList;
-
-import com.google.protobuf.BoolValueOrBuilder;
 /**
  * CommentDAO : Class that handle the communication between Comment & the database
  * @author Gurvan.R
@@ -37,11 +35,13 @@ public class CommentDAO {
 
     /**
      * Save a comment in the databse
-     * @pre cmt != null && cmt.getAuthor()!=null && cmt.getConcernedContact()!=null
+     * @pre cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null && cmt.getContent()
      * @param Comment comment
+     * @return true if request is a sucess
      */
     public boolean saveComment(Comment cmt){
-        assert (cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null);
+        assert cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null && cmt.getContent() != null: "Pre condition violated";
+        
         boolean ret=true;
         if (cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null){
             
@@ -90,10 +90,12 @@ public class CommentDAO {
     /**
      * Update a comment in the database
      * @param Comment cmt 
-     * @pre cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null
+     * @pre cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null && cmt.getContent()
+     * @return true if request is a success 
      */
     public boolean updateComment(Comment cmt ){
-        assert (cmt != null);
+        assert cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null && cmt.getContent() != null: "Pre condition violated";
+
         boolean ret =true;
         if (cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null){
             
@@ -148,10 +150,12 @@ public class CommentDAO {
     /**
     * Delete comment in the database
     * @param Comment cmt 
-    * @pre cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null
+    * @pre ccmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null && cmt.getContent()
+    * @return true the request is a sucess
     */
     public boolean deleteComment(Comment cmt){
-        assert(cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null);
+        assert cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null && cmt.getContent() != null: "Pre condition violated";
+
         boolean ret = true;
         if (cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null){
 
@@ -195,17 +199,28 @@ public class CommentDAO {
     /**
      * Get a list of Comments from an author and a contact
      * @return ret list of comments
-     * @pre author != null && contact !=null
+     * @pre cont != null && 
+     * !cont.getName().isEmpty() && !cont.getSurname().isEmpty() && !cont.getRole().isEmpty() && cont.getName()!=null && cont.getSurname()&&
+     * cont.getReferent()!= null && cont.isReserved()|| (cont.getReferent()!= null && !cont.isReserved()) &&
+     * !author.getName().isEmpty() && !author.getSurname().isEmpty() && !author.getRole().isEmpty() && author.getName()!=null && author.getSurname() != null &&
+     * author.getReferent()!= null && author.isReserved()|| (author.getReferent()!= null && !author.isReserved()) && author != null 
      * @post ret != null 
+     * 
      */
-    public Comment getCommentByAuthorAndContact(Contact author,Contact contact){
-        assert(author!=null && contact!=null);
+    public Comment getCommentByAuthorAndContact(Contact author,Contact cont){
+
+        assert cont != null : "Pre condition violated"; 
+        assert !cont.getName().isEmpty() && !cont.getSurname().isEmpty() && !cont.getRole().isEmpty() && cont.getName()!=null && cont.getSurname() != null : "Pre condition violated";
+        assert cont.getReferent()!= null && cont.isReserved()|| (cont.getReferent()!= null && !cont.isReserved()) : "Pre condition violated";
+        assert author != null : "Pre condition violated"; 
+        assert !author.getName().isEmpty() && !author.getSurname().isEmpty() && !author.getRole().isEmpty() && author.getName()!=null && author.getSurname() != null : "Pre condition violated";
+        assert author.getReferent()!= null && author.isReserved()|| (author.getReferent()!= null && !author.isReserved()) : "Pre condition violated";
         Comment ret =null;
-        if (author!=null && contact!=null){
+        if (author!=null && cont!=null){
             
             //Retrieve data from author and contact 
             int author_id = author.getId();
-            int contact_id = contact.getId();
+            int contact_id = cont.getId();
             String content;
             
             //Request to select commments from authorID and contactID 
@@ -226,7 +241,7 @@ public class CommentDAO {
                         content ="";
                     }
                     //Add comment in the list 
-                    ret = new Comment(author,contact,content);
+                    ret = new Comment(author,cont,content);
 
                 }
             }catch (SQLException e) {
