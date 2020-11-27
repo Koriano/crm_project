@@ -55,32 +55,9 @@ public class EntityDAO {
 
             // Request to insert an Entity
             String req_insert ="INSERT INTO Entity(name,address,siret,description,intern_nb,type) VALUES (?,?,?,?,?,?)";
-            // Request to insert the type of an Entity 
-            String req_insert_type ="INSERT INTO Entity_type(name) VALUES (?)";
-            // Request to check if an given entity  type already exist
-            String req_select ="SELECT count(*) FROM Entity_type WHERE UPPER(name)=UPPER(?)";
 
             try {
                 
-            // Forge prepared request
-                PreparedStatement req_select_prep = db.prepareStatement(req_select);
-                req_select_prep.setString(1,type);
-                ResultSet rs = req_select_prep.executeQuery();
-                rs.next();
-                // Get the numne
-                int nb_row = rs.getInt("count(*)");
-                
-                // If type don't already exist in the database 
-                if (nb_row == 0) {
-
-                    // Forge prepared request
-                    PreparedStatement req_insert_prep = db.prepareStatement(req_insert_type);
-
-                    req_insert_prep.setString(1, type);
-                    //Insert Type
-                    req_insert_prep.executeUpdate();
-                }
-
                 // Forge prepared request
                 PreparedStatement req_insertent_prep = db.prepareStatement(req_insert);
                 req_insertent_prep.setString(1,name);
@@ -94,6 +71,7 @@ public class EntityDAO {
                 if (insert==0){
                     ret=false;
                 }
+               
 
 
             }
@@ -134,23 +112,11 @@ public class EntityDAO {
             // Request to update an entity 
             String req_update = "UPDATE Entity set name= ?,address= ? ,siret= ? ,description = ? ,intern_nb= ?,type=? where name = ? ";
             // Request to check if an given entity type already exist 
-            String req_select ="SELECT count(*) FROM Entity_type WHERE name=?";
+          
 
             try {
-                // Forge prepared request
-                PreparedStatement req_select_prep = db.prepareStatement(req_select);
-                req_select_prep.setString(1,type);
-                ResultSet rs = req_select_prep.executeQuery();
-                rs.next();
-                int nb_row = rs.getInt("count(*)");
+                
 
-                if (nb_row==0){
-                    // Forge prepared request
-                    PreparedStatement req_insert_prep = db.prepareStatement(req_select);
-                    req_insert_prep.setString(1, type);
-                    // Insert Type
-                    req_insert_prep.executeQuery();
-                }
                 // Forge prepared request
                 PreparedStatement req_update_prep = this.db.prepareStatement(req_update);
                 req_update_prep.setString(1, name);
@@ -370,7 +336,29 @@ public class EntityDAO {
         assert (ret != null);
         return ret;
     }
+    public ArrayList<String> getAllTypes(){
+        // Request to check if an given entity  type already exist
+        String req_select ="SELECT * FROM Entity_type";
+        String name;
+        ArrayList<String> ret = new ArrayList<String>();
+        try {
 
+            // Forge preapre statement 
+            PreparedStatement req_select_all_prep = this.db.prepareStatement(req_select);
+            ResultSet res = req_select_all_prep.executeQuery();
+            // Get results of the query 
+            while (res.next()){
+                name = res.getString("name");
+                ret.add(name);
+            }
+
+        }catch (SQLException e) {
+            System.out.println(e);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
 
 
     }
