@@ -13,16 +13,9 @@
 </div>
 <span>${requestScope.form.errors['name']}</span>
 
-<div class="form-group pt-3">
-    <label for="password">Mot de passe <span>*</span></label>
-    <input type="password" id="password" name="password" maxlength="100" class="form-control"/>
-</div>
-
-<div class="form-group pt-3">
-    <label for="confirmation">Répétez le mot de passe <span>*</span></label>
-    <input type="password" id="confirmation" name="confirmation" maxlength="100" class="form-control"/>
-</div>
-<span>${requestScope.form.errors['password']}</span>
+<c:if test="${requestScope.action == 'add'}">
+    <c:import url="/WEB-INF/utils/passwordForm.jsp"/>
+</c:if>
 
 <div class="form-group pt-3">
     <label for="right">Type de droit <span>*</span></label>

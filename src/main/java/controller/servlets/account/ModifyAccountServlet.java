@@ -23,6 +23,7 @@ public class ModifyAccountServlet extends HttpServlet {
     private static final String ATT_SECTORS = "sectors";
     private static final String ATT_ACCOUNT = "account";
     private static final String ATT_FORM = "form";
+    private static final String ATT_ACTION = "action";
 
     private static final String VIEW = "/WEB-INF/admin/modifyAccount.jsp";
     private static final String URL_REDIRECT = "/rights";
@@ -46,9 +47,14 @@ public class ModifyAccountServlet extends HttpServlet {
         // Get accountDAO
         AccountDAO accountDAO = AccountDAO.getInstance();
 
+        // Get old account
+        String old_username = req.getParameter(PARAM_USERNAME);
+        Account old_account = accountDAO.getAccountByName(old_username);
+
         // Create form and account
         AccountForm form = new AccountForm();
-        Account modified_account = form.createAccount(req);
+        Account modified_account = form.createAccount(req, "modify");
+        modified_account.setPassword(old_account.getPassword());
 
         // If no error, save account and redirect to rights
         if (form.getErrors().isEmpty()){
@@ -80,5 +86,6 @@ public class ModifyAccountServlet extends HttpServlet {
         req.setAttribute(ATT_RIGHTS, rights);
         req.setAttribute(ATT_CONTACTS, contacts);
         req.setAttribute(ATT_SECTORS, sectors);
+        req.setAttribute(ATT_ACTION, "modify");
     }
 }

@@ -15,7 +15,6 @@
 <body>
     <c:import url="/WEB-INF/utils/menu.jsp"/>
 
-
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-8 col-sm-9 mx-auto pt-5 pb-4">
@@ -129,6 +128,10 @@
                 </c:if>
 
             </div>
+        </div>
+
+        <div>
+            <a href="<c:url value="/home/changePassword"/>"><button type="button">Modifier le mot de passe</button></a>
         </div>
     </div>
 

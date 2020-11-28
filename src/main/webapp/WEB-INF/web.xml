@@ -65,12 +65,20 @@
         <servlet-class>controller.servlets.account.AddAccountServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>AccountProfile</servlet-name>
+        <servlet-class>controller.servlets.account.AccountProfileServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ModifyAccount</servlet-name>
         <servlet-class>controller.servlets.account.ModifyAccountServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DeleteAccount</servlet-name>
         <servlet-class>controller.servlets.account.DeleteAccountServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChangePassword</servlet-name>
+        <servlet-class>controller.servlets.account.ChangePasswordServlet</servlet-class>
     </servlet>
 
     <!-- Sectors -->
@@ -156,12 +164,20 @@
         <url-pattern>/rights/account/add</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>AccountProfile</servlet-name>
+        <url-pattern>/rights/account</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ModifyAccount</servlet-name>
         <url-pattern>/rights/account/modify</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>DeleteAccount</servlet-name>
         <url-pattern>/rights/account/delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangePassword</servlet-name>
+        <url-pattern>/home/changePassword</url-pattern>
     </servlet-mapping>
 
     <!-- Sectors -->

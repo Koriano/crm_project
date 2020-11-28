@@ -11,13 +11,13 @@ import java.util.HashMap;
 public class AccountRightsForm {
     private static final String PARAM_RIGHT = "right";
 
-    private HashMap<String, String> error;
+    private HashMap<String, String> errors;
     private String result;
 
     private AccountDAO accountDAO;
 
     public AccountRightsForm(){
-        this.error = new HashMap<>();
+        this.errors = new HashMap<>();
         this.result = "";
 
         this.accountDAO = AccountDAO.getInstance();
@@ -51,7 +51,7 @@ public class AccountRightsForm {
         }
 
         // Update every account if no error
-        if (this.error.isEmpty()) {
+        if (this.errors.isEmpty()) {
             for (Account acc : modifications.keySet()) {
                 acc.setRight(modifications.get(acc));
                 accountDAO.updateAccount(acc);
@@ -96,12 +96,12 @@ public class AccountRightsForm {
      * @param message the error message
      */
     private void setError(String param, String message){
-        this.error.put(param, message);
+        this.errors.put(param, message);
     }
 
     // GETTER
-    public HashMap<String, String> getError(){
-        return this.error;
+    public HashMap<String, String> getErrors(){
+        return this.errors;
     }
 
     public String getResult(){
