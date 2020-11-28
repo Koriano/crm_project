@@ -54,7 +54,7 @@
 <span>${requestScope.form.errors['contact']}</span>
 
 <div class="form-group">
-    <div class="col justify-content-end" id="sectorsSelects">
+    <div class="col justify-content-end">
         <label for="sectors">Secteurs <span>*</span></label>
         <select id="sectors" name="sectors" class="form-control" multiple>
             <c:forEach var="sector" items="${requestScope.sectors}">
