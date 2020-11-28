@@ -82,6 +82,10 @@
         <servlet-name>AddSector</servlet-name>
         <servlet-class>controller.servlets.sectors.AddSectorServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ModifySector</servlet-name>
+        <servlet-class>controller.servlets.sectors.ModifySectorServlet</servlet-class>
+    </servlet>
 
 
     <!-- Connect and disconnect -->
@@ -164,6 +168,10 @@
     <servlet-mapping>
         <servlet-name>AddSector</servlet-name>
         <url-pattern>/sectors/add</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ModifySector</servlet-name>
+        <url-pattern>/sectors/modify</url-pattern>
     </servlet-mapping>
 
 
