@@ -32,6 +32,7 @@ public class Sector {
      * The constructor of the Sector class
      *
      * @param name : the name of the sector
+     * @param id : the sector id
      *
      * @pre : !name.isEmpty() && name != null
      */
