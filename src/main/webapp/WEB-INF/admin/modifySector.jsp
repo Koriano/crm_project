@@ -18,7 +18,7 @@
 
                         <c:import url="/WEB-INF/utils/sectorForm.jsp"/>
 
-                        <div class="form row justify-content-center">
+                        <div class="form row justify-content-center pt-4">
                             <button type="submit" class="btn btn-primary">Mettre à jour</button>
                         </div>
 
