@@ -15,7 +15,7 @@ public class Contact {
     /**
      * Id of the the contact
      */
-    private final int id;
+    private int id;
 
     /**
      * The contact name
@@ -85,6 +85,7 @@ public class Contact {
      * @param surname : the contact surname
      * @param role : the contact role
      * @param contact : the referent when the contact is reserved
+     * @param id : the contact id
      *
      * @pre !name.isEmpty() && !surname.isEmpty() && !role.isEmpty() && name != null && surname != null
      *  (contact != null && isReserved) || (contact == null && !isReserved)
@@ -530,7 +531,16 @@ public class Contact {
         this.inv();
     }
 
-    //-----------------------------------------------------------------//
+    /**
+     * Set a new contact id
+     *
+     * @param id : the new contact id
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+//-----------------------------------------------------------------//
 
     /**
      * The invariant of the class
