@@ -36,6 +36,7 @@ public class Comment {
      *
      * @param author : the comment author
      * @param concernedContact : the contact who is concerned by the comment
+     * @param id : the comment id
      *
      * @pre author != null & concernedContact != null && content != null
      */

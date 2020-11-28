@@ -10,6 +10,11 @@ package model;
 public class Entity {
 
     /**
+     * The entity id
+     */
+    private int id;
+
+    /**
      * The entity name
      */
     private String name;
@@ -46,6 +51,31 @@ public class Entity {
      * @param name : the entity name
      * @param siret : the siret number
      * @param type : the entity type
+     * @param id : the entity id
+     *
+     * @pre !name.isEmpty() && name != null && siret.length() == 14 && !type.isEmpty() && type != null
+     */
+    public Entity(String name, String siret, String type, int id) {
+        // pre condition
+        assert !name.isEmpty() && name != null && siret.length() == 14 && !type.isEmpty() && type != null : "Pre condition violated";
+
+        this.name = name;
+        this.siret = siret;
+        this.type = type;
+        this.address ="";
+        this.description ="";
+        this.intern_nb = 0;
+        this.id = id;
+
+        this.inv();
+    }
+
+    /**
+     * The constructor of Entity
+     *
+     * @param name : the entity name
+     * @param siret : the siret number
+     * @param type : the entity type
      *
      * @pre !name.isEmpty() && name != null && siret.length() == 14 && !type.isEmpty() && type != null
      */
@@ -59,6 +89,7 @@ public class Entity {
         this.address ="";
         this.description ="";
         this.intern_nb = 0;
+        this.id = 0;
 
         this.inv();
     }
@@ -123,6 +154,16 @@ public class Entity {
     public String getType() {
         this.inv();
         return this.type;
+    }
+
+    /**
+     * Get the id of the entity
+     *
+     * @return the entity id
+     */
+    public int getId() {
+        this.inv();
+        return this.id;
     }
 
     //-----------------------------------------------------------------//
@@ -217,6 +258,14 @@ public class Entity {
         this.inv();
     }
 
+    /**
+     * Set a new entity id
+     *
+     * @param id : the new entity id
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
     //-----------------------------------------------------------------//
 
     /**
