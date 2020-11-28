@@ -38,14 +38,21 @@ public class AccountForm {
         this.sectorDAO = SectorDAO.getInstance();
     }
 
-    public Account createAccount(HttpServletRequest req){
+    public Account createAccount(HttpServletRequest req, String action){
+        // Get parameters
         String username = req.getParameter(PARAM_USERNAME);
         String name = req.getParameter(PARAM_ACCOUNT_NAME);
-        String password = req.getParameter(PARAM_PASSWORD);
-        String confirmation = req.getParameter(PARAM_CONFIRMATION);
         String right = req.getParameter(PARAM_RIGHT);
         String contact_id = req.getParameter(PARAM_CONTACT);
         String[] sectors = req.getParameterValues(PARAM_SECTORS);
+
+        String password = null;
+        // Get password if on add page
+        if ("add".equals(action)){
+            PasswordForm passwordForm = new PasswordForm();
+            password = passwordForm.checkPassword(req);
+            this.errors = passwordForm.getErrors();
+        }
 
         // Check username
         try{
@@ -59,13 +66,6 @@ public class AccountForm {
             nameVerification(name);
         } catch (Exception e){
             setError(PARAM_ACCOUNT_NAME, e.getMessage());
-        }
-
-        // Check password
-        try{
-            passwordVerification(password, confirmation);
-        } catch (Exception e){
-            setError(PARAM_PASSWORD, e.getMessage());
         }
 
         // Check right
@@ -118,16 +118,6 @@ public class AccountForm {
             throw new Exception("Merci de rentrer un nom de compte.");
         } else if(name.trim().length() > 30){
             throw new Exception("Merci de renter un nom de 30 caractères maximum.");
-        }
-    }
-
-    private void passwordVerification(String password, String confirmation) throws Exception{
-        if(password == null || password.isEmpty() || confirmation == null || confirmation.isEmpty()){
-            throw new Exception("Merci de saisir un mot de passe et de le confirmer.");
-        } else if(password.length() > 100){
-            throw new Exception("Merci de saisir un mot de passe de 100 caractères maximum.");
-        } else if(!password.equals(confirmation)){
-            throw new Exception("Les deux mots de passe ne correspondent pas.");
         }
     }
 

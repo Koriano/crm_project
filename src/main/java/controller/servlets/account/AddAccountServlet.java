@@ -22,6 +22,7 @@ public class AddAccountServlet extends HttpServlet {
     private static final String ATT_SECTORS = "sectors";
     private static final String ATT_ACCOUNT = "account";
     private static final String ATT_FORM = "form";
+    private static final String ATT_ACTION = "action";
 
     private static final String VIEW = "/WEB-INF/admin/addAccount.jsp";
     private static final String URL_REDIRECT = "/rights";
@@ -41,10 +42,10 @@ public class AddAccountServlet extends HttpServlet {
 
         // Create form and create account
         AccountForm form = new AccountForm();
-        Account account = form.createAccount(req);
+        Account account = form.createAccount(req, "add");
 
         // If no error, save account and redirect to rights
-        if (form.getErrors().isEmpty()){
+        if (form.getErrors().isEmpty() && account.getPassword() != null){
             accountDAO.saveAccount(account);
             resp.sendRedirect(req.getContextPath() + URL_REDIRECT);
         }
@@ -73,5 +74,6 @@ public class AddAccountServlet extends HttpServlet {
         req.setAttribute(ATT_RIGHTS, rights);
         req.setAttribute(ATT_CONTACTS, contacts);
         req.setAttribute(ATT_SECTORS, sectors);
+        req.setAttribute(ATT_ACTION, "add");
     }
 }

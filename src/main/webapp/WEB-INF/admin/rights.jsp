@@ -35,7 +35,7 @@
                     <a href="${delete_link}"><button type="button">Supprimer</button></a>
                 </div>
             </c:forEach>
-            <span>${requestScope.form.error['right']}</span>
+            <span>${requestScope.form.errors['right']}</span>
 
             <button type="submit">Mettre à jour</button>
             <span>${requestScope.form.result}</span>

@@ -72,6 +72,10 @@
         <servlet-name>DeleteAccount</servlet-name>
         <servlet-class>controller.servlets.account.DeleteAccountServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ChangePassword</servlet-name>
+        <servlet-class>controller.servlets.account.ChangePasswordServlet</servlet-class>
+    </servlet>
 
     <!-- Sectors -->
     <servlet>
@@ -162,6 +166,10 @@
     <servlet-mapping>
         <servlet-name>DeleteAccount</servlet-name>
         <url-pattern>/rights/account/delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangePassword</servlet-name>
+        <url-pattern>/home/changePassword</url-pattern>
     </servlet-mapping>
 
     <!-- Sectors -->
