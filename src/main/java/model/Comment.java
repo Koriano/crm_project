@@ -9,6 +9,12 @@ package model;
  */
 public class Comment {
 
+
+    /**
+     * The comment id
+     */
+    private int id;
+
     /**
      * The content of the comment
      */
@@ -33,6 +39,26 @@ public class Comment {
      *
      * @pre author != null & concernedContact != null && content != null
      */
+    public Comment(Contact author, Contact concernedContact, String content, int id) {
+        // pre condition
+        assert author != null & concernedContact != null && content != null: "Pre condition violated";
+
+        this.author = author;
+        this.concernedContact = concernedContact;
+        this.content = content;
+        this.id = id;
+
+        this.inv();
+    }
+
+    /**
+     * The constructor of Comment
+     *
+     * @param author : the comment author
+     * @param concernedContact : the contact who is concerned by the comment
+     *
+     * @pre author != null & concernedContact != null && content != null
+     */
     public Comment(Contact author, Contact concernedContact, String content) {
         // pre condition
         assert author != null & concernedContact != null && content != null: "Pre condition violated";
@@ -40,6 +66,7 @@ public class Comment {
         this.author = author;
         this.concernedContact = concernedContact;
         this.content = content;
+        this.id = 0;
 
         this.inv();
     }
@@ -74,6 +101,15 @@ public class Comment {
     public Contact getConcernedContact() {
         this.inv();
         return this.concernedContact;
+    }
+
+    /**
+     * Get the comment id
+     *
+     * @return the comment id
+     */
+    public int getId() {
+        return this.id;
     }
 
     //-----------------------------------------------------------------//
@@ -123,6 +159,14 @@ public class Comment {
         this.inv();
     }
 
+    /**
+     * Set a new comment id
+     *
+     * @param id : the new comment id
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
     //-----------------------------------------------------------------//
 
     /**
