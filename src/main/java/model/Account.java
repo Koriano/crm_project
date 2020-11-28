@@ -60,6 +60,7 @@ public class Account {
      * @param right : the account right
      * @param contact : the referent contact
      * @param sectorsList : the sector list of an account
+     * @param id : the account id
      *
      * @pre !username.isEmpty() && !password.isEmpty() && !name.isEmpty() && !right.isEmpty() &&
      * username != null && password != null &&  name != null && right!= null
@@ -191,7 +192,7 @@ public class Account {
      * @return the account id
      */
     public int getId() {
-        return id;
+        return this.id;
     }
 
     //-----------------------------------------------------------------//
