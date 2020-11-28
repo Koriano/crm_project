@@ -86,6 +86,10 @@
         <servlet-name>ModifySector</servlet-name>
         <servlet-class>controller.servlets.sectors.ModifySectorServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeleteSector</servlet-name>
+        <servlet-class>controller.servlets.sectors.DeleteSectorServlet</servlet-class>
+    </servlet>
 
 
     <!-- Connect and disconnect -->
@@ -172,6 +176,10 @@
     <servlet-mapping>
         <servlet-name>ModifySector</servlet-name>
         <url-pattern>/sectors/modify</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteSector</servlet-name>
+        <url-pattern>/sectors/delete</url-pattern>
     </servlet-mapping>
 
 
