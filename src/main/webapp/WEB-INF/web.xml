@@ -65,6 +65,10 @@
         <servlet-class>controller.servlets.account.AddAccountServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>AccountProfile</servlet-name>
+        <servlet-class>controller.servlets.account.AccountProfileServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ModifyAccount</servlet-name>
         <servlet-class>controller.servlets.account.ModifyAccountServlet</servlet-class>
     </servlet>
@@ -158,6 +162,10 @@
     <servlet-mapping>
         <servlet-name>AddAccount</servlet-name>
         <url-pattern>/rights/account/add</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AccountProfile</servlet-name>
+        <url-pattern>/rights/account</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ModifyAccount</servlet-name>
