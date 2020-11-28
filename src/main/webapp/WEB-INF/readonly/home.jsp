@@ -6,6 +6,11 @@
     <title>Home</title>
     <link rel="stylesheet" href="<c:url value="/style/lib/bootstrap.min.css"/>" />
 
+    <style>
+        a:hover {
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
     <c:import url="/WEB-INF/utils/menu.jsp"/>

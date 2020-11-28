@@ -5,7 +5,18 @@
     <meta charset="UTF-8">
     <title>Research</title>
     <link rel="stylesheet" href="<c:url value="/style/lib/bootstrap.min.css"/>" />
+
+    <style>
+        a:hover {
+            text-decoration: none;
+        }
+
+        :focus {
+            outline: 0;
+        }
+    </style>
 </head>
+
 <body>
     <c:import url="/WEB-INF/utils/menu.jsp"/>
 
@@ -56,35 +67,33 @@
 
                                 <!-- Iterating over contacts -->
                                 <c:forEach var="contact" items="${requestScope.contacts}" varStatus="boucle">
-                                    <a href="<c:url value="/research/contact">
-                                        <c:param name="id" value="${contact.id}"/>
-                                    </c:url>">
-                                        <div class="container-fluid pt-4">
+                                    <div class="container-fluid pt-4">
+                                        <a href="<c:url value="/research/contact">
+                                            <c:param name="id" value="${contact.id}"/>
+                                        </c:url>">
+                                                <div class="card">
+                                                    <div class="card-header flex-column">
+                                                        <h4 class="text-secondary"> <b> <c:out value="${contact.name} ${contact.surname}"/> </b> </h4>
+                                                    </div>
 
-                                            <div class="card">
-                                                <div class="card-header flex-column">
-                                                    <h4 class="text-secondary"> <b> <c:out value="${contact.name} ${contact.surname}"/> </b> </h4>
-                                                </div>
+                                                    <div class="card-body ">
+                                                        <div class="d-flex justify-content-between">
+                                                            <div class="col-auto">
+                                                                <p class="text-secondary">
+                                                                    <c:out value="${contact.role}"/>
+                                                                </p>
+                                                            </div>
 
-                                                <div class="card-body ">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div class="col-auto">
-                                                            <p class="text-secondary">
-                                                                <c:out value="${contact.role}"/>
-                                                            </p>
-                                                        </div>
-
-                                                        <div class="col-auto">
-                                                            <p class="text-secondary">
-                                                                <c:out value="${contact.entity.name}"/>
-                                                            </p>
+                                                            <div class="col-auto">
+                                                                <p class="text-secondary">
+                                                                    <c:out value="${contact.entity.name}"/>
+                                                                </p>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </a>
                                         </div>
-
-                                    </a>
                                 </c:forEach>
                             </div>
                         </div>
@@ -108,11 +117,10 @@
 
                                 <!-- Iterating over entities -->
                                 <c:forEach var="entity" items="${requestScope.entities}" varStatus="boucle">
-                                    <a href="<c:url value="/research/entityProfile">
-                                        <c:param name="entity_name" value="${entity.name}"/>
-                                     </c:url>">
-
-                                        <div class="container-fluid pt-4">
+                                    <div class="container-fluid pt-4">
+                                        <a href="<c:url value="/research/entityProfile">
+                                            <c:param name="entity_name" value="${entity.name}"/>
+                                        </c:url>">
 
                                             <div class="card">
                                                 <div class="card-header flex-column">
@@ -128,10 +136,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            </a>
                                         </div>
-
-
-                                    </a>
                                 </c:forEach>
                             </div>
                         </div>
