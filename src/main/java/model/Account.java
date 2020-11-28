@@ -13,6 +13,12 @@ import java.util.ArrayList;
  * && this.name != null  && this.sectorsList.size()>0
  */
 public class Account {
+
+    /**
+     * The account id
+     */
+    private int id;
+
     /**
      * The name of the user
      */
@@ -43,6 +49,44 @@ public class Account {
      */
     private ArrayList<Sector> sectorsList;
 
+
+
+    /**
+     * The constructor of the account classS
+     *
+     * @param username : the name of the user
+     * @param password : the account password
+     * @param name : the account name
+     * @param right : the account right
+     * @param contact : the referent contact
+     * @param sectorsList : the sector list of an account
+     *
+     * @pre !username.isEmpty() && !password.isEmpty() && !name.isEmpty() && !right.isEmpty() &&
+     * username != null && password != null &&  name != null && right!= null
+     * && sectorsList.size()>0 && !contact.isLinkAccount()
+     */
+    public Account(String username, String password, String name, String right, Contact contact, ArrayList<Sector> sectorsList, int id) {
+        // pre condition
+        assert !username.isEmpty() && !password.isEmpty() && !name.isEmpty() && !right.isEmpty(): "Pre condition violated";
+        assert username != null && password != null &&  name != null && right!= null: "Pre condition violated";
+        assert sectorsList.size()>0 && !contact.isLinkAccount(): "Pre condition violated";
+
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.right = right;
+        this.contact = contact;
+        this.sectorsList = sectorsList;
+        this.id = id;
+
+        if (contact != null){
+            this.contact.setLinkAccount(true);
+        }
+
+        this.inv();
+    }
+
+
     /**
      * The constructor of the account classS
      *
@@ -69,6 +113,7 @@ public class Account {
         this.right = right;
         this.contact = contact;
         this.sectorsList = sectorsList;
+        this.id = 0;
 
         if (contact != null){
             this.contact.setLinkAccount(true);
@@ -137,6 +182,16 @@ public class Account {
     public ArrayList<Sector> getSectors() {
         this.inv();
         return sectorsList;
+    }
+
+
+    /**
+     * Get the account id
+     *
+     * @return the account id
+     */
+    public int getId() {
+        return id;
     }
 
     //-----------------------------------------------------------------//
@@ -255,6 +310,16 @@ public class Account {
 
         //post condition
         assert !this.sectorsList.contains(sector) : "Post condition violated";
+    }
+
+
+    /**
+     * Set a new account id
+     *
+     * @param id : the new account id
+     */
+    public void setId(int id) {
+        this.id = id;
     }
 
     //-----------------------------------------------------------------//
