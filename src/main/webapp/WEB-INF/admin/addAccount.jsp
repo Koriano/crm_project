@@ -15,15 +15,11 @@
 
                 <form method="post" action="<c:url value="/rights/account/add"/>">
                     <fieldset>
-
                         <c:import url="/WEB-INF/utils/accountForm.jsp"/>
-
                         <div class="form row justify-content-center">
                             <button type="submit" class="btn btn-primary">Créer compte</button>
                         </div>
-
                         <span>${requestScope.form.result}</span>
-
                     </fieldset>
                 </form>
 
@@ -32,6 +28,7 @@
 
         <div class="col"></div>
     </div>
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="<c:url value="/style/scripts/bootstrap.min.js"/>"></script>
