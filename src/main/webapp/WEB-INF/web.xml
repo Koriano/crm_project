@@ -73,6 +73,12 @@
         <servlet-class>controller.servlets.account.DeleteAccountServlet</servlet-class>
     </servlet>
 
+    <!-- Sectors -->
+    <servlet>
+        <servlet-name>SectorHome</servlet-name>
+        <servlet-class>controller.servlets.sectors.SectorHomeServlet</servlet-class>
+    </servlet>
+
 
     <!-- Connect and disconnect -->
     <servlet-mapping>
@@ -144,6 +150,12 @@
     <servlet-mapping>
         <servlet-name>DeleteAccount</servlet-name>
         <url-pattern>/rights/account/delete</url-pattern>
+    </servlet-mapping>
+
+    <!-- Sectors -->
+    <servlet-mapping>
+        <servlet-name>SectorHome</servlet-name>
+        <url-pattern>/sectors</url-pattern>
     </servlet-mapping>
 
 
