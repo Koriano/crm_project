@@ -11,6 +11,12 @@ import java.util.ArrayList;
  * @inv !name.isEmpty() && name != null && this.contactList != null
  */
 public class Sector {
+
+    /**
+     *  The sector id
+     */
+    private int id;
+
     /**
      * The name of the sector
      */
@@ -29,11 +35,29 @@ public class Sector {
      *
      * @pre : !name.isEmpty() && name != null
      */
+    public Sector(String name, int id) {
+        assert !name.isEmpty() && name != null: "Pre condition violated";
+
+        this.name = name;
+        this.contactList = new ArrayList<Contact>();
+        this.id = id;
+
+        this.inv();
+    }
+
+    /**
+     * The constructor of the Sector class
+     *
+     * @param name : the name of the sector
+     *
+     * @pre : !name.isEmpty() && name != null
+     */
     public Sector(String name) {
         assert !name.isEmpty() && name != null: "Pre condition violated";
 
         this.name = name;
         this.contactList = new ArrayList<Contact>();
+        this.id = 0;
 
         this.inv();
     }
@@ -81,6 +105,15 @@ public class Sector {
         }
 
         return present;
+    }
+
+    /**
+     * Get the sector id
+     *
+     * @return the sector id
+     */
+    public int getId() {
+        return this.id;
     }
 
     //-----------------------------------------------------------------//
@@ -138,6 +171,15 @@ public class Sector {
 
         // post condition
         assert !this.contactList.contains(contact) : "Post condition violated";
+    }
+
+    /**
+     * Set a new sector id
+     *
+     * @param id : the new sector id
+     */
+    public void setId(int id) {
+        this.id = id;
     }
 
     //-----------------------------------------------------------------//
