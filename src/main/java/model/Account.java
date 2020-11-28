@@ -10,9 +10,15 @@ import java.util.ArrayList;
  *
  * @inv !this.username.isEmpty() && !this.password.isEmpty() && !this.name.isEmpty() &&
  * !this.right.isEmpty() && this.username != null && this.password != null
- * && this.name != null && this.contact != null && this.sectorsList.size()>0
+ * && this.name != null  && this.sectorsList.size()>0
  */
 public class Account {
+
+    /**
+     * The account id
+     */
+    private int id;
+
     /**
      * The name of the user
      */
@@ -43,6 +49,45 @@ public class Account {
      */
     private ArrayList<Sector> sectorsList;
 
+
+
+    /**
+     * The constructor of the account classS
+     *
+     * @param username : the name of the user
+     * @param password : the account password
+     * @param name : the account name
+     * @param right : the account right
+     * @param contact : the referent contact
+     * @param sectorsList : the sector list of an account
+     * @param id : the account id
+     *
+     * @pre !username.isEmpty() && !password.isEmpty() && !name.isEmpty() && !right.isEmpty() &&
+     * username != null && password != null &&  name != null && right!= null
+     * && sectorsList.size()>0 && !contact.isLinkAccount()
+     */
+    public Account(String username, String password, String name, String right, Contact contact, ArrayList<Sector> sectorsList, int id) {
+        // pre condition
+        assert !username.isEmpty() && !password.isEmpty() && !name.isEmpty() && !right.isEmpty(): "Pre condition violated";
+        assert username != null && password != null &&  name != null && right!= null: "Pre condition violated";
+        assert sectorsList.size()>0 && !contact.isLinkAccount(): "Pre condition violated";
+
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.right = right;
+        this.contact = contact;
+        this.sectorsList = sectorsList;
+        this.id = id;
+
+        if (contact != null){
+            this.contact.setLinkAccount(true);
+        }
+
+        this.inv();
+    }
+
+
     /**
      * The constructor of the account classS
      *
@@ -55,22 +100,25 @@ public class Account {
      *
      * @pre !username.isEmpty() && !password.isEmpty() && !name.isEmpty() && !right.isEmpty() &&
      * username != null && password != null &&  name != null && right!= null
-     * && contact != null && sectorsList.size()>0 && !contact.isLinkAccount()
+     * && sectorsList.size()>0 && !contact.isLinkAccount()
      */
     public Account(String username, String password, String name, String right, Contact contact, ArrayList<Sector> sectorsList) {
         // pre condition
         assert !username.isEmpty() && !password.isEmpty() && !name.isEmpty() && !right.isEmpty(): "Pre condition violated";
         assert username != null && password != null &&  name != null && right!= null: "Pre condition violated";
-        assert contact != null && sectorsList.size()>0 && !contact.isLinkAccount(): "Pre condition violated";
+        assert sectorsList.size()>0 && !contact.isLinkAccount(): "Pre condition violated";
 
         this.username = username;
         this.password = password;
         this.name = name;
         this.right = right;
         this.contact = contact;
-        this.contact.setLinkAccount(true);
         this.sectorsList = sectorsList;
+        this.id = 0;
 
+        if (contact != null){
+            this.contact.setLinkAccount(true);
+        }
 
         this.inv();
     }
@@ -135,6 +183,16 @@ public class Account {
     public ArrayList<Sector> getSectors() {
         this.inv();
         return sectorsList;
+    }
+
+
+    /**
+     * Get the account id
+     *
+     * @return the account id
+     */
+    public int getId() {
+        return this.id;
     }
 
     //-----------------------------------------------------------------//
@@ -255,6 +313,16 @@ public class Account {
         assert !this.sectorsList.contains(sector) : "Post condition violated";
     }
 
+
+    /**
+     * Set a new account id
+     *
+     * @param id : the new account id
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
     //-----------------------------------------------------------------//
 
     /**
@@ -262,8 +330,8 @@ public class Account {
      */
     private void inv(){
         assert !this.username.isEmpty() && !this.password.isEmpty() && !this.name.isEmpty() && !this.right.isEmpty(): "Invariant violated";
-        assert this.username != null && this.password != null &&  this.name != null : "Invariant violated";
-        assert this.contact != null && this.sectorsList.size()>0 : "Invariant violated";
+        assert this.username != null && this.password != null &&  this.name != null && this.sectorsList.size()>0 : "Invariant violated";
+
     }
 
 }
