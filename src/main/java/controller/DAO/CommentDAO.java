@@ -67,6 +67,7 @@ public class CommentDAO {
 
                 //Insert Comment
                 int insert = req_insertcmt_prep.executeUpdate();
+                
                 if (insert==0){
                     ret=false;
                 }
@@ -100,6 +101,7 @@ public class CommentDAO {
         if (cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null){
             
             // Retrieve data from author and concerned contact
+            int id = cmt.getId();
             int author = cmt.getAuthor().getId();
             int contact= cmt.getConcernedContact().getId();
             String content = cmt.getContent();

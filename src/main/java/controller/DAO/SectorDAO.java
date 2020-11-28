@@ -3,7 +3,6 @@ import model.*;
 import java.sql.*;
 import java.util.ArrayList;
 
-import com.mysql.cj.result.StringValueFactory;
 public class SectorDAO {
      /**
      * Instance of the object
@@ -34,17 +33,26 @@ public class SectorDAO {
      */
     public boolean saveSector(Sector sec){
         assert sec!=null && sec.getName()!=null && !sec.getName().isEmpty() :"Pre condition violated";
+        
         boolean ret = true;
         String name = sec.getName();
         int ret_req;
+        int sector_id =-1;
         String req_insert = "INSERT INTO Sector(name) VALUES(?)";
         ArrayList<Contact> contact_list = sec.getContactList();
+        
         try {
-            PreparedStatement req_insert_prep = this.db.prepareStatement(req_insert);
+            PreparedStatement req_insert_prep = this.db.prepareStatement(req_insert,Statement.RETURN_GENERATED_KEYS);
             req_insert_prep.setString(1,name);
+            System.out.println(name);
             ret_req= req_insert_prep.executeUpdate();
-            if (ret_req>0){
-                    ret =this.saveContactList(contact_list, name);
+            ResultSet rs = req_insert_prep.getGeneratedKeys();
+            if (rs != null && rs.next()) {
+                sector_id = rs.getInt(1);
+            }
+
+            if (ret_req>0 && sector_id !=-1){
+                    ret =this.saveContactList(contact_list,sector_id);
                     
             }
             
@@ -64,19 +72,20 @@ public class SectorDAO {
     public boolean updateSector(Sector sec){
         assert sec!=null && sec.getName()!=null && !sec.getName().isEmpty() :"Pre condition violated";
         boolean ret = true;
+        int id = sec.getId();
         String name = sec.getName();
         int ret_req;
-        String req_update = "UPDATE Sector SET name=? WHERE name=?";
+        String req_update = "UPDATE Sector SET name=? WHERE id=?";
         ArrayList<Contact> contact_list = sec.getContactList();
         try {
             PreparedStatement req_update_prep = this.db.prepareStatement(req_update);
             req_update_prep.setString(1,name);
             //WHERE
-            req_update_prep.setString(2,name);
+            req_update_prep.setInt(2,id);
             ret_req= req_update_prep.executeUpdate();
             if (ret_req>0){
                     
-                    ret=this.deleteContactList(name) && this.saveContactList(contact_list,name);
+                    ret=this.deleteContactList(sec.getId()) && this.saveContactList(contact_list,sec.getId());
                     
                     
             }
@@ -94,15 +103,15 @@ public class SectorDAO {
      * @param sectorId id of the sector 
      * @return true if the request is a sucess 
      */
-    public boolean saveContactList(ArrayList<Contact> list,String sectorId){
-        String req_insert_cont = "INSERT INTO Contact_Sector_Asso(sectorName,contactId) VALUES (?,?)";
+    public boolean saveContactList(ArrayList<Contact> list,int sectorId){
+        String req_insert_cont = "INSERT INTO Contact_Sector_Asso(sectorId,contactId) VALUES (?,?)";
         boolean ret = true;
         try {
             int ret_req;
             for(Contact cont:list){
                     if (cont!=null){
                     PreparedStatement req_insert_prep = this.db.prepareStatement(req_insert_cont);
-                    req_insert_prep.setString(1, sectorId);
+                    req_insert_prep.setInt(1, sectorId);
                     req_insert_prep.setInt(2, cont.getId());
                     
                     ret_req=req_insert_prep.executeUpdate();
@@ -123,14 +132,14 @@ public class SectorDAO {
      * @param sectorId id du sector 
      * @return true if the request is a sucess 
      */
-    public boolean deleteContactList(String sectorId){
+    public boolean deleteContactList(int sectorId){
         String req_delete_sector = "DELETE FROM Contact_Sector_Asso WHERE sectorName=?";
         boolean ret = false;
         try {
             int ret_req;
             
             PreparedStatement req_delete_prep = this.db.prepareStatement(req_delete_sector);
-            req_delete_prep.setString(1, sectorId);
+            req_delete_prep.setInt(1, sectorId);
             ret_req=req_delete_prep.executeUpdate();
             if (ret_req>0){
                 ret=true;
@@ -149,12 +158,12 @@ public class SectorDAO {
     public boolean deleteSector(Sector sec){
         assert sec!=null && sec.getName()!=null && !sec.getName().isEmpty() :"Pre condition violated";
         boolean ret = true;
-        String name = sec.getName();
+        int id = sec.getId();
         int ret_req;
-        String req_delete = "DELETE FROM Sector WHERE name=?";
+        String req_delete = "DELETE FROM Sector WHERE id=?";
         try {
             PreparedStatement req_delete_prep = this.db.prepareStatement(req_delete );
-            req_delete_prep.setString(1,name);
+            req_delete_prep.setInt(1,id);
             ret_req= req_delete_prep.executeUpdate();
             if (ret_req==0){
                 ret=false;
@@ -174,26 +183,30 @@ public class SectorDAO {
      * @return list of sectors
      */
     public ArrayList<Sector> getSectorsByAccount(Account acc){
+
+
         assert acc != null : "Pre condition violated";
         assert !acc.getUsername().isEmpty() && !acc.getPassword().isEmpty() && !acc.getName().isEmpty() && !acc.getRight().isEmpty(): "Pre condition violated";
         assert acc.getUsername() != null && acc.getPassword()!= null &&  acc.getName() != null && acc.getRight()!= null: "Pre condition violated";
         assert acc.getSectors()!=null : "Pre condition violated";
         assert acc.getSectors().size()>0 && !acc.getContact().isLinkAccount(): "Pre condition violated";
         ArrayList<Sector> ret = new ArrayList<>();
+        int id_sector;
         String name;
-        String username = acc.getUsername();
+        int id = acc.getId();
         Sector sec;
-        String req_select = "SELECT sectorName FROM Account_Sector_Asso WHERE accountUsername=? GROUP BY sectorName";
+        String req_select = "SELECT id,name FROM Account_Sector_Asso,Sector WHERE sectorName=id AND accountId=? GROUP BY sectorName";
         
         try {
             PreparedStatement req_select_prep = this.db.prepareStatement(req_select );
-            req_select_prep.setString(1, username);
+            req_select_prep.setInt(1, id);
             req_select_prep.executeQuery();
             ResultSet res = req_select_prep.getResultSet();
             while (res.next()){
 
-                name = res.getString("sectorName");
-                sec = new Sector(name);
+                name = res.getString("name");
+                id_sector = res.getInt("id");
+                sec = new Sector(name,id_sector);
                 this.getContactList(sec);
                 ret.add(sec);
             }
@@ -209,6 +222,7 @@ public class SectorDAO {
     public ArrayList<Sector> getAllSectors(){
         ArrayList<Sector> ret = new ArrayList<>();
         String name;
+        int id_sector;
         String req_select = "SELECT * FROM Sector";
         Sector sec;
         try {
@@ -217,7 +231,8 @@ public class SectorDAO {
             ResultSet res = req_select_prep.getResultSet();
             while (res.next()){
                 name = res.getString("name");
-                sec = new Sector(name);
+                id_sector = res.getInt("id");
+                sec = new Sector(name,id_sector);
                 this.getContactList(sec);
                 ret.add(sec);
             }
@@ -234,14 +249,14 @@ public class SectorDAO {
      */
     public void  getContactList(Sector sec){
         assert sec!=null && sec.getName()!=null && !sec.getName().isEmpty() :"Pre condition violated";
-        String req_selec_sector = "SELECT * FROM Contact_Sector_Asso WHERE sectorName=? ";
+        String req_selec_sector = "SELECT * FROM Contact_Sector_Asso WHERE sectorId=? ";
         int contactId;
-        String sectorId = sec.getName()  ;
+        int sectorId = sec.getId()  ;
         try {
 
             
             PreparedStatement req_selec_prep = this.db.prepareStatement(req_selec_sector);
-            req_selec_prep.setString(1, sectorId);
+            req_selec_prep.setInt(1, sectorId);
             req_selec_prep.executeQuery();
             ResultSet res = req_selec_prep.getResultSet();
             while (res.next()){
