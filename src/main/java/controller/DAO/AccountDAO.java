@@ -141,9 +141,9 @@ public class AccountDAO {
             int ret_req;
         
             for(Sector sector:list){
-                if (sector!=null && sector.getName()!=null){
+                if (sector!=null && sector.getName()!=null && SectorDAO.getInstance().isSectorExist(sector.getName())){
                     PreparedStatement req_insert_prep = this.db.prepareStatement(req_insert_sector); 
-                    req_insert_prep.setString(1, sector.getName());
+                    req_insert_prep.setInt(1, SectorDAO.getInstance().getSectorByName(sector.getName()).getId());
                     req_insert_prep.setInt(2, accountId);
                     ret_req=req_insert_prep.executeUpdate();
                     if (ret_req==0){
@@ -257,6 +257,7 @@ public class AccountDAO {
         Contact contact;
         int contact_id;
         Account acc;
+        int id;
         ArrayList<Sector> sectors = new ArrayList<>();
         String req_select ="SELECT * FROM Account";
         try {
@@ -264,13 +265,14 @@ public class AccountDAO {
             PreparedStatement req_select_prep = this.db.prepareStatement(req_select); 
             ResultSet res = req_select_prep.executeQuery();
             while (res.next()){
+                id = res.getInt("id");
                 username = res.getString("username");
                 name = res.getString("name");
                 password = res.getString("password");
                 right = RightDAO.getInstance().getNameByID(res.getInt("right"));
                 contact_id = res.getInt("contactId");
                 contact = ContactDAO.getInstance().getContactById(contact_id);
-                acc = new Account(username, password, name, right, contact, sectors);
+                acc = new Account(username, password, name, right, contact, sectors,id);
                 sectors = SectorDAO.getInstance().getSectorsByAccount(acc);
                 for (Sector sector : sectors){
                     acc.addSector(sector);

@@ -266,7 +266,7 @@ public class EntityDAO {
     public Entity getEntityById(int id){
         
         assert (id>0);
-
+        
         // Attributes of the table Entity
         String address;
         String siret;
@@ -317,36 +317,21 @@ public class EntityDAO {
     public ArrayList<Entity> getAllEntities(){
         
         // Attributes of the table Entity
-        String name;
-        String adress;
-        String siret;
-        String description;
-        int intern_nb;
-        String type;
-
+        int id ;
+        Entity entity;
         //Request to select all entities 
         String req_select_all= "SELECT * FROM Entity";
         ArrayList<Entity> ret = new ArrayList<Entity>();
         try {
 
-            // Forge preapre statement 
+            // Forge prepapre statement 
             PreparedStatement req_select_all_prep = this.db.prepareStatement(req_select_all);
             ResultSet res = req_select_all_prep.executeQuery();
             // Get results of the query 
             while (res.next()){
-                name = res.getString("name");
-                adress = res.getString("address");
-                siret = res.getString("siret");
-                description = res.getString("description");
-                intern_nb = res.getInt("intern_nb");
-                type = EntityTypeDAO.getInstance().getNameByID(res.getInt("type"));
-
-                // Build Entity Object 
-                Entity entity =  new Entity(name,siret,type);
-                entity.setDescription(description);
-                entity.setAddress(adress);
-                entity.setIntern_nb(intern_nb);
-
+                id = res.getInt("id");
+;               entity =  this.getEntityById(id);
+               
                 ret.add(entity);
 
             }
