@@ -300,4 +300,36 @@ public class SectorDAO {
         return ret;
        
     }
+     /**
+     * Check if a sector exists
+     * @param sec sector 
+     * @pre name!=null
+     * @return ture if the sector exists
+     */
+    public Sector getSectorById(int id_sector){
+        
+        assert id_sector>0;
+        Sector ret =null;
+        String name;
+        String req_select = "SELECT * FROM Sector WHERE id=?";
+        try {
+            PreparedStatement req_select_prep = this.db.prepareStatement(req_select );
+            req_select_prep.setInt(1,id_sector);
+            req_select_prep.executeQuery();
+            ResultSet res = req_select_prep.getResultSet();
+            while (res.next()){
+                name = res.getString("name");
+                id_sector = res.getInt("id");
+                ret = new Sector(name,id_sector);
+                this.getContactList(ret);
+                
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ret;
+       
+       
+    }
 }
