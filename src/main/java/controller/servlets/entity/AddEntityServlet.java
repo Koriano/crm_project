@@ -30,19 +30,19 @@ public class AddEntityServlet extends HttpServlet {
 
         // Create form object and create entity
         EntityForm form = new EntityForm();
-        Entity new_entity = form.createEntity(req);
+        Entity updated_entity = form.createEntity(req);
 
         // Get errors map
         HashMap<String, String> errors = form.getErrors();
 
         if(errors.isEmpty()){
-            // If no error, create the entity and redirect to the entity page
-            entityDAO.saveEntity(new_entity);
-            resp.sendRedirect(req.getContextPath() + "/research/entityProfile?entity_name="+new_entity.getName());
+            // If no error, create the entity and redirect to the research page
+            entityDAO.saveEntity(updated_entity);
+            resp.sendRedirect(req.getContextPath() + "/research");
         } else {
             // Set attributes to request
             this.setFormAttributes(req);
-            req.setAttribute("entity", new_entity);
+            req.setAttribute("entity", updated_entity);
             req.setAttribute("form", form);
             this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
         }
