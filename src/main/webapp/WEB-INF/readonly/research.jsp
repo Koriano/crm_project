@@ -14,14 +14,39 @@
         :focus {
             outline: 0;
         }
+        html,
+        body {
+            margin:0;
+            padding:0;
+            height:100%;
+        }
+        #wrapper {
+            min-height:100%;
+            position:relative;
+        }
+        .body {
+            padding:10px;
+            padding-bottom:60px;   /* Height of the footer */
+        }
+        .footer {
+            position:absolute;
+            bottom:0;
+            width:100%;
+            height:60px;   /* Height of the footer */
+            background:#6cf;
+        }
     </style>
 </head>
 
 <body>
-    <c:import url="/WEB-INF/utils/menu.jsp"/>
+<div id="wrapper">
+    <div class="header">
+        <c:import url="/WEB-INF/utils/menu.jsp"/>
+    </div>
 
 
-    <div class="container">
+
+    <div class="container body">
 
         <div class="row">
             <div class="col-lg-6 col-md-8 col-sm-9 mx-auto pt-5 pb-4">
@@ -83,29 +108,29 @@
                                     <c:if test="${is_visible}">
                                         <div class="container-fluid pt-4">
                                             <a href="<c:url value="/research/contact">
-                                                <c:param name="id" value="${contact.id}"/>
-                                            </c:url>">
-                                                    <div class="card">
-                                                        <div class="card-header flex-column">
-                                                            <h4 class="text-secondary"> <b> <c:out value="${contact.name} ${contact.surname}"/> </b> </h4>
-                                                        </div>
-    
-                                                        <div class="card-body ">
-                                                            <div class="d-flex justify-content-between">
-                                                                <div class="col-auto">
-                                                                    <p class="text-secondary">
-                                                                        <c:out value="${contact.role}"/>
-                                                                    </p>
-                                                                </div>
-    
-                                                                <div class="col-auto">
-                                                                    <p class="text-secondary">
-                                                                        <c:out value="${contact.entity.name}"/>
-                                                                    </p>
-                                                                </div>
+                                                    <c:param name="id" value="${contact.id}"/>
+                                                </c:url>">
+                                                <div class="card">
+                                                    <div class="card-header flex-column">
+                                                        <h4 class="text-secondary"> <b> <c:out value="${contact.name} ${contact.surname}"/> </b> </h4>
+                                                    </div>
+
+                                                    <div class="card-body ">
+                                                        <div class="d-flex justify-content-between">
+                                                            <div class="col-auto">
+                                                                <p class="text-secondary">
+                                                                    <c:out value="${contact.role}"/>
+                                                                </p>
+                                                            </div>
+
+                                                            <div class="col-auto">
+                                                                <p class="text-secondary">
+                                                                    <c:out value="${contact.entity.name}"/>
+                                                                </p>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </div>
                                             </a>
                                         </div>
                                     </c:if>
@@ -134,8 +159,8 @@
                                 <c:forEach var="entity" items="${requestScope.entities}" varStatus="boucle">
                                     <div class="container-fluid pt-4">
                                         <a href="<c:url value="/research/entityProfile">
-                                            <c:param name="entityId" value="${entity.id}"/>
-                                        </c:url>">
+                                                <c:param name="entityId" value="${entity.id}"/>
+                                            </c:url>">
 
                                             <div class="card">
                                                 <div class="card-header flex-column">
@@ -146,27 +171,29 @@
                                                 <div class="card-body ">
                                                     <div class="d-flex justify-content-between">
                                                         <p class="text-secondary">
-                                                        <c:out value="${entity.type}"/>
+                                                            <c:out value="${entity.type}"/>
                                                         </p>
                                                     </div>
                                                 </div>
                                             </div>
-                                            </a>
-                                        </div>
+                                        </a>
+                                    </div>
                                 </c:forEach>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
+    <div class="footer">
+        <c:import url="/WEB-INF/utils/footer.jsp"/>
+    </div>
 
-    <c:import url="/WEB-INF/utils/footer.jsp"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="<c:url value="/style/scripts/bootstrap.min.js"/>"></script>
-    <script src="<c:out value="/js/tabs_script.js"/>"></script>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="<c:url value="/style/scripts/bootstrap.min.js"/>"></script>
+<script src="<c:out value="/js/tabs_script.js"/>"></script>
 </body>
 </html>
