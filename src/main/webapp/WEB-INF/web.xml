@@ -62,6 +62,10 @@
         <servlet-name>ModifyEntity</servlet-name>
         <servlet-class>controller.servlets.entity.ModifyEntityServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeleteEntity</servlet-name>
+        <servlet-class>controller.servlets.entity.DeleteEntityServlet</servlet-class>
+    </servlet>
 
     <!-- Accounts and rights -->
     <servlet>
@@ -130,6 +134,10 @@
     <servlet-mapping>
         <servlet-name>ModifyEntity</servlet-name>
         <url-pattern>/research/entityProfile/modify</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteEntity</servlet-name>
+        <url-pattern>/research/entityProfile/delete</url-pattern>
     </servlet-mapping>
 
     <!-- Accounts and rights -->

@@ -57,7 +57,7 @@
                                 </div>
 
                                 <div class="col-auto">
-                                    <a href="<c:url value="/research/entityProfile/delete"/>">
+                                    <a href="<c:url value="/research/entityProfile/delete"><c:param name="entity_name" value="${requestScope.entity.name}"/></c:url>">
                                         <button class="btn btn-danger">Supprimer l'entité</button>
                                     </a>
                                 </div>
