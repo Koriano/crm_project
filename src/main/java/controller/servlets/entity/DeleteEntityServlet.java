@@ -17,12 +17,23 @@ public class DeleteEntityServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         // Get entityDAO
         EntityDAO entityDAO = EntityDAO.getInstance();
-        Entity entity = entityDAO.getEntityById(Integer.parseInt(req.getParameter("entityId")));
+        Entity entity = null;
+        try{
+            entity = entityDAO.getEntityById(Integer.parseInt(req.getParameter("entityId")));
+        } catch (NumberFormatException e){
+            e.printStackTrace();
+        }
 
-        // Delete entity from DB
-        entityDAO.deleteEntity(entity);
+        if (entity == null) {
+            resp.sendRedirect(req.getContextPath() + URL_REDIRECT_FAIL);
 
-        resp.sendRedirect(req.getContextPath() + URL_REDIRECT_SUCCESS);
+        } else {
+            // Delete entity from DB
+            entityDAO.deleteEntity(entity);
+
+            resp.sendRedirect(req.getContextPath() + URL_REDIRECT_SUCCESS);
+        }
+
     }
 
     @Override

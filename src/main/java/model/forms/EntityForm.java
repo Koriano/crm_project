@@ -28,6 +28,12 @@ public class EntityForm {
 
     public Entity createEntity(HttpServletRequest req){
         // Get parameter from request
+        int id = -1;
+        try {
+            id = Integer.parseInt(req.getParameter("entityId"));
+        } catch (NumberFormatException e){
+            e.printStackTrace();
+        }
         String name = req.getParameter(PARAM_NAME);
         String type = req.getParameter(PARAM_TYPE);
         String siret = req.getParameter(PARAM_SIRET);
@@ -85,6 +91,9 @@ public class EntityForm {
             entity.setIntern_nb(0);
         }
         entity.setDescription(description);
+        if (id != -1) {
+            entity.setId(id);
+        }
 
         this.result = this.errors.isEmpty();
 

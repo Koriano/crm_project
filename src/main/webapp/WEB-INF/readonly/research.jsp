@@ -134,7 +134,7 @@
                                 <c:forEach var="entity" items="${requestScope.entities}" varStatus="boucle">
                                     <div class="container-fluid pt-4">
                                         <a href="<c:url value="/research/entityProfile">
-                                            <c:param name="entity_name" value="${entity.name}"/>
+                                            <c:param name="entityId" value="${entity.id}"/>
                                         </c:url>">
 
                                             <div class="card">

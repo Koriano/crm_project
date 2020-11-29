@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
 
 public class ModifyEntityServlet extends HttpServlet {
@@ -20,9 +22,9 @@ public class ModifyEntityServlet extends HttpServlet {
         // Get DAO instance
         EntityDAO entityDAO = EntityDAO.getInstance();
 
-        int entityId = Integer.parseInt(req.getParameter("entityId"));
 
         try {
+            int entityId = Integer.parseInt(req.getParameter("entityId"));
             // Create create entity
             Entity entity = entityDAO.getEntityById(entityId);
 
@@ -52,7 +54,7 @@ public class ModifyEntityServlet extends HttpServlet {
         if(errors.isEmpty()){
             // If no error, update the entity and redirect to the entity page
             entityDAO.updateEntity(updated_entity);
-            resp.sendRedirect(req.getContextPath() + "/research/entityProfile?entity_name="+updated_entity.getName());
+            resp.sendRedirect(req.getContextPath() + "/research/entityProfile?entityId="+updated_entity.getId());
         } else {
             // Set attributes to request
             this.setFormAttributes(req);

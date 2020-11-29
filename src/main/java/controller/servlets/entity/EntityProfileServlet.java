@@ -10,20 +10,27 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class EntityProfileServlet extends HttpServlet {
-    private static final String ATT_ENTITY = "entity";
-
     private static final String VIEW = "/WEB-INF/readonly/entityProfile.jsp";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Initialize entity DAO
         EntityDAO entityDAO = EntityDAO.getInstance();
-//        Entity entity = entityDAO.getEntityByName(req.getParameter("entity_name"));
 
-        // Set entity as request attribute
-//        req.setAttribute(ATT_ENTITY, entity);
+        Entity entity = null;
+        try{
+            entity = entityDAO.getEntityById(Integer.parseInt(req.getParameter("entityId")));
+        } catch (NumberFormatException e){
+            e.printStackTrace();
+        }
 
-        this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
+        if (entity == null) {
+            resp.sendRedirect(req.getContextPath() + "/research");
+        } else {
+            req.setAttribute("entity", entity);
+            this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
+        }
+
     }
 
     @Override

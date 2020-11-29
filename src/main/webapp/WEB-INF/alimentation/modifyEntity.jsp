@@ -14,8 +14,10 @@
 
     <div class="col pt-3">
         <div class="container-md pt-3 pb-3">
-
-            <form method="post" action="<c:url value="/research/entityProfile/modify"/>">
+            <c:url var="form_link" value="/research/entityProfile/modify">
+                <c:param name="entityId" value="${requestScope.entity.id}"/>
+            </c:url>
+            <form method="post" action="${form_link}">
                 <fieldset>
 
                     <c:import url="/WEB-INF/utils/entityForm.jsp"/>

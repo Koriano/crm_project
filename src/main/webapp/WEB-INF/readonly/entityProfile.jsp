@@ -51,13 +51,13 @@
                         <c:if test="${right == 'Alimentation CRM' or right == 'Administrateur'}">
                             <div class="row">
                                 <div class="col-auto">
-                                    <a href="<c:url value="/research/entityProfile/modify"><c:param name="entity_name" value="${requestScope.entity.name}"/></c:url>">
+                                    <a href="<c:url value="/research/entityProfile/modify"><c:param name="entityId" value="${requestScope.entity.id}"/></c:url>">
                                         <button class="btn btn-primary ">Modifier l'entité</button>
                                     </a>
                                 </div>
 
                                 <div class="col-auto">
-                                    <a href="<c:url value="/research/entityProfile/delete"><c:param name="entity_name" value="${requestScope.entity.name}"/></c:url>">
+                                    <a href="<c:url value="/research/entityProfile/delete"><c:param name="entityId" value="${requestScope.entity.id}"/></c:url>">
                                         <button class="btn btn-danger">Supprimer l'entité</button>
                                     </a>
                                 </div>
