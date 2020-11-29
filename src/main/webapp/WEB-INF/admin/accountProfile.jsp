@@ -21,11 +21,9 @@
         <c:param name="id" value="${requestScope.account.id}"/>
     </c:url>
 
-    <div class="row">
-        <div class="col"></div>
-
-        <div class="col pt-4">
-            <div class="container-lg pt-3 pb-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 col-md-7 col-lg-5 mx-auto pt-5">
 
                 <div class="card">
 
