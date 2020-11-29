@@ -34,10 +34,16 @@ public class EntityDAO {
         }
         return instance;
     }
-
+    /**
+     * Save an entity in the database 
+     * @param ent != null &&
+     * !ent.getName().isEmpty() && ent.getName() != null && ent.getSiret().length() == 14 && ent.getType().isEmpty() && ent.getType() != null
+     * @return true if resquest sucess 
+     */
     public boolean saveEntity(Entity ent){
 
         assert (ent != null);
+        assert !ent.getName().isEmpty() && ent.getName() != null && ent.getSiret().length() == 14 && ent.getType().isEmpty() && ent.getType() != null : "Pre condition violated";
         boolean ret=true;
         if (ent!=null){ 
             // Retrieve data from entity
@@ -46,7 +52,7 @@ public class EntityDAO {
             String siret = ent.getSiret();
             String description = ent.getDescription();
             int intern_nb = ent.getIntern_nb();
-            String type = ent.getType();
+            int type = EntityTypeDAO.getInstance().getTypeByName( ent.getType());
 
             // Check if description is null 
             if(description == null){
@@ -55,45 +61,25 @@ public class EntityDAO {
 
             // Request to insert an Entity
             String req_insert ="INSERT INTO Entity(name,address,siret,description,intern_nb,type) VALUES (?,?,?,?,?,?)";
-            // Request to insert the type of an Entity 
-            String req_insert_type ="INSERT INTO Entity_type(name) VALUES (?)";
-            // Request to check if an given entity  type already exist
-            String req_select ="SELECT count(*) FROM Entity_type WHERE UPPER(name)=UPPER(?)";
 
             try {
-                
-            // Forge prepared request
-                PreparedStatement req_select_prep = db.prepareStatement(req_select);
-                req_select_prep.setString(1,type);
-                ResultSet rs = req_select_prep.executeQuery();
-                rs.next();
-                // Get the numne
-                int nb_row = rs.getInt("count(*)");
-                
-                // If type don't already exist in the database 
-                if (nb_row == 0) {
-
-                    // Forge prepared request
-                    PreparedStatement req_insert_prep = db.prepareStatement(req_insert_type);
-
-                    req_insert_prep.setString(1, type);
-                    //Insert Type
-                    req_insert_prep.executeUpdate();
+                if (type ==-1){
+                    throw new Exception("Invalid value for Type: "+ent.getType());
                 }
-
                 // Forge prepared request
-                PreparedStatement req_insertent_prep = db.prepareStatement(req_insert);
+                PreparedStatement req_insertent_prep = db.prepareStatement(req_insert,Statement.RETURN_GENERATED_KEYS);
                 req_insertent_prep.setString(1,name);
                 req_insertent_prep.setString(2,address);
                 req_insertent_prep.setString(3,siret);
                 req_insertent_prep.setString(4,description);
                 req_insertent_prep.setInt(5,intern_nb);
-                req_insertent_prep.setString(6,type);
+                req_insertent_prep.setInt(6,type);
                 // Insert Entity 
                 int insert = req_insertent_prep.executeUpdate();
                 if (insert==0){
                     ret=false;
                 }
+               
 
 
             }
@@ -115,42 +101,37 @@ public class EntityDAO {
     /**
     * Update the entity in the database
     * @param  ent entity object
-    * @pre ent != null
+    * @pre ent != null &&
+    * !ent.getName().isEmpty() && ent.getName() != null && ent.getSiret().length() == 14 && ent.getType().isEmpty() && ent.getType() != null
     */
     public boolean updateEntity(Entity ent) {
 
         assert (ent != null);
+        assert !ent.getName().isEmpty() && ent.getName() != null && ent.getSiret().length() == 14 && ent.getType().isEmpty() && ent.getType() != null : "Pre condition violated";
+
         boolean ret= true;
-        if (ent!=null){ 
+        if (ent!=null){
+
             // Retrieve data from entity
+            
             String name = ent.getName();
             String address = ent.getAddress();
             String siret = ent.getSiret();
             String description = ent.getDescription();
             int intern_nb = ent.getIntern_nb();
-            String type = ent.getType();
+            int type = EntityTypeDAO.getInstance().getTypeByName( ent.getType());
             
         
             // Request to update an entity 
             String req_update = "UPDATE Entity set name= ?,address= ? ,siret= ? ,description = ? ,intern_nb= ?,type=? where name = ? ";
             // Request to check if an given entity type already exist 
-            String req_select ="SELECT count(*) FROM Entity_type WHERE name=?";
+          
 
             try {
-                // Forge prepared request
-                PreparedStatement req_select_prep = db.prepareStatement(req_select);
-                req_select_prep.setString(1,type);
-                ResultSet rs = req_select_prep.executeQuery();
-                rs.next();
-                int nb_row = rs.getInt("count(*)");
-
-                if (nb_row==0){
-                    // Forge prepared request
-                    PreparedStatement req_insert_prep = db.prepareStatement(req_select);
-                    req_insert_prep.setString(1, type);
-                    // Insert Type
-                    req_insert_prep.executeQuery();
+                  if (type ==-1){
+                    throw new Exception("Invalid value for Type: "+ent.getType());
                 }
+                
                 // Forge prepared request
                 PreparedStatement req_update_prep = this.db.prepareStatement(req_update);
                 req_update_prep.setString(1, name);
@@ -158,7 +139,7 @@ public class EntityDAO {
                 req_update_prep.setString(3,siret);
                 req_update_prep.setString(4,description);
                 req_update_prep.setInt(5,intern_nb);
-                req_update_prep.setString(6,type);
+                req_update_prep.setInt(6,type);
                 //WHERE parameter
                 req_update_prep.setString(7, name);
                 // Update Entity   
@@ -188,23 +169,26 @@ public class EntityDAO {
     /**
      * Delete the entity in the database
      * @param  ent entity object
-     * @pre ent != null
+     * @pre ent != null && 
+     * !ent.getName().isEmpty() && ent.getName() != null && ent.getSiret().length() == 14 && ent.getType().isEmpty() && ent.getType() != null
      */
     public boolean deleteEntity(Entity ent){
+        
+        assert (ent!=null);
+        assert !ent.getName().isEmpty() && ent.getName() != null && ent.getSiret().length() == 14 && ent.getType().isEmpty() && ent.getType() != null : "Pre condition violated";
 
-        assert(ent!=null);
         boolean ret = true;
         if (ent !=null && ent.getName()!=null){
             // Retrieve Primary Key
-            String name = ent.getName();
+            int id = ent.getId();
             // Request to delete a given Entity
-            String req_delete_entity = "DELETE FROM Entity where name=?";
+            String req_delete_entity = "DELETE FROM Entity where id=?";
 
             try {
 
                 //Forge prepared statement
                 PreparedStatement req_delete_entity_prep = this.db.prepareStatement(req_delete_entity );
-                req_delete_entity_prep.setString(1,name);
+                req_delete_entity_prep.setInt(1,id);
                 // Delete entity
                 int insert=req_delete_entity_prep.executeUpdate();
                 if (insert==0){
@@ -231,16 +215,21 @@ public class EntityDAO {
     /**
      * Get an entity by his contact
      * @param  name name of the entity
-     * @pre contact != null
+     * @pre contact != null &&
+     * cont.getName().isEmpty() && !cont.getSurname().isEmpty() && !cont.getRole().isEmpty() && cont.getName()!=null && cont.getSurname() != null
+     * cont.getReferent()!= null && cont.isReserved()|| (cont.getReferent()!= null && !cont.isReserved())
      */
-    public Entity getEntityByContact(Contact contact) {
+    public Entity getEntityByContact(Contact cont) {
        
-        assert(contact!=null);
+        assert (cont != null); 
+        assert !cont.getName().isEmpty() && !cont.getSurname().isEmpty() && !cont.getRole().isEmpty() && cont.getName()!=null && cont.getSurname() != null: "Pre condition violated";
+        assert  cont.getReferent()!= null && cont.isReserved()|| (cont.getReferent()!= null && !cont.isReserved()) : "Pre condition violated";
+        int entity_id=-1;
         //Data
         Entity ret = null;
-        if (contact != null){
-            int id = contact.getId();
-            String entity_name = null;
+        if (cont != null){
+            int id = cont.getId();
+           
         
             // Request to select the entity of a contact 
             String req_select= "SELECT entity FROM Contact WHERE id = ?";
@@ -251,7 +240,7 @@ public class EntityDAO {
                 req_select_prep.setInt(1,id);
                 ResultSet res = req_select_prep.executeQuery();
                 while (res.next()){
-                    entity_name=res.getString("entity");
+                    entity_id=res.getInt("entity");
                 }
             } catch (SQLException e) {
                 System.out.println(e);
@@ -259,8 +248,8 @@ public class EntityDAO {
                 e.printStackTrace();
             }
             // If the contact got an entity 
-            if (entity_name!=null){
-                ret = this.getEntityByName(entity_name);
+            if (entity_id!=-1){
+                ret = this.getEntityById(entity_id);
             }
         }
         else{
@@ -274,9 +263,9 @@ public class EntityDAO {
      * @param  name name of the entity
      * @pre name != null
      */
-    public Entity getEntityByName(String name){
+    public Entity getEntityById(int id){
         
-        assert(name!=null);
+        assert (id>0);
 
         // Attributes of the table Entity
         String address;
@@ -284,15 +273,15 @@ public class EntityDAO {
         String description;
         int intern_nb;
         String type;
-
+        String name;
         //Request to select a given entity
-        String req_select= "SELECT * FROM Entity WHERE name = ?";
+        String req_select= "SELECT * FROM Entity WHERE id = ?";
         Entity ret = null;
         try {
 
             // Forge Entity
             PreparedStatement req_select_prep = this.db.prepareStatement(req_select);
-            req_select_prep.setString(1,name);
+            req_select_prep.setInt(1,id);
             ResultSet res = req_select_prep.executeQuery();
             // Retrieve results of the query 
             
@@ -306,7 +295,7 @@ public class EntityDAO {
                 type = res.getString("type");
                 
                 // Build Entity object from result 
-                Entity entity =  new Entity(name,siret,type);
+                Entity entity =  new Entity(name,siret,type,id);
                 entity.setDescription(description);
                 entity.setAddress(address);
                 entity.setIntern_nb(intern_nb);
@@ -370,7 +359,11 @@ public class EntityDAO {
         assert (ret != null);
         return ret;
     }
-
-
-
+    /**
+     * Get the list of types in the database 
+     * @return the list of types in the database 
+     */
+    public ArrayList<String> getAllTypes(){
+        return EntityTypeDAO.getInstance().getAllTypes();
     }
+}
