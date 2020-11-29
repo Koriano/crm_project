@@ -17,7 +17,7 @@ public class RoleDAO {
     /**
      * Get the instance of the DAO class
      *
-     * @return unique instance of EntityDAO
+     * @return unique instance of RoleDAO
      */
     public static RoleDAO getInstance() {
         if (instance == null) {
@@ -46,9 +46,14 @@ public class RoleDAO {
         }
         return ret;
     }
+    /**
+     *  Get role by Name 
+     * @param name name of the role 
+     * @return  id 
+     */
     public int getRoleByName(String name){
         int ret =-1; 
-        String req_select_roles = "SELECT * FROM Contact_role WHERE id=?";
+        String req_select_roles = "SELECT * FROM Contact_role WHERE name=?";
         try {
             PreparedStatement  req_select_roles_prep = this.db.prepareStatement( req_select_roles);
             req_select_roles_prep.setString(1,name);
@@ -62,5 +67,31 @@ public class RoleDAO {
         }
         return ret;
     }
+    /**
+     * Get right by id 
+     * @param id id of the right
+     * @return type string 
+     */
+    public String getNameByID(int id){
+        // Request to check if an given entity  type already exist
+       String req_select ="SELECT * FROM Contact_role WHERE id=?";
+       String ret="";
+        try {
 
+            // Forge preapre statement 
+            PreparedStatement req_select_all_prep = this.db.prepareStatement(req_select);
+            req_select_all_prep.setInt(1, id);
+            ResultSet res = req_select_all_prep.executeQuery();
+            // Get results of the query 
+            while (res.next()){
+                ret = res.getString("name");
+                
+            }
+        }catch (SQLException e) {
+            System.out.println(e);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
 }

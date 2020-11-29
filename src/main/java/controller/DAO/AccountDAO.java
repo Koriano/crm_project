@@ -304,7 +304,7 @@ public class AccountDAO {
                 username = res.getString("username");
                 name = res.getString("name");
                 password = res.getString("password");
-                right = res.getString("right");
+                right = RightDAO.getInstance().getNameByID(res.getInt("right"));
                 contact_id = res.getInt("contactId");
                 contact = ContactDAO.getInstance().getContactById(contact_id);
                 id_acc = res.getInt("id");
@@ -345,7 +345,7 @@ public class AccountDAO {
                 username = res.getString("username");
                 name = res.getString("name");
                 password = res.getString("password");
-                right = res.getString("right");
+                right = RightDAO.getInstance().getNameByID(res.getInt("right"));
                 contact_id = res.getInt("contactId");
                 contact = ContactDAO.getInstance().getContactById(contact_id);
                 

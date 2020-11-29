@@ -385,7 +385,7 @@ public class ContactDAO {
                 surname = res.getString("cont.surname");
                 address = res.getString("cont.address");
                 reserved = res.getBoolean("cont.reserved");
-                role = res.getString("cont.role");
+                role = RoleDAO.getInstance().getNameByID(res.getInt("cont.role")) ;
                 refId = res.getInt("cont.referent");
                 entity = res.getInt("cont.entity");
                
@@ -444,7 +444,7 @@ public class ContactDAO {
                 surname = res.getString("cont.surname");
                 address = res.getString("cont.address");
                 reserved = res.getBoolean("cont.reserved");
-                role = res.getString("cont.role");
+                role = RoleDAO.getInstance().getNameByID(res.getInt("cont.role"));
                 refId = res.getInt("cont.referent");
                 entity = res.getInt("cont.entity");
     
@@ -500,7 +500,7 @@ public class ContactDAO {
                 surname = res.getString("surname");
                 address = res.getString("address");
                 reserved = res.getBoolean("reserved");
-                role = res.getString("role");
+                role = RoleDAO.getInstance().getNameByID(res.getInt("role")) ;
                 refId = res.getInt("referent");
                 entity= res.getInt("entity");
                 Contact ref = null;
@@ -553,7 +553,7 @@ public class ContactDAO {
                 surname = res.getString("surname");
                 address = res.getString("address");
                 reserved = res.getBoolean("reserved");
-                role = res.getString("role");
+                role = RoleDAO.getInstance().getNameByID(res.getInt("role")) ;
                 refId = res.getInt("referent");
                 entity = res.getInt("entity");
                 Contact ref = null;
@@ -604,7 +604,7 @@ public class ContactDAO {
                 surname = res.getString("surname");
                 address = res.getString("address");
                 reserved = res.getBoolean("reserved");
-                role = res.getString("role");
+                role = RoleDAO.getInstance().getNameByID(res.getInt("role")) ;
                 refId = res.getInt("referent");
                 entity = res.getInt("entity");
                 ref = null;
@@ -697,7 +697,7 @@ public class ContactDAO {
                 surname = res.getString("surname");
                 address = res.getString("address");
                 reserved = res.getBoolean("reserved");
-                role = res.getString("role");
+                role = RoleDAO.getInstance().getNameByID(res.getInt("role")) ;
                 refId = res.getInt("referent");
                 entity = res.getInt("entity");
                 Contact referent = null;

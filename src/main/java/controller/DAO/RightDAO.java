@@ -17,7 +17,7 @@ public class RightDAO {
     /**
      * Get the instance of the DAO class
      *
-     * @return unique instance of EntityDAO
+     * @return unique instance of Right
      */
     public static RightDAO getInstance() {
         if (instance == null) {
@@ -46,9 +46,10 @@ public class RightDAO {
         }
         return ret;
     }
-     /**
-     * Get the list of rights 
-     * @return list of rights 
+    /**
+     * Get right by Name
+     * @param name name of the right
+     * @return id 
      */
     public int  getRightByName(String  name){
         int ret =-1;
@@ -62,6 +63,33 @@ public class RightDAO {
             }
         }
         catch (Exception e){
+            e.printStackTrace();
+        }
+        return ret;
+    }
+    /**
+     * Get right by id 
+     * @param id id of the right
+     * @return type string 
+     */
+    public String getNameByID(int id){
+        // Request to check if an given entity  type already exist
+       String req_select ="SELECT * FROM `Right` WHERE id=?";
+       String ret="";
+        try {
+
+            // Forge preapre statement 
+            PreparedStatement req_select_all_prep = this.db.prepareStatement(req_select);
+            req_select_all_prep.setInt(1, id);
+            ResultSet res = req_select_all_prep.executeQuery();
+            // Get results of the query 
+            while (res.next()){
+                ret = res.getString("name");
+                
+            }
+        }catch (SQLException e) {
+            System.out.println(e);
+        }catch (Exception e) {
             e.printStackTrace();
         }
         return ret;
