@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class AccountProfileServlet extends HttpServlet {
-    private static final String PARAM_USERNAME = "username";
+    private static final String PARAM_ACCOUNT_ID = "id";
 
     private static final String ATT_ACCOUNT = "account";
 
@@ -32,18 +32,23 @@ public class AccountProfileServlet extends HttpServlet {
         AccountDAO accountDAO = AccountDAO.getInstance();
 
         // Get parameter and corresponding account
-        String username = req.getParameter(PARAM_USERNAME);
-        Account account = accountDAO.getAccountByName(username);
+        String id = req.getParameter(PARAM_ACCOUNT_ID);
 
-        // If account doesn't exist, redirect to account home page
-        if(account == null){
+        try{
+            Account account = accountDAO.getAccountById(Integer.parseInt(id));
+
+            // If account doesn't exist, redirect to account home page
+            if(account == null){
+                resp.sendRedirect(req.getContextPath() + URL_REDIRECT);
+            }
+            // If account exists, set it as attribute and forward the request
+            else {
+                req.setAttribute(ATT_ACCOUNT, account);
+
+                this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
+            }
+        } catch (Exception e){
             resp.sendRedirect(req.getContextPath() + URL_REDIRECT);
-        }
-        // If account exists, set it as attribute and forward the request
-        else {
-            req.setAttribute(ATT_ACCOUNT, account);
-
-            this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
         }
     }
 }

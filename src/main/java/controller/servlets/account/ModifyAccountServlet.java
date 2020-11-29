@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ModifyAccountServlet extends HttpServlet {
-    private static final String PARAM_USERNAME = "username";
+    private static final String PARAM_ACCOUNT_ID = "id";
 
     private static final String ATT_RIGHTS = "rights";
     private static final String ATT_CONTACTS = "contacts";
@@ -32,14 +32,20 @@ public class ModifyAccountServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Get account to be modified
         AccountDAO accountDAO = AccountDAO.getInstance();
-        String username = req.getParameter(PARAM_USERNAME);
-        Account account = accountDAO.getAccountByName(username);
+        String id = req.getParameter(PARAM_ACCOUNT_ID);
 
-        // Set request parameter
-        req.setAttribute(ATT_ACCOUNT, account);
-        this.setRequestAttributes(req);
+        try{
+            Account account = accountDAO.getAccountById(Integer.parseInt(id));
 
-        this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
+            // Set request parameter
+            req.setAttribute(ATT_ACCOUNT, account);
+            this.setRequestAttributes(req);
+
+            this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
+
+        } catch (Exception e) {
+            resp.sendRedirect(req.getContextPath() + URL_REDIRECT);
+        }
     }
 
     @Override
@@ -48,26 +54,31 @@ public class ModifyAccountServlet extends HttpServlet {
         AccountDAO accountDAO = AccountDAO.getInstance();
 
         // Get old account
-        String old_username = req.getParameter(PARAM_USERNAME);
-        Account old_account = accountDAO.getAccountByName(old_username);
+        String old_id = req.getParameter(PARAM_ACCOUNT_ID);
 
-        // Create form and account
-        AccountForm form = new AccountForm();
-        Account modified_account = form.createAccount(req, "modify");
-        modified_account.setPassword(old_account.getPassword());
+        try{
+            Account old_account = accountDAO.getAccountById(Integer.parseInt(old_id));
 
-        // If no error, save account and redirect to rights
-        if (form.getErrors().isEmpty()){
-            accountDAO.updateAccount(modified_account);
+            // Create form and account
+            AccountForm form = new AccountForm();
+            Account modified_account = form.createAccount(req, "modify");
+            modified_account.setPassword(old_account.getPassword());
+
+            // If no error, save account and redirect to rights
+            if (form.getErrors().isEmpty()){
+                accountDAO.updateAccount(modified_account);
+                resp.sendRedirect(req.getContextPath() + URL_REDIRECT);
+            }
+            // If errors, forward to view with form
+            else {
+                req.setAttribute(ATT_ACCOUNT, modified_account);
+                req.setAttribute(ATT_FORM, form);
+                this.setRequestAttributes(req);
+
+                this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
+            }
+        } catch (Exception e){
             resp.sendRedirect(req.getContextPath() + URL_REDIRECT);
-        }
-        // If errors, forward to view with form
-        else {
-            req.setAttribute(ATT_ACCOUNT, modified_account);
-            req.setAttribute(ATT_FORM, form);
-            this.setRequestAttributes(req);
-
-            this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
         }
     }
 

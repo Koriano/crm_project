@@ -29,12 +29,17 @@ public class ContactDAO {
     /**
      * Save the contact
      * @param  cont contact object
-     * @pre cont != null
+     * @pre cont != null &&
+     * !cont.getName().isEmpty() && !cont.getSurname().isEmpty() && !cont.getRole().isEmpty() && cont.getName()!=null && cont.getSurname() != null &&
+     * cont.getReferent()!= null && cont.isReserved()|| (cont.getReferent()!= null && !cont.isReserved()) 
      * @return true if request is a success
      */
     public boolean saveContact(Contact cont){
 
-        assert (cont != null);
+        assert cont != null : "Pre condition violated"; 
+        assert !cont.getName().isEmpty() && !cont.getSurname().isEmpty() && !cont.getRole().isEmpty() && cont.getName()!=null && cont.getSurname() != null : "Pre condition violated";
+        assert cont.getReferent()!= null && cont.isReserved()|| (cont.getReferent()!= null && !cont.isReserved()) : "Pre condition violated";
+
         // Get Data from cont
         boolean ret = true; 
         int contact_id = -1;
@@ -44,7 +49,7 @@ public class ContactDAO {
         ArrayList<String> phone = cont.getPhonesList();
         ArrayList<String> mail = cont.getMailsList();
         boolean reserved = cont.isReserved();
-        String role = cont.getRole();
+        int role = RoleDAO.getInstance().getRoleByName(cont.getRole());
         Entity entity = cont.getEntity();
         String entityname = null;
         int referent=-1;
@@ -61,14 +66,16 @@ public class ContactDAO {
         String req_add ="INSERT INTO Contact(name,surname,address,role,entity) VALUES (?,?,?,?,?)";
        
         try {
-            
+            if (role==-1){
+                throw new Exception("Invalid Role: "+cont.getRole());
+            }
             PreparedStatement req_add_prep =null;
             if (reserved){
                 req_add_prep = this.db.prepareStatement(req_add_reserved,Statement.RETURN_GENERATED_KEYS);
                 req_add_prep.setString(1,name);
                 req_add_prep.setString(2,surname);
                 req_add_prep.setString(3,address);
-                req_add_prep.setString(4,role);
+                req_add_prep.setInt(4,role);
                 req_add_prep.setInt(5,referent);
                 req_add_prep.setString(6,entityname);
             }
@@ -77,7 +84,7 @@ public class ContactDAO {
                 req_add_prep.setString(1,name);
                 req_add_prep.setString(2,surname);
                 req_add_prep.setString(3,address);
-                req_add_prep.setString(4,role);
+                req_add_prep.setInt(4,role);
                 req_add_prep.setString(5,entityname);
             }
             int insert= req_add_prep.executeUpdate();
@@ -159,13 +166,16 @@ public class ContactDAO {
     /**
      * Update the contact in the database
      * @param  cont contact object
-     * @pre cont != null
+     * @pre cont != null &&
+     * !cont.getName().isEmpty() && !cont.getSurname().isEmpty() && !cont.getRole().isEmpty() && cont.getName()!=null && cont.getSurname() != null &&
+     * cont.getReferent()!= null && cont.isReserved()|| (cont.getReferent()!= null && !cont.isReserved())
      * @return true if the request is a sucess
      */
     public boolean updateContact(Contact cont){
-
-
-        assert (cont != null);
+        
+        assert (cont != null) : "Pre condition violated"; 
+        assert !cont.getName().isEmpty() && !cont.getSurname().isEmpty() && !cont.getRole().isEmpty() && cont.getName()!=null && cont.getSurname() != null: "Pre condition violated";
+        assert  cont.getReferent()!= null && cont.isReserved()|| (cont.getReferent()!= null && !cont.isReserved()) : "Pre condition violated";
         // Get Data from cont
         boolean ret = true;
         int id = cont.getId() ;
@@ -175,7 +185,7 @@ public class ContactDAO {
         ArrayList<String> phone = cont.getPhonesList();
         ArrayList<String> mail = cont.getMailsList();
         boolean reserved= cont.isReserved();
-        String role = cont.getRole();
+        int role = RoleDAO.getInstance().getRoleByName(cont.getRole());
         Entity entity = cont.getEntity();
         String entityname = null;
         int referent=-1;
@@ -190,6 +200,9 @@ public class ContactDAO {
         String req_update_ref = "UPDATE Contact set name= ?,surname= ?,address= ?,role= ?, referent=?,entity=? where id=?";
         
         try {
+            if (role==-1){
+                throw new Exception("Invalid Role: "+cont.getRole());
+            }
             // --Update associated mails and phones
             this.deleteMail(id);
             this.deletePhone(id);
@@ -203,7 +216,7 @@ public class ContactDAO {
                 req_update_prep.setString(1,name);
                 req_update_prep.setString(2,surname);
                 req_update_prep.setString(3,address);
-                req_update_prep.setString(4,role);
+                req_update_prep.setInt(4,role);
                 req_update_prep.setInt(5,referent);
                 req_update_prep.setString(6,entityname);
                  //WHERE
@@ -214,7 +227,7 @@ public class ContactDAO {
                 req_update_prep.setString(1,name);
                 req_update_prep.setString(2,surname);
                 req_update_prep.setString(3,address);
-                req_update_prep.setString(4,role);
+                req_update_prep.setInt(4,role);
                 req_update_prep.setString(5,entityname);
                 //WHERE
                 req_update_prep.setInt(6, id);
@@ -236,11 +249,17 @@ public class ContactDAO {
     /**
      * Delete the contact in the database
      * @param  cont contact object
-     * @pre cont != null
+     * @pre cont != null &&
+     * !cont.getName().isEmpty() && !cont.getSurname().isEmpty() && !cont.getRole().isEmpty() && cont.getName()!=null && cont.getSurname() != null &&
+     * cont.getReferent()!= null && cont.isReserved()|| (cont.getReferent()!= null && !cont.isReserved())
+     * @return true id the request is a sucess 
      */
     public boolean deleteContact(Contact cont){
 
-        assert (cont != null);
+        assert (cont != null) : "Pre condition violated"; 
+        assert !cont.getName().isEmpty() && !cont.getSurname().isEmpty() && !cont.getRole().isEmpty() && cont.getName()!=null && cont.getSurname() != null: "Pre condition violated";
+        assert  cont.getReferent()!= null && cont.isReserved()|| (cont.getReferent()!= null && !cont.isReserved()) : "Pre condition violated";
+    
         // Get Data from cont
         boolean ret = true;
         int id = cont.getId();
@@ -317,40 +336,48 @@ public class ContactDAO {
     /**
      * Get the contact associated with an account
      * @param  acc account object
-     * @pre acc != null
+     * @pre !acc.getUsername().isEmpty() && !acc.getPassword().isEmpty() && !acc.getName().isEmpty() && !acc.getRight().isEmpty()
+     * && acc.getUsername() != null && acc.getPassword()!= null &&  acc.getName() != null && acc.getRight()!= null: "Pre condition violated"
+     * && acc.getSectors()!=null : "Pre condition violated"
+     * && acc.getSectors().size()>0 && !acc.getContact().isLinkAccount(): "Pre condition violated"
+     * @return contact
      */
     public Contact getContactByAccount(Account acc){
-        assert (acc != null); 
-        return AccountDAO.getInstance().getAccountByName(acc.getUsername()).getContact();
+        assert acc != null : "Pre condition violated";
+        assert !acc.getUsername().isEmpty() && !acc.getPassword().isEmpty() && !acc.getName().isEmpty() && !acc.getRight().isEmpty(): "Pre condition violated";
+        assert acc.getUsername() != null && acc.getPassword()!= null &&  acc.getName() != null && acc.getRight()!= null: "Pre condition violated";
+        assert acc.getSectors()!=null : "Pre condition violated";
+        assert acc.getSectors().size()>0 && !acc.getContact().isLinkAccount(): "Pre condition violated";
+
+        return AccountDAO.getInstance().getAccountById(acc.getId()).getContact();
     }
 
 
     /**
      * Get the contact associated with an account
      * @param  sec sector object
-     * @pre sec != null
+     * @pre sec!=null && sec.getName()!=null && !sec.getName().isEmpty()
      * @post ret != null
      */
     public ArrayList<Contact> getContactBySector(Sector sec){
-        assert (sec != null);
-        
+        assert sec!=null && sec.getName()!=null && !sec.getName().isEmpty() :"Pre condition violated";
         //Data
         int id;
-        String nameSec = sec.getName();
+        int sec_id = sec.getId(); 
         String name;
         String surname;
         String address;
         boolean reserved;
         String role;
         int refId;
-        String entity;
+        int entity;
         //Request
-        String req_select = "SELECT cont.id,cont.name,cont.surname,cont.address,cont.reserved,cont.referent,cont.role,cont.entity FROM Contact_Sector_Asso AS sec_con,Contact AS cont WHERE sec_con.contactId=cont.id AND sectorName=? ORDER BY cont.name,cont.surname ASC";
+        String req_select = "SELECT cont.id,cont.name,cont.surname,cont.address,cont.reserved,cont.referent,cont.role,cont.entity FROM Contact_Sector_Asso AS sec_con,Contact AS cont WHERE sec_con.contactId=cont.id AND sectorId=? ORDER BY cont.name,cont.surname ASC";
         ArrayList<Contact> ret = new ArrayList<>();
         try {
 
             PreparedStatement req_select_prep = this.db.prepareStatement(req_select);
-            req_select_prep.setString(1,nameSec );
+            req_select_prep.setInt(1,sec_id );
             ResultSet res = req_select_prep.executeQuery();
             while (res.next()) {
                 id = res.getInt("cont.id");
@@ -358,9 +385,9 @@ public class ContactDAO {
                 surname = res.getString("cont.surname");
                 address = res.getString("cont.address");
                 reserved = res.getBoolean("cont.reserved");
-                role = res.getString("cont.role");
+                role = RoleDAO.getInstance().getNameByID(res.getInt("cont.role")) ;
                 refId = res.getInt("cont.referent");
-                entity = res.getString("cont.entity");
+                entity = res.getInt("cont.entity");
                
                 Contact ref = null;
                 if (reserved){
@@ -369,7 +396,7 @@ public class ContactDAO {
                 Contact ctc = new Contact(name, surname,role,ref,reserved,id);
                 this.getMailByContact(ctc);
                 this.getPhoneByContact(ctc);
-                ctc.setEntity(EntityDAO.getInstance().getEntityByName(entity));
+                ctc.setEntity(EntityDAO.getInstance().getEntityById(entity));
                 ctc.setAddress(address);
                 ret.add(ctc);
             }
@@ -385,11 +412,14 @@ public class ContactDAO {
     /**
      * Get the contact list associated with an event
      * @param  event event object
-     * @pre event != null
+     * @pre evt != null && evt.getContactsList()==null &&
+     * evt.getName() != null && evt.getDate() != null &&  evt.getContactsList().get(0) != null  && evt.getType().isEmpty() && evt.getType()!= null
      * @post ret != null
      */
-    public ArrayList<Contact> getContactByEvent(Event event) {
-        assert (event != null);
+    public ArrayList<Contact> getContactByEvent(Event evt) {
+        assert (evt != null && evt.getContactsList()==null);
+        assert evt.getName() != null && evt.getDate() != null &&  evt.getContactsList().get(0) != null  && evt.getType().isEmpty() && evt.getType()!= null: " Pre condition violated";
+
         //Data
         int id;
         String name;
@@ -398,14 +428,14 @@ public class ContactDAO {
         boolean reserved;
         String role;
         int refId;
-        String entity;
+        int entity;
         //Request
         String req_select = "SELECT cont.id,cont.name,cont.surname,cont.address,cont.reserved,cont.referent,cont.role,cont.entity FROM Contact_Event_Asso AS evt_con,Contact AS cont WHERE evt_con.contactId=cont.id AND eventId=? ORDER BY cont.name,cont.surname ASC";
         ArrayList<Contact> ret = new ArrayList<>();
         try {
 
             PreparedStatement req_select_prep = this.db.prepareStatement(req_select);
-            req_select_prep.setInt(1,1);
+            req_select_prep.setInt(1,evt.getId());
             ResultSet res = req_select_prep.executeQuery();
 
             while (res.next()) {
@@ -414,9 +444,9 @@ public class ContactDAO {
                 surname = res.getString("cont.surname");
                 address = res.getString("cont.address");
                 reserved = res.getBoolean("cont.reserved");
-                role = res.getString("cont.role");
+                role = RoleDAO.getInstance().getNameByID(res.getInt("cont.role"));
                 refId = res.getInt("cont.referent");
-                entity = res.getString("cont.entity");
+                entity = res.getInt("cont.entity");
     
                
                 Contact ref = null;
@@ -428,7 +458,7 @@ public class ContactDAO {
                 this.getMailByContact(ctc);
                 this.getPhoneByContact(ctc);
                 ctc.setAddress(address);
-                ctc.setEntity(EntityDAO.getInstance().getEntityByName(entity));
+                ctc.setEntity(EntityDAO.getInstance().getEntityById(entity));
                 ret.add(ctc);
             }
 
@@ -442,12 +472,11 @@ public class ContactDAO {
     /**
      * Get the author of a comment
      * @param  cmt comment object
-     * @pre cmt != null && mt.getAuthor()!=null
+     * @pre  cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null && cmt.getContent() 
      * @post ret!=null
      */
     public Contact getAuthorByComment(Comment cmt){
-        
-        assert (cmt != null && cmt.getAuthor()!=null);
+        assert cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null && cmt.getContent() != null: "Pre condition violated";
         //Data
         Contact ret =null;
         String req_select_contact = "SELECT * FROM Contact WHERE id=? ";
@@ -457,7 +486,7 @@ public class ContactDAO {
         String address;
         boolean reserved;
         String role;
-        String entity;
+        int entity;
         int refId;
         //Request
         try {
@@ -471,15 +500,15 @@ public class ContactDAO {
                 surname = res.getString("surname");
                 address = res.getString("address");
                 reserved = res.getBoolean("reserved");
-                role = res.getString("role");
+                role = RoleDAO.getInstance().getNameByID(res.getInt("role")) ;
                 refId = res.getInt("referent");
-                entity= res.getString("entity");
+                entity= res.getInt("entity");
                 Contact ref = null;
                 if (reserved){
                     ref =this.getContactById(refId);
                 }
                 Contact contact=  new Contact(name,surname,role,ref,reserved,id);
-                contact.setEntity(EntityDAO.getInstance().getEntityByName(entity));
+                contact.setEntity(EntityDAO.getInstance().getEntityById(entity));
                 contact.setAddress(address);
                 this.getMailByContact(contact);
                 this.getPhoneByContact(contact);
@@ -495,11 +524,12 @@ public class ContactDAO {
     /**
      * Get the contact associated by comment
      * @param  cmt comment object
-     * @pre cmt != null && cmt.getConcernedContact()!=null
+     * @pre cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null && cmt.getContent() != nulls
      * @post ret != null
      */
     public Contact getContactByComment(Comment cmt){
-        assert (cmt != null && cmt.getConcernedContact()!=null);
+        assert cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null && cmt.getContent() != null: "Pre condition violated";
+      
         //Data
         Contact ret =null;
         String req_select_contact = "SELECT * FROM Contact WHERE id=? ";
@@ -510,7 +540,7 @@ public class ContactDAO {
         boolean reserved;
         String role;
         int refId;
-        String entity;
+        int entity;
         //Request
         try {
 
@@ -523,15 +553,15 @@ public class ContactDAO {
                 surname = res.getString("surname");
                 address = res.getString("address");
                 reserved = res.getBoolean("reserved");
-                role = res.getString("role");
+                role = RoleDAO.getInstance().getNameByID(res.getInt("role")) ;
                 refId = res.getInt("referent");
-                entity = res.getString("entity");
+                entity = res.getInt("entity");
                 Contact ref = null;
                 if (reserved){
                     ref =this.getContactById(refId);
                 }
                 Contact contact=  new Contact(name,surname,role,ref,reserved,id);
-                contact.setEntity(EntityDAO.getInstance().getEntityByName(entity));
+                contact.setEntity(EntityDAO.getInstance().getEntityById(entity));
                 contact.setAddress(address);
                 this.getMailByContact(contact);
                 this.getPhoneByContact(contact);
@@ -547,6 +577,7 @@ public class ContactDAO {
 
     /**
      * Get all contact
+     * @return list of contacts 
      * @post ret != null
      */
     public ArrayList<Contact> getAllContacts(){
@@ -558,7 +589,7 @@ public class ContactDAO {
         boolean reserved;
         String role;
         int refId;
-        String entity;
+        int entity;
         Contact ref;
         //Request
         String req_select_all= "SELECT * FROM Contact ORDER BY name,surname ASC";
@@ -573,9 +604,9 @@ public class ContactDAO {
                 surname = res.getString("surname");
                 address = res.getString("address");
                 reserved = res.getBoolean("reserved");
-                role = res.getString("role");
+                role = RoleDAO.getInstance().getNameByID(res.getInt("role")) ;
                 refId = res.getInt("referent");
-                entity = res.getString("entity");
+                entity = res.getInt("entity");
                 ref = null;
                 if (reserved){
                     ref =this.getContactById(refId);
@@ -585,7 +616,7 @@ public class ContactDAO {
                 contact.setAddress(address);
                 this.getMailByContact(contact);
                 this.getPhoneByContact(contact);
-                contact.setEntity(EntityDAO.getInstance().getEntityByName(entity));
+                contact.setEntity(EntityDAO.getInstance().getEntityById(entity));
                 ret.add(contact);
             }
 
@@ -651,7 +682,7 @@ public class ContactDAO {
         String surname;
         String address;
         boolean reserved;
-        String entity;
+        int entity;
         String role;
         Contact ref;
         int refId;
@@ -666,16 +697,16 @@ public class ContactDAO {
                 surname = res.getString("surname");
                 address = res.getString("address");
                 reserved = res.getBoolean("reserved");
-                role = res.getString("role");
+                role = RoleDAO.getInstance().getNameByID(res.getInt("role")) ;
                 refId = res.getInt("referent");
-                entity = res.getString("entity");
+                entity = res.getInt("entity");
                 Contact referent = null;
                 if (reserved){
                     referent=this.getContactById(refId);
                 }
                 Contact contact=  new Contact(name,surname,role,referent,reserved,id);
                 contact.setAddress(address);
-                contact.setEntity(EntityDAO.getInstance().getEntityByName(entity));
+                contact.setEntity(EntityDAO.getInstance().getEntityById(entity));
                 this.getMailByContact(contact);
                 this.getPhoneByContact(contact);
                 ret=contact;
@@ -691,21 +722,7 @@ public class ContactDAO {
      * @return list of roles
      */
     public ArrayList<String> getAllRoles(){
-        ArrayList<String> ret = new ArrayList<>();
-        String role;
-        String req_select_roles = "SELECT * FROM Contact_role ORDER BY name ASC";
-        try {
-            PreparedStatement  req_select_roles_prep = this.db.prepareStatement( req_select_roles);
-            ResultSet res = req_select_roles_prep.executeQuery();
-            while (res.next()){
-                role = res.getString("name");
-                ret.add(role);
-            }
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        return ret;
+        return RoleDAO.getInstance().getAllRoles();
     }
 
 

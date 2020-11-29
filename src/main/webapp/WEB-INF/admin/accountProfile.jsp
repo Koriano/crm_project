@@ -14,11 +14,11 @@
     </c:url>
 
     <c:url var="modify_link" value="/rights/account/modify">
-        <c:param name="username" value="${requestScope.account.username}"/>
+        <c:param name="id" value="${requestScope.account.id}"/>
     </c:url>
 
     <c:url var="delete_link" value="/rights/account/delete">
-        <c:param name="username" value="${requestScope.account.username}"/>
+        <c:param name="id" value="${requestScope.account.id}"/>
     </c:url>
 
     <div class="row">
@@ -53,7 +53,7 @@
                                 <c:forEach var="sector" items="${requestScope.account.sectors}">
 
                                     <c:url var="sector_link" value="/sectors/modify">
-                                        <c:param name="name" value="${sector.name}"/>
+                                        <c:param name="id" value="${sector.id}"/>
                                     </c:url>
 
                                     <p> <a href="${sector_link}"> <c:out value="${sector.name}"/> </a> </p>

@@ -18,10 +18,10 @@ public class EntityProfileServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Initialize entity DAO
         EntityDAO entityDAO = EntityDAO.getInstance();
-        Entity entity = entityDAO.getEntityByName(req.getParameter("entity_name"));
+//        Entity entity = entityDAO.getEntityByName(req.getParameter("entity_name"));
 
         // Set entity as request attribute
-        req.setAttribute(ATT_ENTITY, entity);
+//        req.setAttribute(ATT_ENTITY, entity);
 
         this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
     }

@@ -49,23 +49,27 @@ public class AccountDAO {
         String username = acc.getUsername();
         String name = acc.getName();
         String password = acc.getPassword();
-        String right = acc.getRight();
-
+        int right = RightDAO.getInstance().getRightByName(acc.getRight());
+        int account_id=-1;
         Contact contact = acc.getContact();
     
         ArrayList<Sector> sectors = acc.getSectors();
         String req_insert = "INSERT INTO Account(`username`,`password`,`name`,`right`,`contactId`) VALUES (?,?,?,?,?)";
         try{
-            PreparedStatement req_insert_prep = this.db.prepareStatement(req_insert);
+            PreparedStatement req_insert_prep = this.db.prepareStatement(req_insert,Statement.RETURN_GENERATED_KEYS);
             req_insert_prep.setString(1,username);
             req_insert_prep.setString(2,password);
             req_insert_prep.setString(3,name);
-            req_insert_prep.setString(4,right);
+            req_insert_prep.setInt(4,right);
             req_insert_prep.setInt(5,contact.getId());
             int insert;
             insert =req_insert_prep.executeUpdate();
-            if (insert>0){
-                ret = this.addSectors(sectors, username);
+            ResultSet rs = req_insert_prep.getGeneratedKeys();
+            if (rs != null && rs.next()) {
+                account_id = rs.getInt(1);
+            }
+            if (insert>0 && account_id !=-1){
+                ret = this.addSectors(sectors, account_id);
             }
             else{
                 ret=false;
@@ -91,24 +95,24 @@ public class AccountDAO {
         String username = acc.getUsername();
         String name = acc.getName();
         String password = acc.getPassword();
-        String right = acc.getRight();
-     
+        int right = RightDAO.getInstance().getRightByName(acc.getRight());
+        int account_id = acc.getId();
         Contact contact = acc.getContact();
         ArrayList<Sector> sectors = acc.getSectors();
         String req_insert = "UPDATE Account SET `username`=?,`password`=?,`name`=?,`right`=?,`contactId`=? WHERE username=?";
         try{
-            PreparedStatement req_insert_prep = this.db.prepareStatement(req_insert);
+            PreparedStatement req_insert_prep = this.db.prepareStatement(req_insert,Statement.RETURN_GENERATED_KEYS);
             req_insert_prep.setString(1,username);
             req_insert_prep.setString(2,password);
             req_insert_prep.setString(3,name);
-            req_insert_prep.setString(4,right);
+            req_insert_prep.setInt(4,right);
             req_insert_prep.setInt(5,contact.getId());
             req_insert_prep.setString(6,username);
             int insert;
             insert =req_insert_prep.executeUpdate();
-            if (insert>0){
-                this.deleteSectors(username);
-                ret = this.addSectors(sectors, username);
+            if (insert>0 && account_id !=-1){
+               ;
+                ret =  this.deleteSectors(account_id) && this.addSectors(sectors, account_id);
             }
             else{
                 ret=false;
@@ -126,21 +130,21 @@ public class AccountDAO {
      * Add the sectors linked with the account 
      * @param list lis of sectors 
      * @param username id of the account 
-     * @pre username != null
+     * @pre accountId>0
      * @return true id insertion performed 
      */
-    private boolean addSectors(ArrayList<Sector> list, String username){
-        assert(username !=null);
-        String req_insert_sector= "INSERT INTO Account_Sector_Asso(sectorName,accountUsername) VALUES (?,?)";
+    private boolean addSectors(ArrayList<Sector> list,int accountId){
+        assert(accountId>0);
+        String req_insert_sector= "INSERT INTO Account_Sector_Asso(sectorName,accountId) VALUES (?,?)";
         boolean ret = true;
         try {
             int ret_req;
         
             for(Sector sector:list){
-                if (sector!=null && sector.getName()!=null){
+                if (sector!=null && sector.getName()!=null && SectorDAO.getInstance().isSectorExist(sector.getName())){
                     PreparedStatement req_insert_prep = this.db.prepareStatement(req_insert_sector); 
-                    req_insert_prep.setString(1, sector.getName());
-                    req_insert_prep.setString(2, username);
+                    req_insert_prep.setInt(1, SectorDAO.getInstance().getSectorByName(sector.getName()).getId());
+                    req_insert_prep.setInt(2, accountId);
                     ret_req=req_insert_prep.executeUpdate();
                     if (ret_req==0){
                         ret=false;
@@ -162,16 +166,16 @@ public class AccountDAO {
      * @pre username != null
      * @return true if deletion performed 
      */
-    private boolean deleteSectors(String username){
-        assert(username!=null);
-        String req_delete_sector= "DELETE FROM Account_Sector_Asso WHERE accountUsername=?";
+    private boolean deleteSectors(int accountId){
+        assert (accountId>0);
+        String req_delete_sector= "DELETE FROM Account_Sector_Asso WHERE accountId=?";
         boolean ret = true;
         try {
             int ret_req;
            
             
             PreparedStatement req_delete_prep = this.db.prepareStatement(req_delete_sector); 
-            req_delete_prep.setString(1, username);
+            req_delete_prep.setInt(1, accountId);
             ret_req=req_delete_prep.executeUpdate();
             if (ret_req==0){
                 ret=false;
@@ -193,12 +197,12 @@ public class AccountDAO {
     public boolean deleteAccount(Account acc){
         assert(acc != null);
         boolean ret=true;
-        String username = acc.getUsername();
-        String req_delete_account= "DELETE FROM Account WHERE username=?";
+        int id = acc.getId();
+        String req_delete_account= "DELETE FROM Account WHERE id=?";
         try {
             int ret_req;
             PreparedStatement req_delete_prep = this.db.prepareStatement(req_delete_account); 
-            req_delete_prep.setString(1, username);
+            req_delete_prep.setInt(1, id);
             ret_req=req_delete_prep.executeUpdate();
             if (ret_req==0){
                 ret=false;
@@ -253,6 +257,7 @@ public class AccountDAO {
         Contact contact;
         int contact_id;
         Account acc;
+        int id;
         ArrayList<Sector> sectors = new ArrayList<>();
         String req_select ="SELECT * FROM Account";
         try {
@@ -260,13 +265,14 @@ public class AccountDAO {
             PreparedStatement req_select_prep = this.db.prepareStatement(req_select); 
             ResultSet res = req_select_prep.executeQuery();
             while (res.next()){
+                id = res.getInt("id");
                 username = res.getString("username");
                 name = res.getString("name");
                 password = res.getString("password");
-                right = res.getString("right");
+                right = RightDAO.getInstance().getNameByID(res.getInt("right"));
                 contact_id = res.getInt("contactId");
                 contact = ContactDAO.getInstance().getContactById(contact_id);
-                acc = new Account(username, password, name, right, contact, sectors);
+                acc = new Account(username, password, name, right, contact, sectors,id);
                 sectors = SectorDAO.getInstance().getSectorsByAccount(acc);
                 for (Sector sector : sectors){
                     acc.addSector(sector);
@@ -282,6 +288,11 @@ public class AccountDAO {
     
         return ret;
     }
+    /**
+     * Get account by name 
+     * @param username name
+     * @return account 
+     */
     public Account getAccountByName(String username){
         Account ret = null;
         String name;
@@ -289,6 +300,7 @@ public class AccountDAO {
         String right;
         Contact contact;
         int contact_id;
+        int id;
         Account acc;
         ArrayList<Sector> sectors = new ArrayList<>();
         String req_select ="SELECT * FROM Account WHERE username=?";
@@ -298,14 +310,60 @@ public class AccountDAO {
             req_select_prep.setString(1,username);
             ResultSet res = req_select_prep.executeQuery();
             while (res.next()){
+                id = res.getInt("id");
                 username = res.getString("username");
                 name = res.getString("name");
                 password = res.getString("password");
-                right = res.getString("right");
+                right = RightDAO.getInstance().getNameByID(res.getInt("right"));
                 contact_id = res.getInt("contactId");
                 contact = ContactDAO.getInstance().getContactById(contact_id);
                 
-                acc = new Account(username, password, name, right, contact, sectors);
+                acc = new Account(username, password, name, right, contact, sectors,id);
+                sectors = SectorDAO.getInstance().getSectorsByAccount(acc);
+                for (Sector sector : sectors){
+                    acc.addSector(sector);
+                }
+                
+                ret =acc;
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        assert(ret==null);
+        return ret;
+    }
+    /**
+     * Get account by id
+     * @param id id of account
+     * @return account 
+     */
+    public Account getAccountById(int id){
+        Account ret = null;
+        String name;
+        String password;
+        String right;
+        Contact contact;
+        String username;
+        int contact_id;
+        Account acc;
+        ArrayList<Sector> sectors = new ArrayList<>();
+        String req_select ="SELECT * FROM Account WHERE id=?";
+        try {
+           
+            PreparedStatement req_select_prep = this.db.prepareStatement(req_select);
+            req_select_prep.setInt(1,id);
+            ResultSet res = req_select_prep.executeQuery();
+            while (res.next()){
+                username = res.getString("username");
+                name = res.getString("name");
+                password = res.getString("password");
+                right = RightDAO.getInstance().getNameByID(res.getInt("right"));
+                contact_id = res.getInt("contactId");
+                contact = ContactDAO.getInstance().getContactById(contact_id);
+                
+                acc = new Account(username, password, name, right, contact, sectors,id);
                 sectors = SectorDAO.getInstance().getSectorsByAccount(acc);
                 for (Sector sector : sectors){
                     acc.addSector(sector);
@@ -342,6 +400,7 @@ public class AccountDAO {
         }
         return ret;
     }
+    
 
 }
       

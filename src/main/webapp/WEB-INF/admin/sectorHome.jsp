@@ -40,7 +40,7 @@
                                         </div>
                                         <div class="col-auto">
                                             <c:url var="modify_link" value="/sectors/modify">
-                                                <c:param name="name" value="${sector.name}"/>
+                                                <c:param name="id" value="${sector.id}"/>
                                             </c:url>
                                             <a href="${modify_link}">
                                                 <button type="submit" class="btn btn-primary">
@@ -52,7 +52,7 @@
 
                                                 <%-- Delete link --%>
                                             <c:url var="delete_link" value="/sectors/delete">
-                                                <c:param name="name" value="${sector.name}"/>
+                                                <c:param name="id" value="${sector.id}"/>
                                             </c:url>
                                             <a href="${delete_link}">
                                                 <button class="btn btn-danger">

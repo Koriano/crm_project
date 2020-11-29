@@ -16,8 +16,6 @@ import java.util.Map;
 public class AccountForm {
     private static final String PARAM_USERNAME = "username";
     private static final String PARAM_ACCOUNT_NAME = "name";
-    private static final String PARAM_PASSWORD = "password";
-    private static final String PARAM_CONFIRMATION = "confirmation";
     private static final String PARAM_RIGHT = "right";
     private static final String PARAM_CONTACT = "contact";
     private static final String PARAM_SECTORS = "sectors";
@@ -170,14 +168,24 @@ public class AccountForm {
         return returned_sectors;
     }
 
-    private Sector sectorVerification(String sector) throws Exception{
-        if (sector == null || sector.isEmpty() || !this.sectorDAO.isSectorExist(sector)){
+    private Sector sectorVerification(String sector_id) throws Exception{
+        if (sector_id == null || sector_id.isEmpty()){
             throw new Exception("Merci de sélectionner des secteurs existants.");
         }
         else {
-            Sector sector_obj = new Sector(sector);
-            this.sectorDAO.getContactList(sector_obj);
-            return sector_obj;
+
+            try{
+                int id = Integer.parseInt(sector_id);
+                Sector sector_obj = this.sectorDAO.getSectorById(id);
+
+                if (sector_obj == null){
+                    throw new Exception("Merci de sélectionner des secteurs existants.");
+                } else {
+                    return sector_obj;
+                }
+            } catch (Exception e){
+                throw new Exception("Merci de sélectionner des secteurs existants.");
+            }
         }
     }
 

@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.net.URL;
 
 public class DeleteAccountServlet extends HttpServlet {
-    private static final String PARAM_USERNAME = "username";
+    private static final String PARAM_ACCOUNT_ID = "id";
 
     private static final String URL_REDIRECT = "/rights";
 
@@ -28,11 +28,16 @@ public class DeleteAccountServlet extends HttpServlet {
     private void deleteAccount(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Get Account
         AccountDAO accountDAO = AccountDAO.getInstance();
-        String username = req.getParameter(PARAM_USERNAME);
-        Account account = accountDAO.getAccountByName(username);
+        String id = req.getParameter(PARAM_ACCOUNT_ID);
 
-        // Delete account
-        accountDAO.deleteAccount(account);
+        try{
+            Account account = accountDAO.getAccountById(Integer.parseInt(id));
+
+            // Delete account
+            accountDAO.deleteAccount(account);
+        } catch (Exception ignored){
+
+        }
 
         resp.sendRedirect(req.getContextPath() + URL_REDIRECT);
     }

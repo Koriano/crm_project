@@ -14,7 +14,7 @@
             <div class="col-sm-9 col-md-7 col-lg-5 mx-auto pt-5">
 
                 <c:url var="form_link" value="/rights/account/modify">
-                    <c:param name="username" value="${requestScope.account.username}"/>
+                    <c:param name="id" value="${requestScope.account.id}"/>
                 </c:url>
                 <form method="post" action="${form_link}">
                     <fieldset>
