@@ -5,11 +5,16 @@
     <meta charset="UTF-8">
     <title>Modifier contact</title>
     <link rel="stylesheet" href="<c:url value="/style/lib/bootstrap.min.css"/>" />
+    <link rel="stylesheet" href="<c:url value="/style/front.css"/>" />
 </head>
-<body>
-    <c:import url="/WEB-INF/utils/menu.jsp"/>
 
-    <div class="container">
+<body>
+<div id="wrapper">
+    <div class="header">
+        <c:import url="/WEB-INF/utils/menu.jsp"/>
+    </div>
+
+    <div class="container body">
         <div class="row">
             <div class="col-sm-9 col-md-7 col-lg-5 mx-auto pt-5">
 
@@ -18,7 +23,7 @@
 
                         <c:import url="/WEB-INF/utils/contactForm.jsp"/>
 
-                        <div class="form row justify-content-center">
+                        <div class="form row justify-content-center pb-5">
                             <button type="submit" class="btn btn-primary">Mettre à jour</button>
                         </div>
 
@@ -29,9 +34,12 @@
 
             </div>
         </div>
-
-        <div class="col"></div>
     </div>
+    <div class="footer">
+        <c:import url="/WEB-INF/utils/footer.jsp"/>
+    </div>
+
+</div>
 
     <c:import url="/WEB-INF/utils/footer.jsp"/>
     <script src="<c:url value="/js/contact_form_script.js"/>"></script>

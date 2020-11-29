@@ -5,10 +5,14 @@
     <meta charset="UTF-8">
     <title>Secteurs</title>
     <link rel="stylesheet" href="<c:url value="/style/lib/bootstrap.min.css"/>" />
+    <link rel="stylesheet" href="<c:url value="/style/front.css"/>" />
 </head>
 <body>
-    <c:import url="/WEB-INF/utils/menu.jsp"/>
-    <div class="container">
+<div id="wrapper">
+    <div class="header">
+        <c:import url="/WEB-INF/utils/menu.jsp"/>
+    </div>
+    <div class="container body pb-5">
         <div class="row">
             <div class="col-sm-9 col-md-7 col-lg-5 mx-auto pt-5">
                 <div class="text-center">
@@ -73,8 +77,12 @@
             </div>
         </div>
     </div>
+    <div class="footer">
+        <c:import url="/WEB-INF/utils/footer.jsp"/>
+    </div>
 
-    <c:import url="/WEB-INF/utils/footer.jsp"/>
+</div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="<c:url value="/style/scripts/bootstrap.min.js"/>"></script>
 </body>

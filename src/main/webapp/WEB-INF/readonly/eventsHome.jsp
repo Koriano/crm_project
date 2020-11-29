@@ -5,11 +5,17 @@
     <meta charset="UTF-8">
     <title>Événements</title>
     <link rel="stylesheet" href="<c:url value="/style/lib/bootstrap.min.css"/>" />
+    <link rel="stylesheet" href="<c:url value="/style/front.css"/>" />
 </head>
-<body>
-    <c:import url="/WEB-INF/utils/menu.jsp"/>
 
-    <div class="container">
+<body>
+<div id="wrapper">
+    <div class="header">
+        <c:import url="/WEB-INF/utils/menu.jsp"/>
+    </div>
+
+
+    <div class="container body">
 
         <div class="row">
             <div class="col-lg-6 col-md-8 col-sm-9 mx-auto pt-5 pb-4">
@@ -121,8 +127,13 @@
         </div>
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="<c:url value="/style/scripts/bootstrap.min.js"/>"></script>
-    <c:import url="/WEB-INF/utils/footer.jsp"/>
+    <div class="footer">
+        <c:import url="/WEB-INF/utils/footer.jsp"/>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="<c:url value="/style/scripts/bootstrap.min.js"/>"></script>
+
 </body>
 </html>

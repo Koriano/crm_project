@@ -5,11 +5,15 @@
     <meta charset="UTF-8">
     <title>Modifier un secteur</title>
     <link rel="stylesheet" href="<c:url value="/style/lib/bootstrap.min.css"/>" />
+    <link rel="stylesheet" href="<c:url value="/style/front.css"/>" />
 </head>
 <body>
-    <c:import url="/WEB-INF/utils/menu.jsp"/>
+<div id="wrapper">
+    <div class="header">
+        <c:import url="/WEB-INF/utils/menu.jsp"/>
+    </div>
 
-    <div class="container">
+    <div class="container body">
         <div class="row">
             <div class="col-sm-9 col-md-7 col-lg-5 mx-auto pt-5">
 
@@ -18,7 +22,7 @@
 
                         <c:import url="/WEB-INF/utils/sectorForm.jsp"/>
 
-                        <div class="form row justify-content-center pt-4">
+                        <div class="form row justify-content-center pt-4 pb-5">
                             <button type="submit" class="btn btn-primary">Mettre à jour</button>
                         </div>
 
@@ -29,11 +33,13 @@
 
             </div>
         </div>
-
-        <div class="col"></div>
     </div>
 
-    <c:import url="/WEB-INF/utils/footer.jsp"/>
+    <div class="footer">
+        <c:import url="/WEB-INF/utils/footer.jsp"/>
+    </div>
+
+</div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="<c:url value="/style/scripts/bootstrap.min.js"/>"></script>
 </body>

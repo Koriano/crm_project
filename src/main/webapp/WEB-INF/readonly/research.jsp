@@ -5,38 +5,7 @@
     <meta charset="UTF-8">
     <title>Connexion</title>
     <link rel="stylesheet" href="<c:url value="/style/lib/bootstrap.min.css"/>" />
-
-    <style>
-        a:hover {
-            text-decoration: none;
-        }
-
-        :focus {
-            outline: 0;
-        }
-
-        html,
-        body {
-            margin:0;
-            padding:0;
-            height:100%;
-        }
-        #wrapper {
-            min-height:100%;
-            position:relative;
-        }
-        .body {
-            padding:10px;
-            padding-bottom:60px;   /* Height of the footer */
-        }
-        .footer {
-            position:absolute;
-            bottom:0;
-            width:100%;
-            height:60px;   /* Height of the footer */
-            background:#6cf;
-        }
-    </style>
+    <link rel="stylesheet" href="<c:url value="/style/front.css"/>" />
 </head>
 
 <body>
@@ -44,7 +13,6 @@
     <div class="header">
         <c:import url="/WEB-INF/utils/menu.jsp"/>
     </div>
-
 
 
     <div class="container body">
