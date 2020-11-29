@@ -183,15 +183,20 @@ public class ContactForm {
             if(entity.isEmpty()){
                 return null;
             }
-            
-            Entity entity_obj = this.entityDAO.getEntityByName(entity);
 
-            if(entity_obj == null){
-                throw new Exception("Cette entité n'existe pas, merci de renseigner une entité existante.");
+            try {
+                Entity entity_obj = this.entityDAO.getEntityById(Integer.parseInt(entity));
+
+                if(entity_obj == null){
+                    throw new Exception("Cette entité n'existe pas, merci de renseigner une entité existante.");
+                }
+                else {
+                    return entity_obj;
+                }
+            } catch (Exception e){
+                throw new Exception("Merci de renseigner une entité.");
             }
-            else {
-                return entity_obj;
-            }
+
         } else {
             throw new Exception("Merci de renseigner une entité.");
         }

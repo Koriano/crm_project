@@ -29,7 +29,7 @@
     <select id="entity" name="entity" class="form-control">
         <option value="" <c:out value="${empty requestScope.contact.entity.name ? 'selected':''}"/>>Sélectionnez une entité</option>
         <c:forEach var="entity" items="${requestScope.entities}">
-            <option value="<c:out value="${entity.name}"/>" <c:out value="${requestScope.contact.entity.name == entity.name ? 'selected':''}"/>><c:out value="${entity.name}"/></option>
+            <option value="<c:out value="${entity.id}"/>" <c:out value="${requestScope.contact.entity.id == entity.id ? 'selected':''}"/>><c:out value="${entity.name}"/></option>
         </c:forEach>
     </select>
 </div>

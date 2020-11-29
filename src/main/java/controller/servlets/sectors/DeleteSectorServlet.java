@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class DeleteSectorServlet extends HttpServlet {
-    private static final String PARAM_SECTOR = "name";
+    private static final String PARAM_SECTOR_ID = "id";
 
     private static final String URL_REDIRECT = "/sectors";
 
@@ -29,15 +29,16 @@ public class DeleteSectorServlet extends HttpServlet {
         SectorDAO sectorDAO = SectorDAO.getInstance();
 
         // Get sector and delete it
-        String sector_name = req.getParameter(PARAM_SECTOR);
-        Sector sector = null;
-        if(sectorDAO.isSectorExist(sector_name)){
-            sector = new Sector(sector_name);
-            sectorDAO.getContactList(sector);
-        }
+        String id = req.getParameter(PARAM_SECTOR_ID);
 
-        if (sector != null){
-            sectorDAO.deleteSector(sector);
+        try{
+            Sector sector = sectorDAO.getSectorById(Integer.parseInt(id));
+
+            if (sector != null){
+                sectorDAO.deleteSector(sector);
+            }
+        } catch (Exception ignored){
+
         }
 
         resp.sendRedirect(req.getContextPath() + URL_REDIRECT);

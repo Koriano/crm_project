@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ModifySectorServlet extends HttpServlet {
-    private static final String PARAM_SECTOR = "name";
+    private static final String PARAM_SECTOR_ID = "id";
 
     private static final String ATT_CONTACTS = "contacts";
     private static final String ATT_SECTOR = "sector";
@@ -29,18 +29,19 @@ public class ModifySectorServlet extends HttpServlet {
         // Get sector to modify
         SectorDAO sectorDAO = SectorDAO.getInstance();
 
-        String sector_name = req.getParameter(PARAM_SECTOR);
-        Sector sector = null;
-        if (sectorDAO.isSectorExist(sector_name)){
-            sector = new Sector(sector_name);
-            sectorDAO.getContactList(sector);
+        String id = req.getParameter(PARAM_SECTOR_ID);
+
+        try{
+            Sector sector = sectorDAO.getSectorById(Integer.parseInt(id));
+
+            // Set request attributes
+            this.setRequestAttributes(req);
+            req.setAttribute(ATT_SECTOR, sector);
+
+            this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
+        } catch (Exception e){
+            resp.sendRedirect(req.getContextPath() + URL_REDIRECT);
         }
-
-        // Set request attributes
-        this.setRequestAttributes(req);
-        req.setAttribute(ATT_SECTOR, sector);
-
-        this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
     }
 
     @Override

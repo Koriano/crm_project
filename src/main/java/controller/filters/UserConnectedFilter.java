@@ -47,7 +47,7 @@ public class UserConnectedFilter implements Filter {
             }
             // Else verify up-to-date account in database
             else {
-                user = accountDAO.getAccountByName(user.getUsername());
+                user = accountDAO.getAccountById(user.getId());
 
                 // If delete redirect to connection
                 if(user == null){

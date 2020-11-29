@@ -56,17 +56,17 @@
             <c:set var="selected" value="${false}" scope="page"/>
 
             <c:forEach var="account_sector" items="${requestScope.account.sectors}">
-                <c:if test="${account_sector.name == sector.name or sector.name == 'Defaut'}">
+                <c:if test="${account_sector.id == sector.id}">
                     <c:set var="selected" value="${true}" scope="page"/>
                 </c:if>
             </c:forEach>
 
             <c:choose>
                 <c:when test="${sector.name == 'Défaut'}">
-                    <option value="<c:out value="${sector.name}"/>" <c:out value="${selected || empty requestScope.account ? 'selected':''}"/>> <c:out value="${sector.name}"/> </option>
+                    <option value="<c:out value="${sector.id}"/>" <c:out value="${selected || empty requestScope.account ? 'selected':''}"/>> <c:out value="${sector.name}"/> </option>
                 </c:when>
                 <c:otherwise>
-                    <option value="<c:out value="${sector.name}"/>" <c:out value="${selected ? 'selected':''}"/>> <c:out value="${sector.name}"/> </option>
+                    <option value="<c:out value="${sector.id}"/>" <c:out value="${selected ? 'selected':''}"/>> <c:out value="${sector.name}"/> </option>
                 </c:otherwise>
             </c:choose>
         </c:forEach>

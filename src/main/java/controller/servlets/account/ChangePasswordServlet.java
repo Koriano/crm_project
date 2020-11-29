@@ -38,7 +38,7 @@ public class ChangePasswordServlet extends HttpServlet {
 
             resp.sendRedirect(req.getContextPath() + URL_REDIRECT);
         }
-        // If errors, forward witth errors
+        // If errors, forward with errors
         else {
             req.setAttribute(ATT_FORM, form);
 
