@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AccountForm {
+    private static final String PARAM_OLD_ACCOUNT_ID = "id";
     private static final String PARAM_USERNAME = "username";
     private static final String PARAM_ACCOUNT_NAME = "name";
     private static final String PARAM_RIGHT = "right";
@@ -37,6 +38,16 @@ public class AccountForm {
     }
 
     public Account createAccount(HttpServletRequest req, String action){
+        // Get old account
+        Account old_account = null;
+        try{
+            String old_id = req.getParameter(PARAM_OLD_ACCOUNT_ID);
+            old_account = this.accountDAO.getAccountById(Integer.parseInt(old_id));
+            System.out.println("ok");
+        } catch (Exception e) {
+            this.setError(PARAM_OLD_ACCOUNT_ID, "");
+        }
+
         // Get parameters
         String username = req.getParameter(PARAM_USERNAME);
         String name = req.getParameter(PARAM_ACCOUNT_NAME);
@@ -76,7 +87,7 @@ public class AccountForm {
         // Check associated contact
         Contact contact = null;
         try{
-            contact = contactVerification(contact_id);
+            contact = contactVerification(contact_id, old_account);
         } catch (Exception e){
             setError(PARAM_CONTACT, e.getMessage());
         }
@@ -129,7 +140,9 @@ public class AccountForm {
         }
     }
 
-    private Contact contactVerification(String contact_id) throws Exception{
+    private Contact contactVerification(String contact_id, Account old_account) throws Exception{
+        ArrayList<Integer> used_contacts = this.contactDAO.getLinkedContacts();
+
         int id = -1;
         try{
             id = Integer.parseInt(contact_id);
@@ -141,7 +154,13 @@ public class AccountForm {
             Contact contact = this.contactDAO.getContactById(id);
 
             if(contact != null){
-                return contact;
+
+                if (id != old_account.getContact().getId() && used_contacts.contains(id)){
+                    throw new Exception("Ce contact est déjà utilisé par un autre compte.");
+                } else {
+                    return contact;
+                }
+
             } else {
                 throw new Exception("Merci de sélectionner un contact existant");
             }

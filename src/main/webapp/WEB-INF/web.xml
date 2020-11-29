@@ -120,6 +120,14 @@
         <servlet-name>CreateEvent</servlet-name>
         <servlet-class>controller.servlets.events.CreateEventServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EventProfile</servlet-name>
+        <servlet-class>controller.servlets.events.EventProfileServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ModifyEvent</servlet-name>
+        <servlet-class>controller.servlets.events.ModifyEventServlet</servlet-class>
+    </servlet>
 
 
     <!-- Connect and disconnect -->
@@ -240,6 +248,14 @@
     <servlet-mapping>
         <servlet-name>CreateEvent</servlet-name>
         <url-pattern>/myEvents/create</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EventProfile</servlet-name>
+        <url-pattern>/myEvents/details</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ModifyEvent</servlet-name>
+        <url-pattern>/myEvents/details/modify</url-pattern>
     </servlet-mapping>
 
 

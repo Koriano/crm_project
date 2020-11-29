@@ -2,6 +2,7 @@ package model.forms;
 
 import controller.DAO.ContactDAO;
 import controller.DAO.EventDAO;
+import controller.DAO.EventTypeDAO;
 import model.Account;
 import model.Contact;
 import model.Event;
@@ -23,14 +24,14 @@ public class EventForm {
     private HashMap<String, String> errors;
     private String result;
 
-    private EventDAO eventDAO;
+    private EventTypeDAO eventTypeDAO;
     private ContactDAO contactDAO;
 
     public EventForm(){
         this.errors = new HashMap<>();
         this.result = "";
 
-        this.eventDAO = EventDAO.getInstance();
+        this.eventTypeDAO = EventTypeDAO.getInstance();
         this.contactDAO = ContactDAO.getInstance();
     }
 
@@ -113,14 +114,7 @@ public class EventForm {
 
     private void typeVerification(String type) throws Exception {
         // Get every type
-//        ArrayList<String> types = this.eventDAO.getAllTypes();
-
-        // SIMULATION A SUPPR **********
-        ArrayList<String> types = new ArrayList<>();
-        types.add("RDV");
-        types.add("REUNION");
-        types.add("DEPOT D'OFFRES");
-        // *****************************
+        ArrayList<String> types = this.eventTypeDAO.getAllTypes();
 
         if (type == null || type.isEmpty()){
             throw new Exception("Merci de renseigner un type d'événement.");
