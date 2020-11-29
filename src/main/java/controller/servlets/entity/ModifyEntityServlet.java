@@ -12,15 +12,29 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class AddEntityServlet extends HttpServlet {
-    private static final String VIEW = "/WEB-INF/alimentation/addEntity.jsp";
+public class ModifyEntityServlet extends HttpServlet {
+    private static final String VIEW = "/WEB-INF/alimentation/modifyEntity.jsp";
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // Set entity type list
-        this.setFormAttributes(req);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        // Get DAO instance
+        EntityDAO entityDAO = EntityDAO.getInstance();
 
-        this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
+        String name = req.getParameter("entity_name");
+
+        try {
+            // Create create entity
+            Entity entity = entityDAO.getEntityByName(name);
+
+            // Set request attributes for the view
+            req.setAttribute("entity", entity);
+            this.setFormAttributes(req);
+
+            this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
+
+        } catch (Exception e){
+            resp.sendRedirect(req.getContextPath() + "/research");
+        }
     }
 
     @Override
@@ -30,23 +44,22 @@ public class AddEntityServlet extends HttpServlet {
 
         // Create form object and create entity
         EntityForm form = new EntityForm();
-        Entity new_entity = form.createEntity(req);
+        Entity updated_entity = form.createEntity(req);
 
         // Get errors map
         HashMap<String, String> errors = form.getErrors();
 
         if(errors.isEmpty()){
-            // If no error, create the entity and redirect to the entity page
-            entityDAO.saveEntity(new_entity);
-            resp.sendRedirect(req.getContextPath() + "/research/entityProfile?entity_name="+new_entity.getName());
+            // If no error, update the entity and redirect to the entity page
+            entityDAO.updateEntity(updated_entity);
+            resp.sendRedirect(req.getContextPath() + "/research/entityProfile?entity_name="+updated_entity.getName());
         } else {
             // Set attributes to request
             this.setFormAttributes(req);
-            req.setAttribute("entity", new_entity);
+            req.setAttribute("entity", updated_entity);
             req.setAttribute("form", form);
             this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
         }
-
     }
 
     private void setFormAttributes(HttpServletRequest req){
