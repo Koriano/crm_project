@@ -148,14 +148,6 @@
                                                         <p class="text-secondary">
                                                         <c:out value="${entity.type}"/>
                                                         </p>
-                                                        <p> <b>Adresse : </b> <c:out value="${entity.address}"/> </p>
-
-                                                        <c:if test="${entity.type == 'Entreprise'}">
-                                                            <p> <b>Siret : </b> <c:out value="${entity.siret}"/> </p>
-                                                        </c:if>
-
-                                                        <p> <b>Nombre de stagiaires : </b> <c:out value="${entity.intern_nb}"/> </p>
-                                                        <p> <b>Description : </b> <c:out value="${entity.description}"/> </p>
                                                     </div>
                                                 </div>
                                             </div>
