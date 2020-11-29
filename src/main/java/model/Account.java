@@ -8,9 +8,6 @@ import java.util.ArrayList;
  *
  * @author Margaux SCHNELZAUER
  *
- * @inv !this.username.isEmpty() && !this.password.isEmpty() && !this.name.isEmpty() &&
- * !this.right.isEmpty() && this.username != null && this.password != null
- * && this.name != null  && this.sectorsList.size()>0
  */
 public class Account {
 
@@ -61,16 +58,9 @@ public class Account {
      * @param contact : the referent contact
      * @param sectorsList : the sector list of an account
      * @param id : the account id
-     *
-     * @pre !username.isEmpty() && !password.isEmpty() && !name.isEmpty() && !right.isEmpty() &&
-     * username != null && password != null &&  name != null && right!= null
-     * && sectorsList.size()>0 && !contact.isLinkAccount()
      */
     public Account(String username, String password, String name, String right, Contact contact, ArrayList<Sector> sectorsList, int id) {
-        // pre condition
-        assert !username.isEmpty() && !password.isEmpty() && !name.isEmpty() && !right.isEmpty(): "Pre condition violated";
-        assert username != null && password != null &&  name != null && right!= null: "Pre condition violated";
-        assert sectorsList.size()>0 && !contact.isLinkAccount(): "Pre condition violated";
+
 
         this.username = username;
         this.password = password;
@@ -84,7 +74,6 @@ public class Account {
             this.contact.setLinkAccount(true);
         }
 
-        this.inv();
     }
 
 
@@ -97,16 +86,9 @@ public class Account {
      * @param right : the account right
      * @param contact : the referent contact
      * @param sectorsList : the sector list of an account
-     *
-     * @pre !username.isEmpty() && !password.isEmpty() && !name.isEmpty() && !right.isEmpty() &&
-     * username != null && password != null &&  name != null && right!= null
-     * && sectorsList.size()>0 && !contact.isLinkAccount()
      */
     public Account(String username, String password, String name, String right, Contact contact, ArrayList<Sector> sectorsList) {
-        // pre condition
-        assert !username.isEmpty() && !password.isEmpty() && !name.isEmpty() && !right.isEmpty(): "Pre condition violated";
-        assert username != null && password != null &&  name != null && right!= null: "Pre condition violated";
-        assert sectorsList.size()>0 && !contact.isLinkAccount(): "Pre condition violated";
+
 
         this.username = username;
         this.password = password;
@@ -120,7 +102,6 @@ public class Account {
             this.contact.setLinkAccount(true);
         }
 
-        this.inv();
     }
 
     //-----------------------------------------------------------------//
@@ -131,7 +112,6 @@ public class Account {
      * @return the user name
      */
     public String getUsername() {
-        this.inv();
         return username;
     }
 
@@ -141,7 +121,6 @@ public class Account {
      * @return the account password
      */
     public String getPassword() {
-        this.inv();
         return password;
     }
 
@@ -151,7 +130,6 @@ public class Account {
      * @return the account password
      */
     public String getName() {
-        this.inv();
         return name;
     }
 
@@ -161,7 +139,6 @@ public class Account {
      * @return the account right
      */
     public String getRight() {
-        this.inv();
         return right;
     }
 
@@ -171,7 +148,6 @@ public class Account {
      * @return the account contact
      */
     public Contact getContact() {
-        this.inv();
         return contact;
     }
 
@@ -181,7 +157,6 @@ public class Account {
      * @return the sector list of the account
      */
     public ArrayList<Sector> getSectors() {
-        this.inv();
         return sectorsList;
     }
 
@@ -201,15 +176,10 @@ public class Account {
      * Set a new username
      *
      * @param username : the new username
-     *
-     * @pre !username.isEmpty() && username != null
      */
     public void setUsername(String username) {
-        // pre condition
-        assert !username.isEmpty() && username != null : "Pre condition violated";
 
         this.username = username;
-        this.inv();
     }
 
     /**
@@ -217,14 +187,10 @@ public class Account {
      *
      * @param password : the new password
      *
-     * @pre !password.isEmpty() && password != null
      */
     public void setPassword(String password) {
-        // pre condition
-        assert !password.isEmpty() && password != null : "Pre condition violated";
 
         this.password = password;
-        this.inv();
     }
 
 
@@ -233,14 +199,10 @@ public class Account {
      *
      * @param name : the new name
      *
-     * @pre !name.isEmpty() && name != null
      */
     public void setName(String name) {
-        // pre condition
-        assert !name.isEmpty() && name != null : "Pre condition violated";
 
         this.name = name;
-        this.inv();
     }
 
     /**
@@ -248,14 +210,10 @@ public class Account {
      *
      * @param right : a new type of right
      *
-     * @pre !right.isEmpty()
      */
     public void setRight(String right) {
-        // pre condition
-        assert !right.isEmpty(): "Pre condition violated";
 
         this.right = right;
-        this.inv();
     }
 
     /**
@@ -263,16 +221,11 @@ public class Account {
      *
      * @param contact : the new referent contact
      *
-     * @pre contact != null && !contact.isLinkAccount()
      */
     public void setContact(Contact contact) {
-        // pre condition
-        assert contact != null && !contact.isLinkAccount(): "Pre condition violated";
 
         this.contact = contact;
         this.contact.setLinkAccount(true);
-
-        this.inv();
     }
 
     /**
@@ -280,18 +233,11 @@ public class Account {
      *
      * @param sector : the new sector to add
      *
-     * @pre sector != null && !this.sectorList.contains(sector)
-     * @post : this.sectorList.contains(sector)
      */
     public void addSector(Sector sector) {
-        // pre condition
-        assert !this.sectorsList.contains(sector) && sector != null : "Pre condition violated";
 
         this.sectorsList.add(sector);
-        this.inv();
 
-        //post condition
-        assert this.sectorsList.contains(sector) : "Post condition violated";
     }
 
     /**
@@ -299,18 +245,11 @@ public class Account {
      *
      * @param sector : the sector to remove
      *
-     * @pre sector != null && this.sectorList.contains(sector)
-     * @post : !this.sectorList.contains(sector)
      */
     public void removeSector(Sector sector) {
-        // pre condition
-        assert this.sectorsList.contains(sector) && sector != null : "Pre condition violated";
 
         this.sectorsList.remove(sector);
-        this.inv();
 
-        //post condition
-        assert !this.sectorsList.contains(sector) : "Post condition violated";
     }
 
 
@@ -323,15 +262,5 @@ public class Account {
         this.id = id;
     }
 
-    //-----------------------------------------------------------------//
-
-    /**
-     * The invariant of the class
-     */
-    private void inv(){
-        assert !this.username.isEmpty() && !this.password.isEmpty() && !this.name.isEmpty() && !this.right.isEmpty(): "Invariant violated";
-        assert this.username != null && this.password != null &&  this.name != null && this.sectorsList.size()>0 : "Invariant violated";
-
-    }
 
 }
