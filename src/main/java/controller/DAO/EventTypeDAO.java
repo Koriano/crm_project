@@ -17,7 +17,7 @@ public class EventTypeDAO {
     /**
      * Get the instance of the DAO class
      *
-     * @return unique instance of EntityDAO
+     * @return unique instance of EventTypeDAO
      */
     public static EventTypeDAO getInstance() {
         if (instance == null) {

@@ -17,7 +17,7 @@ public class EntityTypeDAO {
     /**
      * Get the instance of the DAO class
      *
-     * @return unique instance of EntityDAO
+     * @return unique instance of EntityTypeDAO
      */
     public static EntityTypeDAO getInstance() {
         if (instance == null) {
@@ -63,7 +63,30 @@ public class EntityTypeDAO {
                 ret = res.getInt("id");
                 
             }
-            System.out.println(ret);
+           
+        }catch (SQLException e) {
+            System.out.println(e);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+    public String getNameByID(int id){
+        
+       String req_select ="SELECT * FROM Entity_type WHERE id=?";
+       String ret="";
+        try {
+
+            // Forge preapre statement 
+            PreparedStatement req_select_all_prep = this.db.prepareStatement(req_select);
+            req_select_all_prep.setInt(1,id);
+            ResultSet res = req_select_all_prep.executeQuery();
+            // Get results of the query 
+            while (res.next()){
+                ret = res.getString("name");
+                
+            }
+            
         }catch (SQLException e) {
             System.out.println(e);
         }catch (Exception e) {
