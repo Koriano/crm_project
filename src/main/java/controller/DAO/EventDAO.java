@@ -45,55 +45,38 @@ public class EventDAO {
         String name = evt.getName();
         String description = evt.getDescription();
         Date date = new Date(evt.getDate().getTime());
-        String type = evt.getType();
+        int  type = EventTypeDAO.getInstance().getTypeByName(evt.getType());
         ArrayList<Contact> contacts = evt.getContactsList();
         int author_id = evt.getContactsList().get(0).getId();
         int eventid=-1;
-        if (type == null) {
-            type = "";
-        }
         if (description == null) {
             description = "";
         }
-        // Requests to check if the type is inserted in Event_type
-        String req_insert_type = "INSERT INTO Event_type(name) VALUES (?)";
-        String req_select_type = "SELECT COUNT(*) FROM Event_type WHERE name=? ";
+       
         // Request to insert Event
         String req_add_event = "INSERT INTO Event(name,description,date,type,authorId) VALUES (?,?,?,?,?)";
         // Request to insert contact
         
 
         try {
-
-            // Verify type
-            PreparedStatement req_select_prep = db.prepareStatement(req_select_type);
-            req_select_prep.setString(1, type);
-            ResultSet rs = req_select_prep.executeQuery();
-            rs.next();
-            int nb_row = rs.getInt("count(*)");
-            // If type not in database
-            if (nb_row == 0) {
-                // Insert Type
-                PreparedStatement req_insert_prep = db.prepareStatement(req_insert_type);
-                req_insert_prep.setString(1, type);
-                req_insert_prep.executeQuery();
+            if (type == -1){
+                throw new Exception("Type of Event "+type+" undefined");
             }
+          
             // Add Event
             PreparedStatement req_addevt_prep = this.db.prepareStatement(req_add_event,Statement.RETURN_GENERATED_KEYS);
             req_addevt_prep.setString(1, name);
             req_addevt_prep.setString(2, description);
             req_addevt_prep.setDate(3, date);
-            req_addevt_prep.setString(4, type);
+            req_addevt_prep.setInt(4, type);
             req_addevt_prep.setInt(5,author_id);
             int i = req_addevt_prep.executeUpdate();
-            System.out.println(i);
             if (i>0){
-                rs = req_addevt_prep.getGeneratedKeys();
+                ResultSet rs = req_addevt_prep.getGeneratedKeys();
                 if (rs != null && rs.next()) {
                     eventid = rs.getInt(1);
                 }
                if (eventid>=0){
-                    System.out.println(eventid);
                     ret =this.saveContactList(contacts, eventid);
                     
                }
@@ -179,37 +162,23 @@ public class EventDAO {
         String name = evt.getName();
         String description = evt.getDescription();
         Date date = new Date(evt.getDate().getTime());
-        String type = evt.getType();
+        int  type = EventTypeDAO.getInstance().getTypeByName( evt.getType());
         ArrayList<Contact> contacts = evt.getContactsList();
         
         int author_id = evt.getContactsList().get(0).getId();
         int eventid=evt.getId();
-        if (type == null) {
-            type = "";
-        }
+     
         if (description == null) {
             description = "";
         }
-        // Requests to check if the type is inserted in Event_type
-        String req_insert_type = "INSERT INTO Event_type(name) VALUES (?)";
-        String req_select_type = "SELECT COUNT(*) FROM Event_type WHERE name=? ";
+       
         // Request to insert Event
         String req_add_event = "UPDATE Event SET name=?,description=?,date=?,type=?,authorId=? WHERE id=?";
 
         try {
             
-            // Verify type
-            PreparedStatement req_select_prep = db.prepareStatement(req_select_type);
-            req_select_prep.setString(1, type);
-            ResultSet rs = req_select_prep.executeQuery();
-            rs.next();
-            int nb_row = rs.getInt("count(*)");
-            // If type not in database
-            if (nb_row == 0) {
-                // Insert Type
-                PreparedStatement req_insert_prep = db.prepareStatement(req_insert_type);
-                req_insert_prep.setString(1, type);
-                req_insert_prep.executeQuery();
+            if (type == -1){
+                throw new Exception("Type of Event "+type+" undefined");
             }
             this.deleteContactList(eventid);
             this.saveContactList(contacts, eventid);
@@ -218,7 +187,7 @@ public class EventDAO {
             req_updtevt_prep.setString(1, name);
             req_updtevt_prep.setString(2, description);
             req_updtevt_prep.setDate(3, date);
-            req_updtevt_prep.setString(4, type);
+            req_updtevt_prep.setInt(4, type);
             req_updtevt_prep.setInt(5,author_id);
             //WHERE
             req_updtevt_prep.setInt(6,eventid);
@@ -299,9 +268,8 @@ public class EventDAO {
                 name = rs.getString("name");
                 author_id = rs.getInt("authorId");
                 description =rs.getString("description");
-                type = rs.getString("type");
+                type = EventTypeDAO.getInstance().getNameByID(rs.getInt("type"));
                 date = rs.getDate("date");
-                System.out.println(date);
                 evt = new Event(name, date,  ContactDAO.getInstance().getContactById(author_id), type);
                 ret.add(evt);
             }                    
@@ -343,9 +311,8 @@ public class EventDAO {
                 name = rs.getString("name");
                 author_id = rs.getInt("authorId");
                 description =rs.getString("description");
-                type = rs.getString("type");
+                type = EventTypeDAO.getInstance().getNameByID(rs.getInt("type"));
                 date = rs.getDate("date");
-                System.out.println(date);
                 evt = new Event(name, date, cont, type);
                 ret.add(evt);
             }                    
