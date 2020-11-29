@@ -54,6 +54,10 @@
         <servlet-name>EntityProfile</servlet-name>
         <servlet-class>controller.servlets.entity.EntityProfileServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddEntity</servlet-name>
+        <servlet-class>controller.servlets.entity.AddEntityServlet</servlet-class>
+    </servlet>
 
     <!-- Accounts and rights -->
     <servlet>
@@ -114,6 +118,10 @@
     <servlet-mapping>
         <servlet-name>EntityProfile</servlet-name>
         <url-pattern>/research/entityProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddEntity</servlet-name>
+        <url-pattern>/addEntity</url-pattern>
     </servlet-mapping>
 
     <!-- Accounts and rights -->

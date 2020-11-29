@@ -50,6 +50,9 @@
     </div>
 
     <div id="Entities" class="tabcontent">
+        <c:if test="${right == 'Alimentation CRM' or right == 'Administrateur'}">
+            <a href="<c:url value="/addEntity"/>"><button>Ajouter Entité</button></a>
+        </c:if>
         <!-- Iterating over entities -->
         <c:forEach var="entity" items="${requestScope.entities}" varStatus="boucle">
             <a href="<c:url value="/research/entityProfile">
