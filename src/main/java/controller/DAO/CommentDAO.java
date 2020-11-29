@@ -101,7 +101,7 @@ public class CommentDAO {
         if (cmt != null && cmt.getAuthor() != null && cmt.getConcernedContact() != null){
             
             // Retrieve data from author and concerned contact
-            int id = cmt.getId();
+            
             int author = cmt.getAuthor().getId();
             int contact= cmt.getConcernedContact().getId();
             String content = cmt.getContent();

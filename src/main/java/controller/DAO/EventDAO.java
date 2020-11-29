@@ -102,6 +102,7 @@ public class EventDAO {
             int ret_req;
         
             for(Contact cont:list){
+                System.out.println(cont.getName());
                 if (cont!=null && cont.getId()>0){
                     PreparedStatement req_insert_prep = this.db.prepareStatement(req_insert_contact);
                     req_insert_prep.setInt(1, id);
@@ -271,7 +272,8 @@ public class EventDAO {
                 description =rs.getString("description");
                 type = EventTypeDAO.getInstance().getNameByID(rs.getInt("type"));
                 date = rs.getDate("date");
-                evt = new Event(name, date,  ContactDAO.getInstance().getContactById(author_id),type,eventId);
+                evt = new Event(name, date,ContactDAO.getInstance().getContactById(author_id),type,eventId);
+                evt.setDescription(description);
                 contactList = ContactDAO.getInstance().getContactByEvent(evt);
                 for (Contact contact :contactList){
                     if (contact!=null) evt.addContact(contact);
@@ -320,6 +322,7 @@ public class EventDAO {
                 type = EventTypeDAO.getInstance().getNameByID(rs.getInt("type"));
                 date = rs.getDate("date");
                 evt = new Event(name, date,  ContactDAO.getInstance().getContactById(author_id),type,eventId);
+                evt.setDescription(description);
                 contactList = ContactDAO.getInstance().getContactByEvent(evt);
                 for (Contact contact :contactList){
                     if (contact!=null) evt.addContact(contact);
@@ -366,6 +369,7 @@ public class EventDAO {
                 type = EventTypeDAO.getInstance().getNameByID(rs.getInt("type"));
                 date = rs.getDate("date");
                 ret = new Event(name, date,  ContactDAO.getInstance().getContactById(author_id),type,eventId);
+                ret.setDescription(description);
                 contactList = ContactDAO.getInstance().getContactByEvent(ret);
                 for (Contact contact :contactList){
                     if (contact!=null) ret.addContact(contact);

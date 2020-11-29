@@ -133,7 +133,7 @@ public class SectorDAO {
      * @return true if the request is a sucess 
      */
     public boolean deleteContactList(int sectorId){
-        String req_delete_sector = "DELETE FROM Contact_Sector_Asso WHERE sectorName=?";
+        String req_delete_sector = "DELETE FROM Contact_Sector_Asso WHERE sectorId=?";
         boolean ret = false;
         try {
             int ret_req;

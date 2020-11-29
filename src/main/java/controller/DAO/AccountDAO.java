@@ -387,22 +387,9 @@ public class AccountDAO {
      * @return list of rights 
      */
     public ArrayList<String> getAllRight(){
-        ArrayList<String> ret = new ArrayList<>();
-        String role;
-        String req_select_right = "SELECT * FROM `Right` ORDER BY name ASC";
-        try {
-            PreparedStatement  req_select_right_prep = this.db.prepareStatement( req_select_right);
-            ResultSet res = req_select_right_prep.executeQuery();
-            while (res.next()){
-                role = res.getString("name");
-                ret.add(role);
-            }
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        return ret;
+        return RightDAO.getInstance().getAllRight();
     }
+    
     
 
 }

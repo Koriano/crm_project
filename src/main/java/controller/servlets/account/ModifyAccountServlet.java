@@ -26,7 +26,8 @@ public class ModifyAccountServlet extends HttpServlet {
     private static final String ATT_ACTION = "action";
 
     private static final String VIEW = "/WEB-INF/admin/modifyAccount.jsp";
-    private static final String URL_REDIRECT = "/rights";
+    private static final String URL_REDIRECT_RIGHTS = "/rights";
+    private static final String URL_REDIRECT_ACCOUNT = "/rights/account";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -44,7 +45,7 @@ public class ModifyAccountServlet extends HttpServlet {
             this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
 
         } catch (Exception e) {
-            resp.sendRedirect(req.getContextPath() + URL_REDIRECT);
+            resp.sendRedirect(req.getContextPath() + URL_REDIRECT_RIGHTS);
         }
     }
 
@@ -57,17 +58,20 @@ public class ModifyAccountServlet extends HttpServlet {
         String old_id = req.getParameter(PARAM_ACCOUNT_ID);
 
         try{
-            Account old_account = accountDAO.getAccountById(Integer.parseInt(old_id));
+            int id = Integer.parseInt(old_id);
+
+            Account old_account = accountDAO.getAccountById(id);
 
             // Create form and account
             AccountForm form = new AccountForm();
             Account modified_account = form.createAccount(req, "modify");
+            modified_account.setId(id);
             modified_account.setPassword(old_account.getPassword());
 
-            // If no error, save account and redirect to rights
+            // If no error, save account and redirect to account
             if (form.getErrors().isEmpty()){
                 accountDAO.updateAccount(modified_account);
-                resp.sendRedirect(req.getContextPath() + URL_REDIRECT);
+                resp.sendRedirect(req.getContextPath() + URL_REDIRECT_ACCOUNT + "?id=" + modified_account.getId());
             }
             // If errors, forward to view with form
             else {
@@ -78,7 +82,7 @@ public class ModifyAccountServlet extends HttpServlet {
                 this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
             }
         } catch (Exception e){
-            resp.sendRedirect(req.getContextPath() + URL_REDIRECT);
+            resp.sendRedirect(req.getContextPath() + URL_REDIRECT_RIGHTS);
         }
     }
 

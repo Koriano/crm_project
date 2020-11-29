@@ -2,6 +2,7 @@ package controller.servlets.events;
 
 import controller.DAO.ContactDAO;
 import controller.DAO.EventDAO;
+import controller.DAO.EventTypeDAO;
 import model.Contact;
 import model.Event;
 import model.forms.EventForm;
@@ -68,20 +69,13 @@ public class CreateEventServlet extends HttpServlet {
     }
 
     private void setRequestAttributes(HttpServletRequest req){
-        // Get event and contact DAO
-        EventDAO eventDAO = EventDAO.getInstance();
+        // Get event types and contact DAO
+        EventTypeDAO eventTypeDAO = EventTypeDAO.getInstance();
         ContactDAO contactDAO = ContactDAO.getInstance();
 
         // Get every type and every contact
-//        ArrayList<String> types = eventDAO.getAllTypes();
+        ArrayList<String> types = eventTypeDAO.getAllTypes();
         ArrayList<Contact> contacts = contactDAO.getAllContacts();
-
-        // SIMULATION A SUPPR **********
-        ArrayList<String> types = new ArrayList<>();
-        types.add("RDV");
-        types.add("REUNION");
-        types.add("DEPOT D'OFFRES");
-        // *****************************
 
         // Set them as attributes
         req.setAttribute(ATT_TYPES, types);
