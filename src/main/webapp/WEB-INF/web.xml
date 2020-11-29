@@ -99,6 +99,12 @@
         <servlet-class>controller.servlets.sectors.DeleteSectorServlet</servlet-class>
     </servlet>
 
+    <!-- Events -->
+    <servlet>
+        <servlet-name>EventsHome</servlet-name>
+        <servlet-class>controller.servlets.events.EventsHomeServlet</servlet-class>
+    </servlet>
+
 
     <!-- Connect and disconnect -->
     <servlet-mapping>
@@ -196,6 +202,12 @@
     <servlet-mapping>
         <servlet-name>DeleteSector</servlet-name>
         <url-pattern>/sectors/delete</url-pattern>
+    </servlet-mapping>
+
+    <!-- Events -->
+    <servlet-mapping>
+        <servlet-name>EventsHome</servlet-name>
+        <url-pattern>/myEvents</url-pattern>
     </servlet-mapping>
 
 
