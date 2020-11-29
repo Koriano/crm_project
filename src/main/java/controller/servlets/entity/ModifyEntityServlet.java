@@ -20,11 +20,11 @@ public class ModifyEntityServlet extends HttpServlet {
         // Get DAO instance
         EntityDAO entityDAO = EntityDAO.getInstance();
 
-        String name = req.getParameter("entity_name");
+        int entityId = Integer.parseInt(req.getParameter("entityId"));
 
         try {
             // Create create entity
-            Entity entity = entityDAO.getEntityByName(name);
+            Entity entity = entityDAO.getEntityById(entityId);
 
             // Set request attributes for the view
             req.setAttribute("entity", entity);
@@ -65,7 +65,7 @@ public class ModifyEntityServlet extends HttpServlet {
     private void setFormAttributes(HttpServletRequest req){
         // Get entity DAO instance and get all types
         EntityDAO entityDAO = EntityDAO.getInstance();
-        ArrayList<String> types = entityDAO.getTypes();
+        ArrayList<String> types = entityDAO.getAllTypes();
 
         req.setAttribute("types", types);
     }

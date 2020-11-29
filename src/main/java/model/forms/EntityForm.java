@@ -110,7 +110,7 @@ public class EntityForm {
     }
 
     private void typeVerification(String type) throws Exception{
-        ArrayList<String> types = this.entityDAO.getTypes();
+        ArrayList<String> types = this.entityDAO.getAllTypes();
 
         if(!types.contains(type)){
             throw new Exception("Merci de rentrer un type valide.");

@@ -52,7 +52,7 @@ public class AddEntityServlet extends HttpServlet {
     private void setFormAttributes(HttpServletRequest req){
         // Get entity DAO instance and get all types
         EntityDAO entityDAO = EntityDAO.getInstance();
-        ArrayList<String> types = entityDAO.getTypes();
+        ArrayList<String> types = entityDAO.getAllTypes();
 
         req.setAttribute("types", types);
     }

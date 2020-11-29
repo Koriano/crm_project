@@ -17,7 +17,7 @@ public class DeleteEntityServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         // Get entityDAO
         EntityDAO entityDAO = EntityDAO.getInstance();
-        Entity entity = entityDAO.getEntityByName(req.getParameter("entity_name"));
+        Entity entity = entityDAO.getEntityById(Integer.parseInt(req.getParameter("entityId")));
 
         // Delete entity from DB
         entityDAO.deleteEntity(entity);
