@@ -724,7 +724,31 @@ public class ContactDAO {
     public ArrayList<String> getAllRoles(){
         return RoleDAO.getInstance().getAllRoles();
     }
+    /**
+     * Get all the id of the contacts linked to an account 
+     * @return all the accounts 
+     * @post all the id of the contacts linked to an account 
+     */
+    public ArrayList<Integer> getLinkedContacts(){
+        ArrayList<Integer> ret =new ArrayList<>();
+        int cont;
+        String req_select ="SELECT contactId FROM crm_bdd.Account WHERE contactId IS NOT NULL;";
+        try {
+           
+            PreparedStatement req_select_prep = this.db.prepareStatement(req_select); 
+            ResultSet res = req_select_prep.executeQuery();
+            while (res.next()){
+                cont = res.getInt("contactId");
+                ret.add(cont);
+            }
 
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    
+        return ret;
+    }
 
 
 }
