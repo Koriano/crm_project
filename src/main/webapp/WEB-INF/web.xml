@@ -72,6 +72,54 @@
         <servlet-name>AccountHome</servlet-name>
         <servlet-class>controller.servlets.account.RightsServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddAccount</servlet-name>
+        <servlet-class>controller.servlets.account.AddAccountServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AccountProfile</servlet-name>
+        <servlet-class>controller.servlets.account.AccountProfileServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ModifyAccount</servlet-name>
+        <servlet-class>controller.servlets.account.ModifyAccountServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteAccount</servlet-name>
+        <servlet-class>controller.servlets.account.DeleteAccountServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChangePassword</servlet-name>
+        <servlet-class>controller.servlets.account.ChangePasswordServlet</servlet-class>
+    </servlet>
+
+    <!-- Sectors -->
+    <servlet>
+        <servlet-name>SectorHome</servlet-name>
+        <servlet-class>controller.servlets.sectors.SectorHomeServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddSector</servlet-name>
+        <servlet-class>controller.servlets.sectors.AddSectorServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ModifySector</servlet-name>
+        <servlet-class>controller.servlets.sectors.ModifySectorServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteSector</servlet-name>
+        <servlet-class>controller.servlets.sectors.DeleteSectorServlet</servlet-class>
+    </servlet>
+
+    <!-- Events -->
+    <servlet>
+        <servlet-name>EventsHome</servlet-name>
+        <servlet-class>controller.servlets.events.EventsHomeServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateEvent</servlet-name>
+        <servlet-class>controller.servlets.events.CreateEventServlet</servlet-class>
+    </servlet>
 
 
     <!-- Connect and disconnect -->
@@ -144,6 +192,54 @@
     <servlet-mapping>
         <servlet-name>AccountHome</servlet-name>
         <url-pattern>/rights</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddAccount</servlet-name>
+        <url-pattern>/rights/account/add</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AccountProfile</servlet-name>
+        <url-pattern>/rights/account</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ModifyAccount</servlet-name>
+        <url-pattern>/rights/account/modify</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteAccount</servlet-name>
+        <url-pattern>/rights/account/delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangePassword</servlet-name>
+        <url-pattern>/home/changePassword</url-pattern>
+    </servlet-mapping>
+
+    <!-- Sectors -->
+    <servlet-mapping>
+        <servlet-name>SectorHome</servlet-name>
+        <url-pattern>/sectors</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddSector</servlet-name>
+        <url-pattern>/sectors/add</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ModifySector</servlet-name>
+        <url-pattern>/sectors/modify</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteSector</servlet-name>
+        <url-pattern>/sectors/delete</url-pattern>
+    </servlet-mapping>
+
+    <!-- Events -->
+    <servlet-mapping>
+        <servlet-name>EventsHome</servlet-name>
+        <url-pattern>/myEvents</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateEvent</servlet-name>
+        <url-pattern>/myEvents/create</url-pattern>
     </servlet-mapping>
 
 

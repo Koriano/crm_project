@@ -47,7 +47,7 @@
                 <div class="col"></div>
             </div>
             <div class="d-flex justify-content-center">
-                <div class="pt-5">
+                <div class="pt-5 pb-3">
                     <c:if test="${right == 'Alimentation CRM' or right == 'Administrateur'}">
                         <a href="<c:url value="/research/contactProfile/delete"/>">
                             <button class="btn btn-danger">Supprimer le contact</button>
@@ -83,7 +83,7 @@
                                 <div class="pt-3">
                                     <p> <b>Mail : </b>
                                         <c:forEach var="mail" items="${requestScope.contact.mailsList}">
-                                            <p><c:out value="${mail}"/></p> <br>
+                                            <p><c:out value="${mail}"/></p>
                                         </c:forEach>
                                     </p>
                                 </div>
@@ -91,7 +91,7 @@
                                 <div class="pt-3">
                                     <p> <b>Téléphone : </b>
                                         <c:forEach var="phone" items="${requestScope.contact.phonesList}">
-                                            <p><c:out value="${phone}"/></p> <br>
+                                            <p><c:out value="${phone}"/></p>
                                         </c:forEach>
                                     </p>
                                 </div>
@@ -139,7 +139,7 @@
 
                                     <div class="tab-pane fade show active" id="comment"
                                          role="tabpanel" aria-labelledby="comment-tab">
-                                        <textarea class="form-control rounded-0" name="commentContent" rows="10" cols="40" form="commentForm"><c:out value="${requestScope.comment.content}"/></textarea>
+                                        <textarea class="form-control rounded-0" name="commentContent" rows="13" cols="40" form="commentForm"><c:out value="${requestScope.comment.content}"/></textarea>
 
                                         <div class="d-flex justify-content-center pt-3">
                                             <form method="post" action="<c:url value="/research/contactProfile/saveComment"/>" id="commentForm">
@@ -164,13 +164,14 @@
                         </div>
                     </div>
                 </div>
+
+
+                <div class="col"></div>
             </div>
 
-            <div class="col"></div>
-            </div>
 
             <div class="d-flex justify-content-center">
-                <div class="pt-5">
+                <div class="pt-5 pb-5">
                     <c:if test="${right == 'Alimentation CRM' or right == 'Administrateur'}">
                         <a href="<c:url value="/research/contactProfile/delete"/>">
                             <button class="btn btn-danger">Supprimer le contact</button>

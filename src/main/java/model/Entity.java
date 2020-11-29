@@ -10,6 +10,11 @@ package model;
 public class Entity {
 
     /**
+     * The entity id
+     */
+    private int id;
+
+    /**
      * The entity name
      */
     private String name;
@@ -46,14 +51,47 @@ public class Entity {
      * @param name : the entity name
      * @param siret : the siret number
      * @param type : the entity type
+     * @param id : the entity id
+     *
+     * @pre !name.isEmpty() && name != null && siret.length() == 14 && !type.isEmpty() && type != null
      */
-    public Entity(String name, String siret, String type) {
+    public Entity(String name, String siret, String type, int id) {
+        // pre condition
+        assert !name.isEmpty() && name != null && siret.length() == 14 && !type.isEmpty() && type != null : "Pre condition violated";
+
         this.name = name;
         this.siret = siret;
         this.type = type;
         this.address ="";
         this.description ="";
         this.intern_nb = 0;
+        this.id = id;
+
+        this.inv();
+    }
+
+    /**
+     * The constructor of Entity
+     *
+     * @param name : the entity name
+     * @param siret : the siret number
+     * @param type : the entity type
+     *
+     * @pre !name.isEmpty() && name != null && siret.length() == 14 && !type.isEmpty() && type != null
+     */
+    public Entity(String name, String siret, String type) {
+        // pre condition
+        assert !name.isEmpty() && name != null && siret.length() == 14 && !type.isEmpty() && type != null : "Pre condition violated";
+
+        this.name = name;
+        this.siret = siret;
+        this.type = type;
+        this.address ="";
+        this.description ="";
+        this.intern_nb = 0;
+        this.id = 0;
+
+        this.inv();
     }
 
     //-----------------------------------------------------------------//
@@ -64,6 +102,7 @@ public class Entity {
      * @return the entity name
      */
     public String getName() {
+        this.inv();
         return this.name;
     }
 
@@ -73,6 +112,7 @@ public class Entity {
      * @return the entity address
      */
     public String getAddress() {
+        this.inv();
         return this.address;
     }
 
@@ -82,6 +122,7 @@ public class Entity {
      * @return the entity siret
      */
     public String getSiret() {
+        this.inv();
         return this.siret;
     }
 
@@ -91,6 +132,7 @@ public class Entity {
      * @return the entity description
      */
     public String getDescription() {
+        this.inv();
         return this.description;
     }
 
@@ -100,6 +142,7 @@ public class Entity {
      * @return the number of intern
      */
     public int getIntern_nb() {
+        this.inv();
         return this.intern_nb;
     }
 
@@ -109,7 +152,18 @@ public class Entity {
      * @return the entity type
      */
     public String getType() {
+        this.inv();
         return this.type;
+    }
+
+    /**
+     * Get the id of the entity
+     *
+     * @return the entity id
+     */
+    public int getId() {
+        this.inv();
+        return this.id;
     }
 
     //-----------------------------------------------------------------//
@@ -122,7 +176,11 @@ public class Entity {
      * @pre !name.isEmpty() && name != null
      */
     public void setName(String name) {
+        // pre condition
+        assert !name.isEmpty() && name != null : "Pre condition violated";
+
         this.name = name;
+        this.inv();
     }
 
     /**
@@ -133,7 +191,11 @@ public class Entity {
      * @pre address != null
      */
     public void setAddress(String address) {
+        // pre condition
+        assert address != null : "Pre condition violated";
+
         this.address = address;
+        this.inv();
     }
 
     /**
@@ -144,7 +206,11 @@ public class Entity {
      * @pre siret.length() == 14
      */
     public void setSiret(String siret) {
+        // pre condition
+        assert siret.length() == 14 : "Pre condition violated";
+
         this.siret = siret;
+        this.inv();
     }
 
     /**
@@ -155,8 +221,11 @@ public class Entity {
      * @pre description != null
      */
     public void setDescription(String description) {
+        // pre condition
+        assert description != null : "Pre condition violated";
 
         this.description = description;
+        this.inv();
     }
 
     /**
@@ -167,8 +236,11 @@ public class Entity {
      * @pre intern_nb >= 0
      */
     public void setIntern_nb(int intern_nb) {
+        // pre condition
+        assert intern_nb >= 0 : "Pre condition violated";
 
         this.intern_nb = intern_nb;
+        this.inv();
     }
 
     /**
@@ -179,7 +251,27 @@ public class Entity {
      * @pre !type.isEmpty() && type != null
      */
     public void setType(String type) {
+        // pre condition
+        assert !type.isEmpty() && type != null: "Pre condition violated";
 
         this.type = type;
+        this.inv();
+    }
+
+    /**
+     * Set a new entity id
+     *
+     * @param id : the new entity id
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+    //-----------------------------------------------------------------//
+
+    /**
+     * The invariant of the class
+     */
+    private void inv(){
+        assert !this.name.isEmpty() && this.name != null && this.siret.length() == 14 && this.intern_nb >= 0 && !this.type.isEmpty() && this.type != null && this.description != null: "Invariant violated";
     }
 }
