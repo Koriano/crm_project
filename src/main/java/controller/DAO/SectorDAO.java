@@ -332,4 +332,40 @@ public class SectorDAO {
        
        
     }
+    /**
+     * Get sector by name 
+     * @param sec sector 
+     * @pre name!=null
+     * @return sector
+     */
+    public Sector getSectorByName(String name){
+        assert name!=null;
+        Sector ret = null;
+        int id_sector;
+        String req_selec_sector = "SELECT * FROM Sector WHERE name=? ";
+        String sectorId = name;
+        try {
+
+            
+            PreparedStatement req_selec_prep = this.db.prepareStatement(req_selec_sector);
+            req_selec_prep.setString(1, sectorId);
+            req_selec_prep.executeQuery();
+        
+            ResultSet res = req_selec_prep.executeQuery();
+            while (res.next()){
+                name = res.getString("name");
+                id_sector = res.getInt("id");
+                ret = new Sector(name,id_sector);
+                this.getContactList(ret);
+                
+            }
+            
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ret;
+       
+    }
+
 }
