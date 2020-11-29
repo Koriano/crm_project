@@ -14,6 +14,18 @@
         :focus {
             outline: 0;
         }
+
+        #main{
+            min-height:100%;
+            margin:0 auto;
+            position:absolute;
+        }
+
+        footer{
+            position:absolute;
+            bottom:0;
+            width:100%;
+        }
     </style>
 </head>
 

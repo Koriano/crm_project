@@ -1,7 +1,7 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
-<head>
+<head style="height: auto">
     <meta charset="UTF-8">
     <title>Home</title>
     <link rel="stylesheet" href="<c:url value="/style/lib/bootstrap.min.css"/>" />
@@ -12,7 +12,7 @@
         }
     </style>
 </head>
-<body>
+<body style="height: auto">
     <c:import url="/WEB-INF/utils/menu.jsp"/>
 
     <div class="container">

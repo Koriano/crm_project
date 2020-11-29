@@ -58,7 +58,13 @@
                         </div>
                     </c:forEach>
                 </div>
+            </div>
+        </div>
+    </div>
 
+    <c:import url="/WEB-INF/utils/footer.jsp"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="<c:url value="/style/scripts/bootstrap.min.js"/>"></script>
 
 </body>
 </html>
