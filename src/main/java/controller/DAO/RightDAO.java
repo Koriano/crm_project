@@ -53,9 +53,10 @@ public class RightDAO {
      */
     public int  getRightByName(String  name){
         int ret =-1;
-        String req_select_right = "SELECT * FROM `Right` ORDER BY name ASC";
+        String req_select_right = "SELECT * FROM `Right` WHERE name=? ORDER BY name ASC";
         try {
             PreparedStatement  req_select_right_prep = this.db.prepareStatement( req_select_right);
+            req_select_right_prep.setString(1,name);
             ResultSet res = req_select_right_prep.executeQuery();
             while (res.next()){
                 ret = res.getInt("id");
