@@ -257,6 +257,7 @@ public class EventDAO {
         String description;
         String type;
         java.util.Date date;
+        ArrayList<Contact> contactList;
         String req_insert = "SELECT * FROM Event WHERE authorId=? ";
         try {
             PreparedStatement req_insert_prep = db.prepareStatement(req_insert);
@@ -270,7 +271,11 @@ public class EventDAO {
                 description =rs.getString("description");
                 type = EventTypeDAO.getInstance().getNameByID(rs.getInt("type"));
                 date = rs.getDate("date");
-                evt = new Event(name, date,  ContactDAO.getInstance().getContactById(author_id), type);
+                evt = new Event(name, date,  ContactDAO.getInstance().getContactById(author_id),type,eventId);
+                contactList = ContactDAO.getInstance().getContactByEvent(evt);
+                for (Contact contact :contactList){
+                    if (contact!=null) evt.addContact(contact);
+                }
                 ret.add(evt);
             }                    
        
@@ -300,6 +305,7 @@ public class EventDAO {
         String description;
         String type;
         java.util.Date date;
+        ArrayList<Contact> contactList;
         String req_insert = "SELECT id,name,description,date,type,authorId FROM crm_bdd.Event,crm_bdd.Contact_Event_Asso WHERE  eventId=id AND contactId=? ";
         try {
             PreparedStatement req_insert_prep = db.prepareStatement(req_insert);
@@ -313,7 +319,11 @@ public class EventDAO {
                 description =rs.getString("description");
                 type = EventTypeDAO.getInstance().getNameByID(rs.getInt("type"));
                 date = rs.getDate("date");
-                evt = new Event(name, date, cont, type);
+                evt = new Event(name, date,  ContactDAO.getInstance().getContactById(author_id),type,eventId);
+                contactList = ContactDAO.getInstance().getContactByEvent(evt);
+                for (Contact contact :contactList){
+                    if (contact!=null) evt.addContact(contact);
+                }
                 ret.add(evt);
             }                    
        
@@ -323,6 +333,51 @@ public class EventDAO {
         }
         return ret;
     }
-
+   
+    /**
+     * Get list of events by contact 
+     * @param cont contact
+     * @pre id>0
+     * @return event 
+     */
+    public Event getEventById(int id){
+       
+        assert id>0;
+        Event ret =null;
+        String name;
+        int eventId = id;
+        int author_id;
+        String description;
+        String type;
+        java.util.Date date;
+        Contact author;
+        ArrayList<Contact> contactList;
+        String req_insert = "SELECT * FROM Event WHERE id=? ";
+        try {
+            PreparedStatement req_insert_prep = db.prepareStatement(req_insert);
+            req_insert_prep.setInt(1,id);
+            req_insert_prep.executeQuery();
+            ResultSet rs = req_insert_prep.getResultSet();
+            while (rs.next()) {
+                eventId=rs.getInt("id");
+                name = rs.getString("name");
+                author_id = rs.getInt("authorId");
+                description =rs.getString("description");
+                type = EventTypeDAO.getInstance().getNameByID(rs.getInt("type"));
+                date = rs.getDate("date");
+                ret = new Event(name, date,  ContactDAO.getInstance().getContactById(author_id),type,eventId);
+                contactList = ContactDAO.getInstance().getContactByEvent(ret);
+                for (Contact contact :contactList){
+                    if (contact!=null) ret.addContact(contact);
+                }
+             
+            }                                        
+       
+        
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
 
 }
