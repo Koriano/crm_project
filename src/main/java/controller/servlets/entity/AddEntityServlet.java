@@ -38,7 +38,6 @@ public class AddEntityServlet extends HttpServlet {
         if(errors.isEmpty()){
             // If no error, create the entity and redirect to the entity page
             entityDAO.saveEntity(new_entity);
-            //req.setAttribute("entity_name", new_entity.getName());
             resp.sendRedirect(req.getContextPath() + "/research/entityProfile?entity_name="+new_entity.getName());
         } else {
             // Set attributes to request

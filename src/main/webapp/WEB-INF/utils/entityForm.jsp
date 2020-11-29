@@ -25,13 +25,13 @@
 <span>${requestScope.form.errors['siret']}</span>
 
 <div class="form-group pt-3">
-    <label for="address">Adresse </label>
+    <label for="address">Adresse <span>*</span></label>
     <input type="text" id="address" name="address" value="<c:out value="${requestScope.entity.address}"/>" class="form-control" placeholder="Adresse"/>
 </div>
 <span>${requestScope.form.errors['address']}</span>
 
 <div class="form-group pt-3">
-    <label for="intern_nb">Nombre de stagiaires </label>
+    <label for="intern_nb">Nombre de stagiaires <span>*</span></label>
     <input type="number" id="intern_nb" name="intern_nb" min="0" value="<c:out value="${empty requestScope.entity.intern_nb ? 0 : requestScope.entity.intern_nb}"/>" class="form-control" placeholder="Nombre de stagiaires"/>
 </div>
 <span>${requestScope.form.errors['intern_nb']}</span>
