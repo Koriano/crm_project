@@ -60,9 +60,34 @@
                                     </div>
 
                                     <div class="col-auto">
-                                        <a href="<c:url value="/research/entityProfile/delete"><c:param name="entityId" value="${requestScope.entity.id}"/></c:url>">
-                                            <button class="btn btn-danger">Supprimer l'entité</button>
-                                        </a>
+                                        <div class="form row justify-content-center pb-5">
+                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modifyContactModal">Supprimer</button>
+                                        </div>
+
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="modifyContactModal" tabindex="-1" role="dialog" aria-labelledby="modifyContactModallLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Suppression</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Etes-vous sur de vouloir supprimer ce compte ?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                                                        <a href="<c:url value="/research/entityProfile/delete"><c:param name="entityId" value="${requestScope.entity.id}"/></c:url>">
+                                                            <button type="submit" class="btn btn-primary">Supprimer définitivement</button>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </c:if>

@@ -24,7 +24,29 @@
                         <c:import url="/WEB-INF/utils/contactForm.jsp"/>
 
                         <div class="form row justify-content-center pb-5">
-                            <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifyContactModal">Mettre à jour</button>
+                        </div>
+
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="modifyContactModal" tabindex="-1" role="dialog" aria-labelledby="modifyContactModallLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Enregistrement des modifications</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Enregistrer les modifications ?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                                        <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <span>${requestScope.form.result}</span>

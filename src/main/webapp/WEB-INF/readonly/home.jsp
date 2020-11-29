@@ -15,6 +15,10 @@
 
 
     <div class="container body">
+        <div class="row justify-content-end" style="position: absolute">
+            <a href="<c:url value="/home/changePassword"/>"><button type="button" class="btn btn-primary" hidden>Modifier le mot de passe</button></a>
+        </div>
+
         <div class="row">
             <div class="col-lg-6 col-md-8 col-sm-9 mx-auto pt-5 pb-4">
                 <div class="text-center">
@@ -129,9 +133,7 @@
             </div>
         </div>
 
-        <div>
-            <a href="<c:url value="/home/changePassword"/>"><button type="button">Modifier le mot de passe</button></a>
-        </div>
+
     </div>
 
 

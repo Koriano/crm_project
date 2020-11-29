@@ -17,7 +17,7 @@
                         <form class="form-signin" method="post" action="<c:url value="/connect"/>">
 
                             <div class="form-label-group pt-3">
-                                <input type="text" id="username" name="username" class="form-control" maxlength="25" placeholder="Email address" value="<c:out value="${requestScope.account.username}"/>">
+                                <input type="text" id="username" name="username" class="form-control" maxlength="25" placeholder="Nom d'utilisateur" value="<c:out value="${requestScope.account.username}"/>">
                                 <label for="username">Nom d'utilisateur</label>
                             </div>
 
