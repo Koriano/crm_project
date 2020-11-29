@@ -292,7 +292,7 @@ public class EntityDAO {
                 siret = res.getString("siret");
                 description = res.getString("description");
                 intern_nb = res.getInt("intern_nb");
-                type = res.getString("type");
+                type = EntityTypeDAO.getInstance().getNameByID(res.getInt("type"));
                 
                 // Build Entity object from result 
                 Entity entity =  new Entity(name,siret,type,id);
@@ -339,7 +339,7 @@ public class EntityDAO {
                 siret = res.getString("siret");
                 description = res.getString("description");
                 intern_nb = res.getInt("intern_nb");
-                type = res.getString("type");
+                type = EntityTypeDAO.getInstance().getNameByID(res.getInt("type"));
 
                 // Build Entity Object 
                 Entity entity =  new Entity(name,siret,type);
