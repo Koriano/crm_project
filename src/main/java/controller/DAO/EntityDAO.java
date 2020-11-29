@@ -372,5 +372,16 @@ public class EntityDAO {
     }
 
 
+    public ArrayList<String> getTypes(){
+
+        ArrayList<String> types = new ArrayList<>();
+        types.add("Entreprise");
+        types.add("Etablissement d'enseignement");
+        types.add("Laboratoire");
+
+        return types;
+    }
+
+
 
     }

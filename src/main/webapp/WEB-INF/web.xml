@@ -54,6 +54,18 @@
         <servlet-name>EntityProfile</servlet-name>
         <servlet-class>controller.servlets.entity.EntityProfileServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddEntity</servlet-name>
+        <servlet-class>controller.servlets.entity.AddEntityServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ModifyEntity</servlet-name>
+        <servlet-class>controller.servlets.entity.ModifyEntityServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteEntity</servlet-name>
+        <servlet-class>controller.servlets.entity.DeleteEntityServlet</servlet-class>
+    </servlet>
 
     <!-- Accounts and rights -->
     <servlet>
@@ -163,6 +175,18 @@
         <servlet-name>EntityProfile</servlet-name>
         <url-pattern>/research/entityProfile</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddEntity</servlet-name>
+        <url-pattern>/addEntity</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ModifyEntity</servlet-name>
+        <url-pattern>/research/entityProfile/modify</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteEntity</servlet-name>
+        <url-pattern>/research/entityProfile/delete</url-pattern>
+    </servlet-mapping>
 
     <!-- Accounts and rights -->
     <servlet-mapping>
@@ -267,8 +291,8 @@
         <url-pattern>/research/contactProfile/modify</url-pattern>
         <url-pattern>/research/contactProfile/delete</url-pattern>
         <url-pattern>/addEntity</url-pattern>
-        <url-pattern>/research/entity/modify</url-pattern>
-        <url-pattern>/research/entity/delete</url-pattern>
+        <url-pattern>/research/entityProfile/modify</url-pattern>
+        <url-pattern>/research/entityProfile/delete</url-pattern>
         <url-pattern>/importContacts</url-pattern>
     </filter-mapping>
     <filter-mapping>

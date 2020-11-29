@@ -25,7 +25,7 @@
 
                     <c:if test="${requestScope.entity.type == 'Entreprise'}">
                         <div class="pt-2">
-                        <p> <b>SIRET : </b> <c:out value="${requestScope.entity.siret}"/> </p>
+                            <p> <b>SIRET : </b> <c:out value="${requestScope.entity.siret}"/> </p>
                         </div>
                     </c:if>
 
@@ -39,6 +39,10 @@
                     </div>
 
                     <div class="pt-3">
+                        <p> <b>Nombre de stagiaires : </b> <c:out value="${requestScope.entity.intern_nb}"/> </p>
+                    </div>
+
+                    <div class="pt-3">
                         <p> <b>Description : </b> <c:out value="${requestScope.entity.description}"/> </p>
                     </div>
 
@@ -47,13 +51,13 @@
                         <c:if test="${right == 'Alimentation CRM' or right == 'Administrateur'}">
                             <div class="row">
                                 <div class="col-auto">
-                                    <a href="<c:url value="/research/entity/modify"/>">
+                                    <a href="<c:url value="/research/entityProfile/modify"><c:param name="entity_name" value="${requestScope.entity.name}"/></c:url>">
                                         <button class="btn btn-primary ">Modifier l'entité</button>
                                     </a>
                                 </div>
 
                                 <div class="col-auto">
-                                    <a href="<c:url value="/research/entity/delete"/>">
+                                    <a href="<c:url value="/research/entityProfile/delete"><c:param name="entity_name" value="${requestScope.entity.name}"/></c:url>">
                                         <button class="btn btn-danger">Supprimer l'entité</button>
                                     </a>
                                 </div>
