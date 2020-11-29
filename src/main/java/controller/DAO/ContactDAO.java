@@ -51,14 +51,15 @@ public class ContactDAO {
         boolean reserved = cont.isReserved();
         int role = RoleDAO.getInstance().getRoleByName(cont.getRole());
         Entity entity = cont.getEntity();
-        String entityname = null;
+        int entityid = -1;
+        if (entity != null){
+            entityid = entity.getId();
+        }
         int referent=-1;
         if (reserved){
             referent = cont.getReferent().getId();
         }
-        if (entity!=null){
-            entityname=entity.getName();
-        }
+    
        
     
         // Requête
@@ -69,7 +70,11 @@ public class ContactDAO {
             if (role==-1){
                 throw new Exception("Invalid Role: "+cont.getRole());
             }
+            if (entityid==0){
+                throw new Exception("Invalid EntityId: "+entityid);
+            }
             PreparedStatement req_add_prep =null;
+            
             if (reserved){
                 req_add_prep = this.db.prepareStatement(req_add_reserved,Statement.RETURN_GENERATED_KEYS);
                 req_add_prep.setString(1,name);
@@ -77,7 +82,12 @@ public class ContactDAO {
                 req_add_prep.setString(3,address);
                 req_add_prep.setInt(4,role);
                 req_add_prep.setInt(5,referent);
-                req_add_prep.setString(6,entityname);
+                if (entityid !=-1){
+                    req_add_prep.setInt(6,entityid);
+                }
+                else{
+                    req_add_prep.setNull(6,Types.NULL);
+                }
             }
             else{
                 req_add_prep = this.db.prepareStatement(req_add,Statement.RETURN_GENERATED_KEYS);
@@ -85,7 +95,13 @@ public class ContactDAO {
                 req_add_prep.setString(2,surname);
                 req_add_prep.setString(3,address);
                 req_add_prep.setInt(4,role);
-                req_add_prep.setString(5,entityname);
+                if (entityid !=-1){
+                    req_add_prep.setInt(5,entityid);
+                
+                }
+                else{
+                    req_add_prep.setNull(5,Types.NULL);
+                }
             }
             int insert= req_add_prep.executeUpdate();
             ResultSet rs = req_add_prep.getGeneratedKeys();
@@ -187,13 +203,13 @@ public class ContactDAO {
         boolean reserved= cont.isReserved();
         int role = RoleDAO.getInstance().getRoleByName(cont.getRole());
         Entity entity = cont.getEntity();
-        String entityname = null;
+        int entityid = -1;
         int referent=-1;
         if (reserved){
             referent = cont.getReferent().getId();
         }
         if (entity!=null){
-            entityname=entity.getName();
+            entityid= entity.getId();
         }
         // Requête
         String req_update = "UPDATE Contact set name= ?,surname= ?,address= ?,role= ?,entity=? where id=?";
@@ -202,6 +218,9 @@ public class ContactDAO {
         try {
             if (role==-1){
                 throw new Exception("Invalid Role: "+cont.getRole());
+            }
+            if (entityid==0){
+                throw new Exception("Invalid EntityId: "+entityid);
             }
             // --Update associated mails and phones
             this.deleteMail(id);
@@ -218,7 +237,13 @@ public class ContactDAO {
                 req_update_prep.setString(3,address);
                 req_update_prep.setInt(4,role);
                 req_update_prep.setInt(5,referent);
-                req_update_prep.setString(6,entityname);
+                if (entityid !=-1){
+                    req_update_prep.setInt(6,entityid);
+                
+                }
+                else{
+                    req_update_prep.setNull(6,Types.NULL);
+                }
                  //WHERE
                  req_update_prep.setInt(7, id);
             }
@@ -228,7 +253,13 @@ public class ContactDAO {
                 req_update_prep.setString(2,surname);
                 req_update_prep.setString(3,address);
                 req_update_prep.setInt(4,role);
-                req_update_prep.setString(5,entityname);
+                if (entityid !=-1){
+                    req_update_prep.setInt(5,entityid);
+                
+                }
+                else{
+                    req_update_prep.setNull(5,Types.NULL);
+                }
                 //WHERE
                 req_update_prep.setInt(6, id);
             }
