@@ -359,6 +359,7 @@ public class EntityDAO {
         assert (ret != null);
         return ret;
     }
+
     /**
      * Get the list of types in the database 
      * @return the list of types in the database 
