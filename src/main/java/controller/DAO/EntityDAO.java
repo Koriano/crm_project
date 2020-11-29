@@ -113,7 +113,7 @@ public class EntityDAO {
         if (ent!=null){
 
             // Retrieve data from entity
-            
+            int id = ent.getId();
             String name = ent.getName();
             String address = ent.getAddress();
             String siret = ent.getSiret();
@@ -123,7 +123,7 @@ public class EntityDAO {
             
         
             // Request to update an entity 
-            String req_update = "UPDATE Entity set name= ?,address= ? ,siret= ? ,description = ? ,intern_nb= ?,type=? where name = ? ";
+            String req_update = "UPDATE Entity set name= ?,address= ? ,siret= ? ,description = ? ,intern_nb= ?,type=? where id = ? ";
             // Request to check if an given entity type already exist 
           
 
@@ -141,7 +141,7 @@ public class EntityDAO {
                 req_update_prep.setInt(5,intern_nb);
                 req_update_prep.setInt(6,type);
                 //WHERE parameter
-                req_update_prep.setString(7, name);
+                req_update_prep.setInt(7, id);
                 // Update Entity   
                 int insert = req_update_prep.executeUpdate();
                 if (insert==0){
@@ -351,4 +351,5 @@ public class EntityDAO {
     public ArrayList<String> getAllTypes(){
         return EntityTypeDAO.getInstance().getAllTypes();
     }
+   
 }
