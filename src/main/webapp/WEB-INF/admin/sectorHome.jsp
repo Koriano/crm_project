@@ -12,7 +12,7 @@
     <div class="header">
         <c:import url="/WEB-INF/utils/menu.jsp"/>
     </div>
-    <div class="container body pb-5">
+    <div class="container body">
         <div class="row">
             <div class="col-sm-9 col-md-7 col-lg-5 mx-auto pt-5">
                 <div class="text-center">
