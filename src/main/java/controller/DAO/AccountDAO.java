@@ -341,7 +341,7 @@ public class AccountDAO {
         int contact_id;
         Account acc;
         ArrayList<Sector> sectors = new ArrayList<>();
-        String req_select ="SELECT * FROM Account WHERE id==?";
+        String req_select ="SELECT * FROM Account WHERE id=?";
         try {
            
             PreparedStatement req_select_prep = this.db.prepareStatement(req_select);
