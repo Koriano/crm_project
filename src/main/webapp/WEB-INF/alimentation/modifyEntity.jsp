@@ -26,7 +26,7 @@
                         <button type="submit" class="btn btn-primary">Mettre à jour</button>
                     </div>
 
-                    <span>${requestScope.form.result}</span>
+                    <span><c:out value="${requestScope.form.result || requestScope.form.result == null ? null : 'Echec de la modification : vérifiez les données entrées.'}"/></span>
 
                 </fieldset>
             </form>
