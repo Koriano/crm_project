@@ -128,6 +128,10 @@
         <servlet-name>ModifyEvent</servlet-name>
         <servlet-class>controller.servlets.events.ModifyEventServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeleteEvent</servlet-name>
+        <servlet-class>controller.servlets.events.DeleteEventServlet</servlet-class>
+    </servlet>
 
 
     <!-- Connect and disconnect -->
@@ -256,6 +260,10 @@
     <servlet-mapping>
         <servlet-name>ModifyEvent</servlet-name>
         <url-pattern>/myEvents/details/modify</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteEvent</servlet-name>
+        <url-pattern>/myEvents/details/delete</url-pattern>
     </servlet-mapping>
 
 
