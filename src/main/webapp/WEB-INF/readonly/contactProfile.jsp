@@ -184,8 +184,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
-
-                                        <a href="<c:url value="/research/contactProfile/delete"/>">
+                                        <a href="<c:url value="/research/contactProfile/delete"><c:param name="contactId" value="${requestScope.contact.id}"/></c:url>">
                                             <button type="submit" class="btn btn-primary">Supprimer définitivement</button>
                                         </a>
                                     </div>
