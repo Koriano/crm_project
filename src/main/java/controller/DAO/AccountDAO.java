@@ -99,20 +99,22 @@ public class AccountDAO {
         int account_id = acc.getId();
         Contact contact = acc.getContact();
         ArrayList<Sector> sectors = acc.getSectors();
-        String req_insert = "UPDATE Account SET `username`=?,`password`=?,`name`=?,`right`=?,`contactId`=? WHERE username=?";
+        String req_insert = "UPDATE Account SET `username`=?,`password`=?,`name`=?,`right`=?,`contactId`=? WHERE id=?";
         try{
+        
             PreparedStatement req_insert_prep = this.db.prepareStatement(req_insert,Statement.RETURN_GENERATED_KEYS);
             req_insert_prep.setString(1,username);
             req_insert_prep.setString(2,password);
             req_insert_prep.setString(3,name);
             req_insert_prep.setInt(4,right);
             req_insert_prep.setInt(5,contact.getId());
-            req_insert_prep.setString(6,username);
+            req_insert_prep.setInt(6,acc.getId());
             int insert;
             insert =req_insert_prep.executeUpdate();
             if (insert>0 && account_id !=-1){
-               ;
-                ret =  this.deleteSectors(account_id) && this.addSectors(sectors, account_id);
+                this.deleteSectors(account_id);
+                if (sectors!=null && sectors.size()!=0) ret = this.addSectors(sectors, account_id);
+                else ret=false;
             }
             else{
                 ret=false;
@@ -139,11 +141,11 @@ public class AccountDAO {
         boolean ret = true;
         try {
             int ret_req;
-        
             for(Sector sector:list){
-                if (sector!=null && sector.getName()!=null && SectorDAO.getInstance().isSectorExist(sector.getName())){
+                System.out.println("oubbaba"+sector.getName());
+                if (sector!=null && sector.getName()!=null){
                     PreparedStatement req_insert_prep = this.db.prepareStatement(req_insert_sector); 
-                    req_insert_prep.setInt(1, SectorDAO.getInstance().getSectorByName(sector.getName()).getId());
+                    req_insert_prep.setInt(1,sector.getId());
                     req_insert_prep.setInt(2, accountId);
                     ret_req=req_insert_prep.executeUpdate();
                     if (ret_req==0){
@@ -173,7 +175,8 @@ public class AccountDAO {
         try {
             int ret_req;
            
-            
+          
+           
             PreparedStatement req_delete_prep = this.db.prepareStatement(req_delete_sector); 
             req_delete_prep.setInt(1, accountId);
             ret_req=req_delete_prep.executeUpdate();
