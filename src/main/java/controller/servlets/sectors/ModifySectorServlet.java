@@ -49,26 +49,35 @@ public class ModifySectorServlet extends HttpServlet {
         // Get sector DAO
         SectorDAO sectorDAO = SectorDAO.getInstance();
 
-        // Create modified sector
-        SectorForm form = new SectorForm();
-        Sector modified_sector = form.createSector(req);
+        // Get old account
+        String old_id = req.getParameter(PARAM_SECTOR_ID);
 
-        HashMap<String, String> errors = form.getErrors();
+        try{
+            // Create modified sector
+            SectorForm form = new SectorForm();
+            Sector modified_sector = form.createSector(req);
+            modified_sector.setId(Integer.parseInt(old_id));
 
-        // If no errors update and redirect
-        if(errors.isEmpty()){
-            sectorDAO.updateSector(modified_sector);
+            HashMap<String, String> errors = form.getErrors();
 
+            // If no errors update and redirect
+            if(errors.isEmpty()){
+                sectorDAO.updateSector(modified_sector);
+
+                resp.sendRedirect(req.getContextPath() + URL_REDIRECT);
+            }
+            // If errors set request attributes and forward
+            else {
+                this.setRequestAttributes(req);
+                req.setAttribute(ATT_SECTOR, modified_sector);
+                req.setAttribute(ATT_FORM, form);
+
+                this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
+            }
+        } catch (Exception e) {
             resp.sendRedirect(req.getContextPath() + URL_REDIRECT);
         }
-        // If errors set request attributes and forward
-        else {
-            this.setRequestAttributes(req);
-            req.setAttribute(ATT_SECTOR, modified_sector);
-            req.setAttribute(ATT_FORM, form);
 
-            this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
-        }
     }
 
     private void setRequestAttributes(HttpServletRequest req){

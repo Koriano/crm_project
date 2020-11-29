@@ -13,7 +13,10 @@
         <div class="row">
             <div class="col-sm-9 col-md-7 col-lg-5 mx-auto pt-5">
 
-                <form method="post" action="<c:url value="/sectors/modify"/>">
+                <c:url var="form_link" value="/sectors/modify">
+                    <c:param name="id" value="${requestScope.sector.id}"/>
+                </c:url>
+                <form method="post" action="${form_link}">
                     <fieldset>
 
                         <c:import url="/WEB-INF/utils/sectorForm.jsp"/>
