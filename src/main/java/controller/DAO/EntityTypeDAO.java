@@ -25,6 +25,59 @@ public class EntityTypeDAO {
         }
         return instance;
     }
+    /**
+     * Save Entity_type in the database 
+     * @pre type!=null
+     * @param type type value 
+     * @return true if request success 
+     */
+    public boolean saveEntityType(String type){
+        assert type!=null :"Pre condition violated";
+        
+        boolean ret = true;
+        String name = type;
+        int ret_req;
+        String req_insert = "INSERT INTO Entity_type(name) VALUES(?)";
+        
+        
+        try {
+            PreparedStatement req_insert_prep = this.db.prepareStatement(req_insert);
+            req_insert_prep.setString(1,name);
+    
+            ret_req= req_insert_prep.executeUpdate();
+            
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            ret=false;
+        }
+        return ret;
+    }
+    /**
+     * Save Entity_type in the database 
+     * @pre type!=null
+     * @param type type value 
+     * @return true if request success 
+     */
+    public boolean deleteEntityType(int id ){
+        assert id>0 :"Pre condition violated";
+        
+        boolean ret = true;
+        int ret_req;
+        String req_delete = "DELETE FROM Entity_type WHERE id=?";
+        
+        try {
+            PreparedStatement req_delete_prep = this.db.prepareStatement(req_delete);
+            req_delete_prep.setInt(1,id);
+            ret_req= req_delete_prep.executeUpdate();
+            
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            ret=false;
+        }
+        return ret;
+    }
     public ArrayList<String> getAllTypes(){
         // Request to check if an given entity  type already exist
         String req_select ="SELECT * FROM Entity_type";
@@ -48,6 +101,7 @@ public class EntityTypeDAO {
         }
         return ret;
     }
+
     public int getTypeByName(String type){
         // Request to check if an given entity  type already exist
         String req_select ="SELECT * FROM Entity_type WHERE name=?";
