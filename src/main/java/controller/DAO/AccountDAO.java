@@ -142,7 +142,7 @@ public class AccountDAO {
         try {
             int ret_req;
             for(Sector sector:list){
-                System.out.println("oubbaba"+sector.getName());
+               
                 if (sector!=null && sector.getName()!=null){
                     PreparedStatement req_insert_prep = this.db.prepareStatement(req_insert_sector); 
                     req_insert_prep.setInt(1,sector.getId());
