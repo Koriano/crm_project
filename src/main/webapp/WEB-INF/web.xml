@@ -16,6 +16,10 @@
         <servlet-name>Home</servlet-name>
         <servlet-class>controller.servlets.HomeServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UserProfile</servlet-name>
+        <servlet-class>controller.servlets.account.UserProfileServlet</servlet-class>
+    </servlet>
 
     <!-- Contact and entities research -->
     <servlet>
@@ -148,6 +152,10 @@
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserProfile</servlet-name>
+        <url-pattern>/profile</url-pattern>
     </servlet-mapping>
 
     <!-- Contacts and entities research -->

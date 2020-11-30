@@ -14,27 +14,27 @@
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold pr-lg-3" style="font-size : 25px; " href="<c:out value="/home"/>">
+                    <a class="nav-link font-weight-bold pr-lg-3" style="font-size : 25px; " href="<c:url value="/home"/>">
                         Accueil
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold pr-lg-3" style="font-size : 25px; " href="<c:out value="/research"/>">
+                    <a class="nav-link font-weight-bold pr-lg-3" style="font-size : 25px; " href="<c:url value="/research"/>">
                         Recherche
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold pr-lg-3" style="font-size : 25px; " href="<c:out value="/myEvents"/>">
+                    <a class="nav-link font-weight-bold pr-lg-3" style="font-size : 25px; " href="<c:url value="/myEvents"/>">
                         Mes événements
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold pr-lg-3"  style="font-size : 25px; " href="<c:out value="/importContacts"/>">
+                    <a class="nav-link font-weight-bold pr-lg-3"  style="font-size : 25px; " href="<c:url value="/importContacts"/>">
                         Importer des contacts
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold pr-lg-3"  style="font-size : 25px; "href="<c:out value="/exportContacts"/>">
+                    <a class="nav-link font-weight-bold pr-lg-3"  style="font-size : 25px; "href="<c:url value="/exportContacts"/>">
                         Exporter des contacts
                     </a>
                 </li>
