@@ -16,7 +16,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ModifyContactServlet extends HttpServlet {
-    private static final String PARAM_SESSION_ID_CONTACT = "contact_id";
+    private static final String PARAM_SESSION_ID_CONTACT = "id_contact";
+    private static final String PARAM_ID_CONTACT = "id";
 
     private static final String ATT_CONTACTS = "contacts";
     private static final String ATT_ROLES = "roles";
@@ -25,28 +26,33 @@ public class ModifyContactServlet extends HttpServlet {
     private static final String ATT_FORM = "form";
 
     private static final String VIEW = "/WEB-INF/alimentation/modifyContact.jsp";
-    private static final String URL_REDIRECT = "/research/contactProfile";
+    private static final String URL_REDIRECT = "/research/contact";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Get DAO instance
         ContactDAO contactDAO = ContactDAO.getInstance();
 
-        // Get contact from session id
-        HttpSession session = req.getSession();
-        String id = (String) session.getAttribute(PARAM_SESSION_ID_CONTACT);
+        // Get contact id
+        String id = req.getParameter(PARAM_ID_CONTACT);
+
+        // Build redirect url
+        String redirect_url = req.getContextPath() + URL_REDIRECT + "?id=" + id;
 
         try {
             Contact contact = contactDAO.getContactById(Integer.parseInt(id));
 
-            // Set request attributes for the view
-            req.setAttribute(ATT_CONTACT, contact);
-            this.setFormAttributes(req);
+            if (contact != null){
+                // Set request attributes for the view
+                req.setAttribute(ATT_CONTACT, contact);
+                this.setFormAttributes(req);
 
-            this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
-
+                this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
+            } else {
+                resp.sendRedirect(redirect_url);
+            }
         } catch (Exception e){
-            resp.sendRedirect(req.getContextPath() + URL_REDIRECT);
+            resp.sendRedirect(redirect_url);
         }
     }
 
@@ -55,9 +61,15 @@ public class ModifyContactServlet extends HttpServlet {
         // Get contact DAO instance
         ContactDAO contactDAO = ContactDAO.getInstance();
 
+        // Get contact from session id
+        HttpSession session = req.getSession();
+        Integer id = (Integer) session.getAttribute(PARAM_SESSION_ID_CONTACT);
+        session.removeAttribute(PARAM_SESSION_ID_CONTACT);
+
         // Create the modified contact
         ContactForm form = new ContactForm();
         Contact modified_contact = form.createContact(req);
+        modified_contact.setId(id);
 
         // Get errors map
         HashMap<String, String> errors = form.getErrors();
@@ -65,7 +77,7 @@ public class ModifyContactServlet extends HttpServlet {
         // If no errors: modify and redirect to profile
         if(errors.isEmpty()){
             contactDAO.updateContact(modified_contact);
-            resp.sendRedirect(req.getContextPath() + URL_REDIRECT);
+            resp.sendRedirect(req.getContextPath() + URL_REDIRECT + "?id=" + id);
         }else {
             this.setFormAttributes(req);
             req.setAttribute(ATT_CONTACT, modified_contact);

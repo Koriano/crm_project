@@ -76,9 +76,12 @@
 
                                     <c:if test="${is_visible}">
                                         <div class="container-fluid pt-4">
-                                            <a href="<c:url value="/research/contact">
-                                                    <c:param name="id" value="${contact.id}"/>
-                                                </c:url>">
+
+                                            <c:url var="contact_link" value="/research/contact">
+                                                <c:param name="id" value="${contact.id}"/>
+                                            </c:url>
+
+                                            <a href="${contact_link}">
                                                 <div class="card">
                                                     <div class="card-header flex-column">
                                                         <h4 class="text-secondary"> <b> <c:out value="${contact.name} ${contact.surname}"/> </b> </h4>

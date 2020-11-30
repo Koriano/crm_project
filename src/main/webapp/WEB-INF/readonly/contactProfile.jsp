@@ -18,6 +18,22 @@
 
         <c:set var="right" value="${sessionScope.user.right}" scope="page"/>
 
+        <c:url var="modify_link" value="/research/contact/modify">
+            <c:param name="id" value="${requestScope.contact.id}"/>
+        </c:url>
+
+        <c:url var="delete_link" value="/research/contact/delete">
+            <c:param name="id" value="${requestScope.contact.id}"/>
+        </c:url>
+
+        <c:url var="referent_link" value="/research/contact">
+            <c:param name="id" value="${requestScope.contact.referent.id}"/>
+        </c:url>
+
+        <c:url var="save_comment_link" value="/research/contact/saveComment">
+            <c:param name="id" value="${requestScope.contact.referent.id}"/>
+        </c:url>
+
         <c:choose>
             <c:when test="${requestScope.contact.reserved}">
                     <div class="row">
@@ -29,17 +45,12 @@
                                 </div>
                                 <div class="card-body">
                                     <p>Ce contact est réservé par :
-
-                                        <c:url var="referent_link" value="/research/contact">
-                                            <c:param name="id" value="${requestScope.contact.referent.id}"/>
-                                        </c:url>
-
                                         <a href="${referent_link}"><c:out value="${requestScope.contact.referent.name} ${requestScope.contact.referent.surname}"/></a>
                                     </p>
 
                                     <div class="d-flex justify-content-center pt-5 pb-3">
                                         <c:if test="${right == 'Alimentation CRM' or right == 'Administrateur'}">
-                                            <a href="<c:url value="/research/contactProfile/modify"/>">
+                                            <a href="${modify_link}">
                                                 <button class="btn btn-primary ">Modifier le contact</button>
                                             </a>
                                         </c:if>
@@ -54,7 +65,7 @@
                 <div class="d-flex justify-content-center">
                     <div class="pt-5 pb-3">
                         <c:if test="${right == 'Alimentation CRM' or right == 'Administrateur'}">
-                            <a href="<c:url value="/research/contactProfile/delete"/>">
+                            <a href="${delete_link}">
                                 <button class="btn btn-danger">Supprimer le contact</button>
                             </a>
                         </c:if>
@@ -102,7 +113,7 @@
 
                             <div class="d-flex justify-content-center pt-5 pb-3">
                                 <c:if test="${right == 'Alimentation CRM' or right == 'Administrateur'}">
-                                    <a href="<c:url value="/research/contactProfile/modify"/>">
+                                    <a href="${modify_link}">
                                         <button class="btn btn-primary ">Modifier le contact</button>
                                     </a>
                                 </c:if>
@@ -139,7 +150,7 @@
                                     <textarea class="form-control rounded-0" name="commentContent" rows="13" cols="40" form="commentForm"><c:out value="${requestScope.comment.content}"/></textarea>
 
                                     <div class="d-flex justify-content-center pt-3">
-                                        <form method="post" action="<c:url value="/research/contactProfile/saveComment"/>" id="commentForm">
+                                        <form method="post" action="${save_comment_link}" id="commentForm">
                                             <button type="submit" class="btn btn-primary">Sauvegarder</button>
                                         </form>
                                     </div>
@@ -184,7 +195,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
-                                        <a href="<c:url value="/research/contactProfile/delete"><c:param name="contactId" value="${requestScope.contact.id}"/></c:url>">
+                                        <a href="${delete_link}">
                                             <button type="submit" class="btn btn-primary">Supprimer définitivement</button>
                                         </a>
                                     </div>

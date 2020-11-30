@@ -18,7 +18,9 @@
         <div class="row">
             <div class="col-sm-9 col-md-7 col-lg-5 mx-auto pt-5">
 
-                <form method="post" action="<c:url value="/research/contactProfile/modify"/>">
+                <c:set var="id_contact" value="${requestScope.contact.id}" scope="session"/>
+
+                <form method="post" action="<c:url var="form_link" value="/research/contact/modify"/>">
                     <fieldset>
 
                         <c:import url="/WEB-INF/utils/contactForm.jsp"/>
