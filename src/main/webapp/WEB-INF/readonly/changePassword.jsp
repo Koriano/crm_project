@@ -30,7 +30,7 @@
 
                         <c:import url="/WEB-INF/utils/passwordForm.jsp"/>
 
-                        <div class="form row justify-content-center pb-5">
+                        <div class="d-flex justify-content-center pt-5 pb-3">
                             <div class="form row justify-content-center pb-5">
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifyContactModal">Mettre à jour</button>
                             </div>

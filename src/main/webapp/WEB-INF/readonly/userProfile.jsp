@@ -47,11 +47,9 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="row justify-content-end" style="position: absolute">
+                <div class="d-flex justify-content-center pt-5 pb-3">
                     <a href="<c:url value="/home/changePassword"/>"><button type="button" class="btn btn-primary">Modifier le mot de passe</button></a>
                 </div>
-                
             </div>
         </div>
         <div class="footer">
