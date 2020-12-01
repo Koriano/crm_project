@@ -29,6 +29,7 @@ public class ModifyEventServlet extends HttpServlet {
     private static final String ATT_EVENT = "event";
     private static final String ATT_FORM = "form";
     private static final String ATT_DATE = "date";
+    private static final String ATT_TIME = "time";
 
     private static final String VIEW = "/WEB-INF/readonly/modifyEvent.jsp";
     private static final String URL_REDIRECT = "/myEvents";
@@ -88,12 +89,18 @@ public class ModifyEventServlet extends HttpServlet {
             // If errors, set attributes and forward
             else {
                 SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat time_format = new SimpleDateFormat("HH:mm");
+
                 Date date = modified_event.getDate();
 
-                req.setAttribute(ATT_EVENT, modified_event);
-                req.setAttribute(ATT_DATE, date_format.format(date));
-                req.setAttribute(ATT_FORM, form);
                 this.setRequestAttributes(req);
+                req.setAttribute(ATT_EVENT, modified_event);
+                req.setAttribute(ATT_FORM, form);
+
+                if (date != null){
+                    req.setAttribute(ATT_DATE, date_format.format(date));
+                    req.setAttribute(ATT_TIME, date_format.format(date));
+                }
 
                 this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
             }

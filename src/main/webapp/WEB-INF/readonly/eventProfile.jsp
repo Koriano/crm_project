@@ -33,6 +33,10 @@
                         </div>
 
                         <div class="pt-3">
+                            <p> <b>Heure : </b> <c:out value="${requestScope.time}"/> </p>
+                        </div>
+
+                        <div class="pt-3">
                             <p> <b>Type : </b> <c:out value="${requestScope.event.type}"/> </p>
                         </div>
 

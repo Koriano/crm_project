@@ -14,6 +14,12 @@
 <span>${requestScope.form.errors['date']}</span>
 
 <div class="form-group pt-3">
+    <label for="time">Heure <span>*</span></label>
+    <input type="time" id="time" name="time" value="<c:out value="${requestScope.time}"/>" class="form-control"/>
+</div>
+<span>${requestScope.form.errors['time']}</span>
+
+<div class="form-group pt-3">
     <label for="type">Type <span>*</span></label>
     <select id="type" name="type" class="form-control">
         <option value="" <c:out value="${empty requestScope.contact.role ? 'selected':''}"/>>Sélectionnez un type</option>
