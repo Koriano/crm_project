@@ -1,6 +1,7 @@
 package controller.servlets.entity;
 
 import controller.DAO.EntityDAO;
+import controller.DAO.EntityTypeDAO;
 import model.Entity;
 import model.forms.EntityForm;
 
@@ -37,6 +38,9 @@ public class AddEntityServlet extends HttpServlet {
 
         if(errors.isEmpty()){
             // If no error, create the entity and redirect to the research page
+            if (req.getParameter("newType") != null && !req.getParameter("newType").trim().isEmpty()) {
+                EntityTypeDAO.getInstance().saveEntityType(req.getParameter("newType"));
+            }
             entityDAO.saveEntity(updated_entity);
             resp.sendRedirect(req.getContextPath() + "/research");
         } else {
@@ -44,6 +48,7 @@ public class AddEntityServlet extends HttpServlet {
             this.setFormAttributes(req);
             req.setAttribute("entity", updated_entity);
             req.setAttribute("form", form);
+            req.setAttribute("newType", req.getParameter("newType"));
             this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
         }
 
@@ -53,6 +58,7 @@ public class AddEntityServlet extends HttpServlet {
         // Get entity DAO instance and get all types
         EntityDAO entityDAO = EntityDAO.getInstance();
         ArrayList<String> types = entityDAO.getAllTypes();
+        types.add("Nouveau type entite...");
 
         req.setAttribute("types", types);
     }
