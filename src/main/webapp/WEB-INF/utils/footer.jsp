@@ -1,7 +1,7 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<footer class="jumpotron bg-dark text-light text-center align-items-end fixed-bottom">
+<footer class="jumpotron bg-dark text-light text-center align-items-end">
     <p> © 2020
         <a href="https://github.com/Koriano" target="_blank">Alexandre HAMON</a>
         <a href="https://github.com/gurvanrenault" target="_blank">Gurvan RENAULT</a>
