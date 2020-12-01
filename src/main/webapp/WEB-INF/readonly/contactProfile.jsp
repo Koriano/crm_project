@@ -159,20 +159,37 @@
 
                                 <div class="tab-pane fade" id="history"
                                      role="tabpanel" aria-labelledby="history-tab">
+
                                     <c:forEach var="event" items="${requestScope.events}">
 
-                                        <c:url var="event_link" value="/myEvents/details">
-                                            <c:param name="id" value="${event.id}"/>
-                                        </c:url>
+                                        <div class="container-fluid pt-4">
+                                            <a href="<c:url value="/myEvents/details">
+                                                <c:param name="id" value="${event.id}"/>
+                                            </c:url>">
 
-                                        <a href="${event_link}">
-                                            <div>
-                                                <h4><c:out value="${event.name}"/> (<c:out value="${event.type}"/>)</h4>
-                                                <p><b>Date : </b> <c:out value="${event.date}"/></p>
-                                                <p><b>Description : </b> <c:out value="${event.description}"/></p>
-                                            </div>
-                                        </a>
-                                        
+                                                <div class="card">
+                                                    <div class="card-header flex-column">
+                                                        <h4 class="text-secondary"> <b> <c:out value="${event.name}"/> </b> </h4>
+                                                    </div>
+
+                                                    <div class="card-body ">
+                                                        <div class="d-flex justify-content-between">
+                                                            <div class="col-auto">
+                                                                <p class="text-secondary">
+                                                                    <c:out value="${event.date}"/>
+                                                                </p>
+                                                            </div>
+
+                                                            <div class="col-auto">
+                                                                <p class="text-secondary">
+                                                                    <c:out value="${event.type}"/>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
                                     </c:forEach>
                                 </div>
                             </div>
