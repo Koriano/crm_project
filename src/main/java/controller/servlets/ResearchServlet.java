@@ -113,8 +113,13 @@ public class ResearchServlet extends HttpServlet {
         do {
             contact = contact_list.get(i);
 
-            if (!contact.getName().toLowerCase().contains(filter) && !contact.getSurname().toLowerCase().contains(filter)){
+            if (!contact.getName().toLowerCase().contains(filter) &&
+                    !contact.getSurname().toLowerCase().contains(filter) &&
+                    !contact.getRole().toLowerCase().contains(filter) &&
+                    (contact.getEntity() == null || !contact.getEntity().getName().toLowerCase().contains(filter))){
+
                 contact_list.remove(i);
+
             } else {
                 i++;
             }
@@ -123,13 +128,17 @@ public class ResearchServlet extends HttpServlet {
     }
 
     private void filterEntitiesByResearch(ArrayList<Entity> entities_list, String filter){
+        // No case sensitivity
+        filter = filter.toLowerCase();
+
         int i = 0;
         Entity entity;
 
         do {
             entity = entities_list.get(i);
 
-            if (!entity.getName().toLowerCase().contains(filter)){
+            if (!entity.getName().toLowerCase().contains(filter) &&
+                    !entity.getType().toLowerCase().contains(filter)){
                 entities_list.remove(i);
             } else {
                 i++;
