@@ -10,6 +10,7 @@ import java.util.HashMap;
 public class EntityForm {
     private static final String PARAM_NAME = "name";
     private static final String PARAM_TYPE = "type";
+    private static final String PARAM_NEWTYPE = "newType";
     private static final String PARAM_SIRET = "siret";
     private static final String PARAM_ADDRESS = "address";
     private static final String PARAM_INTERN_NB = "intern_nb";
@@ -36,6 +37,7 @@ public class EntityForm {
         }
         String name = req.getParameter(PARAM_NAME);
         String type = req.getParameter(PARAM_TYPE);
+        String newType = req.getParameter(PARAM_NEWTYPE);
         String siret = req.getParameter(PARAM_SIRET);
         if (!"Entreprise".equals(type)) {
             siret = null;
@@ -56,9 +58,13 @@ public class EntityForm {
 
         // Verify type
         try{
-            this.typeVerification(type);
-        }catch (Exception e){
-            this.setError(PARAM_TYPE, e.getMessage());
+            this.typeVerification(type, newType);
+        } catch (Exception e){
+            if ("Merci de rentrer un nouveau type valide".equals(e.getMessage())) {
+                this.setError(PARAM_NEWTYPE, e.getMessage());
+            } else {
+                this.setError(PARAM_TYPE, e.getMessage());
+            }
         }
 
         // Verify siret
@@ -83,7 +89,7 @@ public class EntityForm {
         }
 
         // Create the new entity and set properties
-        Entity entity = new Entity(name, siret, type);
+        Entity entity = new Entity(name, siret, "Nouveau type entite...".equals(type) ? newType : type);
         entity.setAddress(address);
         try {
             entity.setIntern_nb(Integer.parseInt(intern_nb));
@@ -118,11 +124,16 @@ public class EntityForm {
         }
     }
 
-    private void typeVerification(String type) throws Exception{
+    private void typeVerification(String type, String newType) throws Exception{
         ArrayList<String> types = this.entityDAO.getAllTypes();
+        types.add("Nouveau type entite...");
 
         if(!types.contains(type)){
             throw new Exception("Merci de rentrer un type valide.");
+        }
+
+        if ("Nouveau type entite...".equals(type) && (newType == null || newType.trim().isEmpty() || newType.equalsIgnoreCase("Nouveau type entite..."))){
+            throw new Exception("Merci de rentrer un nouveau type valide");
         }
     }
 

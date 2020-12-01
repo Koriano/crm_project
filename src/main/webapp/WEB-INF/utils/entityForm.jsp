@@ -18,6 +18,12 @@
 </div>
 <span>${requestScope.form.errors['type']}</span>
 
+<div class="form-group pt-3" id="newTypeDiv">
+    <label for="newType">Nouveau type <span>*</span></label>
+    <input type="text" id="newType" name="newType" value="<c:out value="${requestScope.newType}"/>" maxlength="20" class="form-control" placeholder="Nouveau type"/>
+</div>
+<span>${requestScope.form.errors['newType']}</span>
+
 <div class="form-group pt-3" id="siretDiv">
     <label for="siret">SIRET <span>*</span></label>
     <input type="text" id="siret" name="siret" value="<c:out value="${requestScope.entity.siret}"/>" maxlength="50" class="form-control" placeholder="SIRET"/>
