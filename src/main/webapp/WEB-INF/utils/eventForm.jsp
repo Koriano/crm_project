@@ -5,13 +5,13 @@
     <label for="name">Nom <span>*</span></label>
     <input type="text" id="name" name="name" value="<c:out value="${requestScope.event.name}"/>" class="form-control" placeholder="Nom"/>
 </div>
-<span>${requestScope.form.errors['name']}</span>
+<div class="text-danger pb-1">${requestScope.form.errors['name']}</div>
 
 <div class="form-group pt-3">
     <label for="date">Date <span>*</span></label>
     <input type="date" id="date" name="date" value="<c:out value="${requestScope.date}"/>" class="form-control"/>
 </div>
-<span>${requestScope.form.errors['date']}</span>
+<div class="text-danger pb-1">${requestScope.form.errors['date']}</div>
 
 <div class="form-group pt-3">
     <label for="type">Type <span>*</span></label>
@@ -22,7 +22,7 @@
         </c:forEach>
     </select>
 </div>
-<span>${requestScope.form.errors['type']}</span>
+<div class="text-danger pb-1">${requestScope.form.errors['type']}</div>
 
 <div class="form-group pt-3">
     <label for="description">Description</label>
@@ -66,4 +66,4 @@
         </c:forEach>
     </select>
 </div>
-<span>${requestScope.form.errors['contacts']}</span>
+<div class="text-danger pb-1">${requestScope.form.errors['contacts']}</div>

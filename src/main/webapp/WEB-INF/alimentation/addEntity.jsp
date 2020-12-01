@@ -26,7 +26,7 @@
                             <button type="submit" class="btn btn-primary">Créer entité</button>
                         </div>
 
-                        <span><c:out value="${requestScope.form.result || requestScope.form.result == null ? null : 'Echec de la création : vérifiez les données entrées.'}"/></span>
+                        <div class="text-danger pb-1"><c:out value="${requestScope.form.result || requestScope.form.result == null ? null : 'Echec de la création : vérifiez les données entrées.'}"/></div>
 
                     </fieldset>
                 </form>

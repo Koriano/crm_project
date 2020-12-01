@@ -5,7 +5,7 @@
     <label for="name">Nom <span>*</span></label>
     <input type="text" id="name" name="name" value="<c:out value="${requestScope.sector.name}"/>" maxlength="40" class="form-control" placeholder="Nom"/>
 </div>
-<span>${requestScope.form.errors['name']}</span>
+<div class="text-danger pb-1">${requestScope.form.errors['name']}</div>
 
 <div class="form-group pt-3">
     <label for="contacts">Contacts de ce secteur</label>
@@ -25,4 +25,4 @@
         </c:forEach>
     </select>
 </div>
-<span>${requestScope.form.errors['contacts']}</span>
+<div class="text-danger pb-1">${requestScope.form.errors['contacts']}</div>

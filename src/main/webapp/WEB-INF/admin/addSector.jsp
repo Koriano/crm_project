@@ -26,7 +26,7 @@
                             <button type="submit" class="btn btn-primary">Créer secteur</button>
                         </div>
 
-                        <span>${requestScope.form.result}</span>
+                        <div class="text-danger pb-1">${requestScope.form.result}</div>
 
                     </fieldset>
                 </form>

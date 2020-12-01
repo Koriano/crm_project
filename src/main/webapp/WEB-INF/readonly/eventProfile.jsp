@@ -80,12 +80,12 @@
     <div class="d-flex justify-content-center">
         <div class="pt-5 pb-5">
             <div class="form row justify-content-center pb-5">
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modifyContactModal">Supprimer</button>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#eventDel">Supprimer</button>
             </div>
 
 
             <!-- Modal -->
-            <div class="modal fade" id="modifyContactModal" tabindex="-1" role="dialog" aria-labelledby="modifyContactModallLabel" aria-hidden="true">
+            <div class="modal fade" id="eventDel" tabindex="-1" role="dialog" aria-labelledby="eventDelLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">

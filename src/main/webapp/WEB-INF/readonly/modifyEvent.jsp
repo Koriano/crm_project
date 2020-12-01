@@ -22,12 +22,12 @@
                         <c:import url="/WEB-INF/utils/eventForm.jsp"/>
 
                         <div class="form row justify-content-center pb-5">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifyContactModal">Mettre à jour</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#eventModify">Mettre à jour</button>
                         </div>
 
 
                         <!-- Modal -->
-                        <div class="modal fade" id="modifyContactModal" tabindex="-1" role="dialog" aria-labelledby="modifyContactModallLabel" aria-hidden="true">
+                        <div class="modal fade" id="eventModify" tabindex="-1" role="dialog" aria-labelledby="eventModifyLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">

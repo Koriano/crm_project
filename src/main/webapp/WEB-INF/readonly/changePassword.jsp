@@ -32,12 +32,12 @@
 
                         <div class="d-flex justify-content-center pt-5 pb-3">
                             <div class="form row justify-content-center pb-5">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifyContactModal">Mettre à jour</button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changePass">Mettre à jour</button>
                             </div>
 
 
                             <!-- Modal -->
-                            <div class="modal fade" id="modifyContactModal" tabindex="-1" role="dialog" aria-labelledby="modifyContactModallLabel" aria-hidden="true">
+                            <div class="modal fade" id="changePass" tabindex="-1" role="dialog" aria-labelledby="changePassLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">

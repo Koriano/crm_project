@@ -61,12 +61,12 @@
 
                                     <div class="col-auto">
                                         <div class="form row justify-content-center pb-5">
-                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modifyContactModal">Supprimer</button>
+                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#entityDel">Supprimer</button>
                                         </div>
 
 
                                         <!-- Modal -->
-                                        <div class="modal fade" id="modifyContactModal" tabindex="-1" role="dialog" aria-labelledby="modifyContactModallLabel" aria-hidden="true">
+                                        <div class="modal fade" id="entityDel" tabindex="-1" role="dialog" aria-labelledby="entityDellLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">

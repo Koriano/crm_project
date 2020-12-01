@@ -5,13 +5,13 @@
     <label for="name">Nom <span>*</span></label>
     <input type="text" id="name" name="name" value="<c:out value="${requestScope.contact.name}"/>" maxlength="50" class="form-control" placeholder="Nom"/>
 </div>
-<span>${requestScope.form.errors['name']}</span>
+<div class="text-danger pb-1">${requestScope.form.errors['name']}</div>
 
 <div class="form-group pt-3">
     <label for="surname">Prénom <span>*</span></label>
     <input type="text" id="surname" name="surname" value="<c:out value="${requestScope.contact.surname}"/>" maxlength="50" class="form-control" placeholder="Prénom"/>
 </div>
-<span>${requestScope.form.errors['surname']}</span>
+<div class="text-danger pb-1">${requestScope.form.errors['surname']}</div>
 
 <div class="form-group pt-3">
     <label for="role">Rôle <span>*</span></label>
@@ -22,7 +22,7 @@
         </c:forEach>
     </select>
 </div>
-<span>${requestScope.form.errors['role']}</span>
+<div class="text-danger pb-1">${requestScope.form.errors['role']}</div>
 
 <div class="form-group pt-3">
     <label for="entity">Entité </label>
@@ -33,13 +33,13 @@
         </c:forEach>
     </select>
 </div>
-<span>${requestScope.form.errors['entity']}</span>
+<div class="text-danger pb-1">${requestScope.form.errors['entity']}</div>
 
 <div class="form-group pt-3">
     <label for="address">Adresse </label>
     <input type="text" id="address" name="address" value="<c:out value="${requestScope.contact.address}"/>" class="form-control" placeholder="Adresse"/>
 </div>
-<span>${requestScope.form.errors['address']}</span>
+<div class="text-danger pb-1">${requestScope.form.errors['address']}</div>
 
 <div class="form-row align-items-end pt-3 pb-3">
     <div class="col justify-content-end" id="phoneInputs">
@@ -58,7 +58,7 @@
         <button class="btn btn-primary" type="button" id="addPhone">+</button>
     </div>
 </div>
-<span>${requestScope.form.errors['phone']}</span>
+<div class="text-danger pb-1">${requestScope.form.errors['phone']}</div>
 
 <div class="form-row align-items-end pt-3">
     <div class="col justify-content-end" id="mailInputs">
@@ -77,7 +77,7 @@
         <button class="btn btn-primary mt-3" type="button" id="addMail">+</button>
     </div>
 </div>
-<span>${requestScope.form.errors['mail']}</span>
+<div class="text-danger pb-1">${requestScope.form.errors['mail']}</div>
 
 <div class="form-group row pt-3">
     <div class="col-sm-10 pt-3">
@@ -96,6 +96,6 @@
             <option value="<c:out value="${contactLoop.id}"/>" <c:out value="${requestScope.contact.referent.id == contactLoop.id ? 'selected':''}"/>><c:out value="${contactLoop.name} ${contactLoop.surname}"/></option>
         </c:forEach>
     </select>
-    <span>${requestScope.form.errors['referent']}</span>
+    <div class="text-danger pb-1">${requestScope.form.errors['referent']}</div>
 </div>
 

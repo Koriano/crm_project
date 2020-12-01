@@ -10,4 +10,4 @@
     <label for="confirmation">Répétez le mot de passe <span>*</span></label>
     <input type="password" id="confirmation" name="confirmation" maxlength="100" class="form-control"/>
 </div>
-<span>${requestScope.form.errors['password']}</span>
+<div class="text-danger pb-1">${requestScope.form.errors['password']}</div>

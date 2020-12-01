@@ -23,7 +23,7 @@
                         <div class="form row justify-content-center pb-5">
                             <button type="submit" class="btn btn-primary">Créer compte</button>
                         </div>
-                        <span>${requestScope.form.result}</span>
+                        <div class="text-danger pb-1">${requestScope.form.result}</div>
                     </fieldset>
                 </form>
 

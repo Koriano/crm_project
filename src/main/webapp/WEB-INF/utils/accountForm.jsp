@@ -5,13 +5,13 @@
     <label for="username">Nom d'utilisateur <span>*</span></label>
     <input type="text" id="username" name="username" value="<c:out value="${requestScope.account.username}"/>" maxlength="25" class="form-control" placeholder="Nom d'utilisateur"/>
 </div>
-<span>${requestScope.form.errors['username']}</span>
+<div class="text-danger pb-1">${requestScope.form.errors['username']}</div>
 
 <div class="form-group pt-3">
     <label for="name">Nom de compte <span>*</span></label>
     <input type="text" id="name" name="name" value="<c:out value="${requestScope.account.name}"/>" maxlength="30" class="form-control" placeholder="Nom de compte"/>
 </div>
-<span>${requestScope.form.errors['name']}</span>
+<div class="text-danger pb-1">${requestScope.form.errors['name']}</div>
 
 <c:if test="${requestScope.action == 'add'}">
     <c:import url="/WEB-INF/utils/passwordForm.jsp"/>
@@ -33,7 +33,7 @@
         </c:forEach>
     </select>
 </div>
-<span>${requestScope.form.errors['right']}</span>
+<div class="text-danger pb-1">${requestScope.form.errors['right']}</div>
 
 <div class="form-group pt-3">
     <label for="contact">Contact associé <span>*</span></label>
@@ -44,7 +44,7 @@
         </c:forEach>
     </select>
 </div>
-<span>${requestScope.form.errors['contact']}</span>
+<div class="text-danger pb-1">${requestScope.form.errors['contact']}</div>
 
 
 <div class="form-group pt-3">
@@ -72,4 +72,4 @@
         </c:forEach>
     </select>
 </div>
-<span>${requestScope.form.errors['sectors']}</span>
+<div class="text-danger pb-1">${requestScope.form.errors['sectors']}</div>

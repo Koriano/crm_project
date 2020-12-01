@@ -34,7 +34,7 @@
                 </div>
 
                 <div class="card">
-                    <c:forEach var="sector" items="${requestScope.sectors}">
+                    <c:forEach var="sector" items="${requestScope.sectors}" varStatus="boucle">
                         <div class="container pt-2 pb-2">
                             <div class="card">
                                 <div class="card-body">
@@ -60,7 +60,7 @@
                                                     <c:param name="id" value="${sector.id}"/>
                                                 </c:url>
                                                 <div class="pl-3">
-                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modifyContactModal">
+                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#monId-${boucle.index}">
                                                         <svg width="1em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                                             <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
                                                         </svg>
@@ -69,7 +69,7 @@
 
 
                                                 <!-- Modal -->
-                                                <div class="modal fade" id="modifyContactModal" tabindex="-1" role="dialog" aria-labelledby="modifyContactModallLabel" aria-hidden="true">
+                                                <div class="modal fade" id="monId-${boucle.index}" tabindex="-1" role="dialog" aria-labelledby="monId-${boucle.index}Label" aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
