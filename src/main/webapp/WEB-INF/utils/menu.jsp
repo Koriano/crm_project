@@ -10,9 +10,8 @@
 
 
     <div class="collapse navbar-collapse " id="collapsibleNavbar">
-        <div class="container ">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-
+        <div class="container justify-content-center">
+            <ul class="navbar-nav ml-5 mr-5 mt-2 mt-lg-0">
                 <li class="nav-item">
                     <a class="nav-link font-weight-bold pr-lg-3" style="font-size : 20px; " href="<c:url value="/home"/>">
                         Accueil
