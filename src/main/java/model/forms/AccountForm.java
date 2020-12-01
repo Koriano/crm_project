@@ -15,6 +15,7 @@ public class AccountForm {
     private static final String PARAM_OLD_ACCOUNT_ID = "id";
     private static final String PARAM_USERNAME = "username";
     private static final String PARAM_ACCOUNT_NAME = "name";
+    private static final String PARAM_PASSWORD_CHANGE = "password_change";
     private static final String PARAM_RIGHT = "right";
     private static final String PARAM_CONTACT = "contact";
     private static final String PARAM_SECTORS = "sectors";
@@ -48,13 +49,14 @@ public class AccountForm {
         // Get parameters
         String username = req.getParameter(PARAM_USERNAME);
         String name = req.getParameter(PARAM_ACCOUNT_NAME);
+        String password_change = req.getParameter(PARAM_PASSWORD_CHANGE);
         String right = req.getParameter(PARAM_RIGHT);
         String contact_id = req.getParameter(PARAM_CONTACT);
         String[] sectors = req.getParameterValues(PARAM_SECTORS);
 
         String password = null;
         // Get password if on add page
-        if ("add".equals(action)){
+        if ("on".equals(password_change) || "add".equals(action)){
             PasswordForm passwordForm = new PasswordForm();
             password = passwordForm.checkPassword(req);
             this.errors = passwordForm.getErrors();
@@ -99,6 +101,11 @@ public class AccountForm {
 
 
         Account account = new Account(username.trim(), password, name.trim(), right, contact, sector_list);
+
+        if (!"on".equals(password_change) && !"add".equals(action)){
+            account.setPassword(old_account.getPassword());
+        }
+
 
         // Verify there's no more admin after right change, set error
         if (old_account != null && !this.atLeastOneAdminExists(old_account, account.getRight())){

@@ -249,6 +249,16 @@ public class Contact {
         return this.isLinkAccount;
     }
 
+    /**
+     * Check if the contact is the creator of an event
+     *
+     * @param event the event to check the creator
+     * @return true if the contact is the creator, else false
+     */
+    public boolean isCreator(Event event){
+        return event.getContactsList().get(0).getId() == this.id;
+    }
+
     //-----------------------------------------------------------------//
 
     /**

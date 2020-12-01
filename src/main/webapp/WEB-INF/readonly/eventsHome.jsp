@@ -21,8 +21,8 @@
             <div class="col-lg-6 col-md-8 col-sm-9 mx-auto pt-5 pb-4">
 
                 <div class="d-flex justify-content-center pt-4 pb-3">
-                    <form class="form-inline" method="post" action="<c:url value="/research"/>">
-                        <input class="form-control mr-sm-3" type="search" placeholder="Rechercher" aria-label="Search" name="research" value="${param.research}">
+                    <form class="form-inline" method="post" action="<c:url value="/myEvents"/>">
+                        <input class="form-control mr-sm-3" type="search" placeholder="Rechercher" aria-label="Search" name="research" value="<c:out value="${param.research}"/>">
                         <button class="btn btn-outline-info my-3 my-sm-0" type="submit">Rechercher</button>
                     </form>
                 </div>
@@ -32,10 +32,10 @@
                     <ul class="nav nav-tabs" role="tablist">
                         <!--Définition des onglets-->
                         <li class="nav-item">
-                            <a class="nav-link active" id="my-events-tab" data-toggle="tab" href="#my-events" role="tab" aria-controls="my-events" aria-selected="true">Mes événements</a>
+                            <a class="nav-link active" id="my-events-tab" data-toggle="tab" href="#my-events" role="tab" aria-controls="my-events" aria-selected="true">Mes événements (${requestScope.my_events.size()})</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="concerned-events-tab" data-toggle="tab" href="#concerned-events" role="tab" aria-controls="concerned-events" aria-selected="false">Les événements auquels je participe</a>
+                            <a class="nav-link" id="concerned-events-tab" data-toggle="tab" href="#concerned-events" role="tab" aria-controls="concerned-events" aria-selected="false">Les événements auquels je participe (${requestScope.concerned_events.size()})</a>
                         </li>
                     </ul>
 
@@ -97,7 +97,7 @@
                                 <%-- Iterating over concerned events --%>
                                 <c:forEach var="event" items="${requestScope.concerned_events}">
                                     <div class="container-fluid pt-4">
-                                        <a href="<c:url value="/myEvents/visualize">
+                                        <a href="<c:url value="/myEvents/details">
                                             <c:param name="id" value="${event.id}"/>
                                         </c:url>">
 

@@ -3,6 +3,7 @@ package controller.servlets.events;
 import controller.DAO.ContactDAO;
 import controller.DAO.EventDAO;
 import controller.DAO.EventTypeDAO;
+import model.Account;
 import model.Contact;
 import model.Event;
 import model.forms.EventForm;
@@ -11,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,6 +20,8 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class ModifyEventServlet extends HttpServlet {
+    private static final String PARAM_SESSION_USER_ACCOUNT = "user";
+
     private static final String PARAM_EVENT_ID = "id";
 
     private static final String ATT_TYPES = "types";
@@ -25,6 +29,7 @@ public class ModifyEventServlet extends HttpServlet {
     private static final String ATT_EVENT = "event";
     private static final String ATT_FORM = "form";
     private static final String ATT_DATE = "date";
+    private static final String ATT_TIME = "time";
 
     private static final String VIEW = "/WEB-INF/readonly/modifyEvent.jsp";
     private static final String URL_REDIRECT = "/myEvents";
@@ -33,13 +38,17 @@ public class ModifyEventServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         EventDAO eventDAO = EventDAO.getInstance();
 
+        // Get account from session
+        HttpSession session = req.getSession();
+        Account user = (Account) session.getAttribute(PARAM_SESSION_USER_ACCOUNT);
+
         // Get corresponding event
         String id = req.getParameter(PARAM_EVENT_ID);
 
         try {
             Event event = eventDAO.getEventById(Integer.parseInt(id));
 
-            if (event != null){
+            if (event != null && user.getContact().isCreator(event)){
                 SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd");
                 Date date = event.getDate();
 
@@ -80,12 +89,18 @@ public class ModifyEventServlet extends HttpServlet {
             // If errors, set attributes and forward
             else {
                 SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat time_format = new SimpleDateFormat("HH:mm");
+
                 Date date = modified_event.getDate();
 
-                req.setAttribute(ATT_EVENT, modified_event);
-                req.setAttribute(ATT_DATE, date_format.format(date));
-                req.setAttribute(ATT_FORM, form);
                 this.setRequestAttributes(req);
+                req.setAttribute(ATT_EVENT, modified_event);
+                req.setAttribute(ATT_FORM, form);
+
+                if (date != null){
+                    req.setAttribute(ATT_DATE, date_format.format(date));
+                    req.setAttribute(ATT_TIME, date_format.format(date));
+                }
 
                 this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
             }

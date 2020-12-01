@@ -2,6 +2,8 @@ package controller.DAO;
 import model.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
+
 /**
  * EntityDAO : Class that handle the model Entity with the database
  * @author Gurvan.R
@@ -44,7 +46,8 @@ public class EventDAO {
         boolean ret =false;
         String name = evt.getName();
         String description = evt.getDescription();
-        Date date = new Date(evt.getDate().getTime());
+        Timestamp date = new Timestamp(evt.getDate().getTime());
+
         int  type = EventTypeDAO.getInstance().getTypeByName(evt.getType());
         ArrayList<Contact> contacts = evt.getContactsList();
         int author_id = evt.getContactsList().get(0).getId();
@@ -52,7 +55,7 @@ public class EventDAO {
         if (description == null) {
             description = "";
         }
-       
+       System.out.println(evt.getDate().getHours());
         // Request to insert Event
         String req_add_event = "INSERT INTO Event(name,description,date,type,authorId) VALUES (?,?,?,?,?)";
         // Request to insert contact
@@ -67,7 +70,7 @@ public class EventDAO {
             PreparedStatement req_addevt_prep = this.db.prepareStatement(req_add_event,Statement.RETURN_GENERATED_KEYS);
             req_addevt_prep.setString(1, name);
             req_addevt_prep.setString(2, description);
-            req_addevt_prep.setDate(3, date);
+            req_addevt_prep.setTimestamp(3, date);
             req_addevt_prep.setInt(4, type);
             req_addevt_prep.setInt(5,author_id);
             int i = req_addevt_prep.executeUpdate();
@@ -106,7 +109,7 @@ public class EventDAO {
                 if (cont!=null && cont.getId()>0){
                     PreparedStatement req_insert_prep = this.db.prepareStatement(req_insert_contact);
                     req_insert_prep.setInt(1, id);
-                    req_insert_prep.setInt(2, cont.getId());               
+                    req_insert_prep.setInt(2, cont.getId());              
                     ret_req=req_insert_prep.executeUpdate();
                     if (ret_req==0){
                         ret=false;
@@ -162,7 +165,7 @@ public class EventDAO {
         boolean ret =false;
         String name = evt.getName();
         String description = evt.getDescription();
-        Date date = new Date(evt.getDate().getTime());
+        Timestamp date = new Timestamp(evt.getDate().getTime());
         int  type = EventTypeDAO.getInstance().getTypeByName( evt.getType());
         ArrayList<Contact> contacts = evt.getContactsList();
         
@@ -187,7 +190,7 @@ public class EventDAO {
             PreparedStatement req_updtevt_prep = this.db.prepareStatement(req_add_event);
             req_updtevt_prep.setString(1, name);
             req_updtevt_prep.setString(2, description);
-            req_updtevt_prep.setDate(3, date);
+            req_updtevt_prep.setTimestamp(3, date);
             req_updtevt_prep.setInt(4, type);
             req_updtevt_prep.setInt(5,author_id);
             //WHERE
@@ -271,7 +274,7 @@ public class EventDAO {
                 author_id = rs.getInt("authorId");
                 description =rs.getString("description");
                 type = EventTypeDAO.getInstance().getNameByID(rs.getInt("type"));
-                date = rs.getDate("date");
+                date = new Date(rs.getTimestamp("date").getTime());
                 evt = new Event(name, date,ContactDAO.getInstance().getContactById(author_id),type,eventId);
                 evt.setDescription(description);
                 contactList = ContactDAO.getInstance().getContactByEvent(evt);
@@ -320,7 +323,7 @@ public class EventDAO {
                 author_id = rs.getInt("authorId");
                 description =rs.getString("description");
                 type = EventTypeDAO.getInstance().getNameByID(rs.getInt("type"));
-                date = rs.getDate("date");
+                date = new Date(rs.getTimestamp("date").getTime());
                 evt = new Event(name, date,  ContactDAO.getInstance().getContactById(author_id),type,eventId);
                 evt.setDescription(description);
                 contactList = ContactDAO.getInstance().getContactByEvent(evt);
@@ -367,7 +370,7 @@ public class EventDAO {
                 author_id = rs.getInt("authorId");
                 description =rs.getString("description");
                 type = EventTypeDAO.getInstance().getNameByID(rs.getInt("type"));
-                date = rs.getDate("date");
+                date = new Date(rs.getTimestamp("date").getTime());;
                 ret = new Event(name, date,  ContactDAO.getInstance().getContactById(author_id),type,eventId);
                 ret.setDescription(description);
                 contactList = ContactDAO.getInstance().getContactByEvent(ret);

@@ -9,12 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class EventProfileServlet extends HttpServlet {
     private static final String PARAM_EVENT_ID = "id";
 
     private static final String ATT_EVENT = "event";
     private static final String ATT_DATE = "date";
+    private static final String ATT_TIME = "time";
 
     private static final String VIEW = "/WEB-INF/readonly/eventProfile.jsp";
     private static final String URL_REDIRECT = "/myEvents";
@@ -39,11 +41,15 @@ public class EventProfileServlet extends HttpServlet {
             Event event = eventDAO.getEventById(Integer.parseInt(event_id));
 
             if (event != null){
+                Date date = event.getDate();
+
                 // Set formatter
                 SimpleDateFormat date_format = new SimpleDateFormat("dd/MM/yyyy");
+                SimpleDateFormat time_format = new SimpleDateFormat("HH:mm");
 
                 req.setAttribute(ATT_EVENT, event);
-                req.setAttribute(ATT_DATE, date_format.format(event.getDate()));
+                req.setAttribute(ATT_DATE, date_format.format(date));
+                req.setAttribute(ATT_TIME, time_format.format(date));
 
                 this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
             } else {

@@ -17,6 +17,7 @@ public class EventForm {
 
     private static final String PARAM_NAME = "name";
     private static final String PARAM_DATE = "date";
+    private static final String PARAM_TIME = "time";
     private static final String PARAM_TYPE = "type";
     private static final String PARAM_DESCRIPTION = "description";
     private static final String PARAM_CONTACTS = "contacts";
@@ -43,6 +44,7 @@ public class EventForm {
         // Get request attributes
         String name = req.getParameter(PARAM_NAME);
         String date = req.getParameter(PARAM_DATE);
+        String time = req.getParameter(PARAM_TIME);
         String type = req.getParameter(PARAM_TYPE);
         String description = req.getParameter(PARAM_DESCRIPTION);
         String[] contacts_id = req.getParameterValues(PARAM_CONTACTS);
@@ -56,7 +58,7 @@ public class EventForm {
 
         Date date_obj = null;
         try {
-            date_obj = dateVerification(date);
+            date_obj = dateAndTimeVerification(date, time);
         } catch (Exception e) {
             this.setError(PARAM_DATE, e.getMessage());
         }
@@ -100,15 +102,50 @@ public class EventForm {
         }
     }
 
-    private Date dateVerification(String date) throws Exception {
+    private Date dateAndTimeVerification(String date, String time) throws Exception {
+        // Set formatter
+        SimpleDateFormat date_time_format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+        try {
+            dateVerification(date);
+        } catch (Exception e){
+            this.setError(PARAM_DATE, e.getMessage());
+        }
+
+        try {
+            timeVerification(time);
+        } catch (Exception e){
+            this.setError(PARAM_TIME, e.getMessage());
+        }
+
+        try {
+            return date_time_format.parse(date + " " + time);
+        } catch (Exception e) {
+            throw new Exception("La date et/ou l'heure n'est pas valide.");
+        }
+    }
+
+    private void dateVerification(String date) throws Exception {
         // Set formatter
         SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd");
 
         // Try to transform date into object
         try {
-            return date_format.parse(date);
+            date_format.parse(date);
         } catch (Exception e){
             throw new Exception("Merci de rentrer une date valide.");
+        }
+    }
+
+    private void timeVerification(String time) throws Exception {
+        // Set formatter
+        SimpleDateFormat time_format = new SimpleDateFormat("HH:mm");
+
+        // Try to transform date into object
+        try {
+            time_format.parse(time);
+        } catch (Exception e){
+            throw new Exception("Merci de rentrer une heure valide.");
         }
     }
 
