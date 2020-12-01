@@ -159,12 +159,20 @@
 
                                 <div class="tab-pane fade" id="history"
                                      role="tabpanel" aria-labelledby="history-tab">
-                                    <c:forEach var="event" items="${requestScope.contact.eventsList}">
-                                        <div>
-                                            <h4><c:out value="${event.name}"/> (<c:out value="${event.type}"/>)</h4>
-                                            <p><b>Date : </b> <c:out value="${event.date}"/></p>
-                                            <p><b>Description : </b> <c:out value="${event.description}"/></p>
-                                        </div>
+                                    <c:forEach var="event" items="${requestScope.events}">
+
+                                        <c:url var="event_link" value="/myEvents/details">
+                                            <c:param name="id" value="${event.id}"/>
+                                        </c:url>
+
+                                        <a href="${event_link}">
+                                            <div>
+                                                <h4><c:out value="${event.name}"/> (<c:out value="${event.type}"/>)</h4>
+                                                <p><b>Date : </b> <c:out value="${event.date}"/></p>
+                                                <p><b>Description : </b> <c:out value="${event.description}"/></p>
+                                            </div>
+                                        </a>
+                                        
                                     </c:forEach>
                                 </div>
                             </div>
