@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="<c:url value="/style/front.css"/>" />
 </head>
 <body>
-<c:import url="/WEB-INF/utils/menu.jsp"/>
 <div id="wrapper">
     <div class="header">
         <c:import url="/WEB-INF/utils/menu.jsp"/>
