@@ -28,16 +28,22 @@
                         Mes événements
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link font-weight-bold pr-lg-3"  style="font-size : 20px; " href="<c:url value="/importContacts"/>">
-                        Importer des contacts
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link font-weight-bold pr-lg-3"  style="font-size : 20px; "href="<c:url value="/exportContacts"/>">
-                        Exporter des contacts
-                    </a>
-                </li>
+                
+                <c:if test="${sessionScope.user.right == 'Alimentation CRM' or sessionScope.user.right == 'Administrateur'}">
+                    <li class="nav-item">
+                        <a class="nav-link font-weight-bold pr-lg-3"  style="font-size : 20px; " href="<c:url value="/importContacts"/>">
+                            Importer des contacts
+                        </a>
+                    </li>
+                </c:if>
+
+                <c:if test="${sessionScope.user.right == 'Administrateur'}">
+                    <li class="nav-item">
+                        <a class="nav-link font-weight-bold pr-lg-3"  style="font-size : 20px; "href="<c:url value="/exportContacts"/>">
+                            Exporter des contacts
+                        </a>
+                    </li>
+                </c:if>
 
             </ul>
 
