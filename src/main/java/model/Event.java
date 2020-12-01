@@ -189,8 +189,19 @@ public class Event {
      *
      * @param contact : the new contact to add
      */
+
     public void addContact(Contact contact){
-        this.contactsList.add(contact);
+        // pre condition
+        assert contact != null  : "Pre condition violated";
+
+        if (!this.contactsList.contains(contact)){
+            this.contactsList.add(contact);
+        }
+
+
+        // post condition
+        assert this.contactsList.contains(contact) : "Post condition violated";
+        this.inv();
     }
 
     /**
