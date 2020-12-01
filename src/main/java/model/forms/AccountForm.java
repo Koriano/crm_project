@@ -9,9 +9,7 @@ import model.Sector;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 
 public class AccountForm {
     private static final String PARAM_OLD_ACCOUNT_ID = "id";
@@ -43,7 +41,6 @@ public class AccountForm {
         try{
             String old_id = req.getParameter(PARAM_OLD_ACCOUNT_ID);
             old_account = this.accountDAO.getAccountById(Integer.parseInt(old_id));
-            System.out.println("ok");
         } catch (Exception e) {
             this.setError(PARAM_OLD_ACCOUNT_ID, "");
         }
@@ -103,6 +100,11 @@ public class AccountForm {
 
         Account account = new Account(username.trim(), password, name.trim(), right, contact, sector_list);
 
+        // Verify there's no more admin after right change, set error
+        if (old_account != null && !this.atLeastOneAdminExists(old_account, account.getRight())){
+            this.setError(PARAM_RIGHT, "Merci de laisser au moins un compte administrateur.");
+        }
+
         if(this.errors.isEmpty()){
             this.result = "Succes !";
         } else {
@@ -140,6 +142,36 @@ public class AccountForm {
         }
     }
 
+    private boolean atLeastOneAdminExists(Account account, String new_right){
+        // Get every account
+        ArrayList<Account> accounts = this.accountDAO.getAllAccounts();
+
+        boolean at_least_one_admin = false;
+        int count = 0;
+        Account admin = null;
+
+        // Check if there's at least 1 admin account
+        for (Account acc:accounts){
+            if ("Administrateur".equals(acc.getRight())){
+                at_least_one_admin = true;
+                admin = acc;
+                count++;
+
+                if (count == 2){
+                    break;
+                }
+
+            }
+        }
+
+        // If there's only one admin, which is the modified account, and the new right is not admin, set at least one admin at false
+        if(at_least_one_admin && count == 1 && admin.getId() == account.getId() && !"Administrateur".equals(new_right)){
+            at_least_one_admin = false;
+        }
+
+        return at_least_one_admin;
+    }
+
     private Contact contactVerification(String contact_id, Account old_account) throws Exception{
         ArrayList<Integer> used_contacts = this.contactDAO.getLinkedContacts();
 
@@ -155,7 +187,7 @@ public class AccountForm {
 
             if(contact != null){
 
-                if (id != old_account.getContact().getId() && used_contacts.contains(id)){
+                if (old_account != null && id != old_account.getContact().getId() && used_contacts.contains(id)){
                     throw new Exception("Ce contact est déjà utilisé par un autre compte.");
                 } else {
                     return contact;
