@@ -11,30 +11,44 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class DeleteContactServlet extends HttpServlet {
-    private static final String PARAM_SESSION_ID_CONTACT = "contact_id";
+    private static final String PARAM_ID_CONTACT = "id";
 
     private static final String URL_REDIRECT_SUCCESS = "/research";
-    private static final String URL_REDIRECT_FAIL = "/research/contactProfile";
+    private static final String URL_REDIRECT_FAIL = "/research/contact";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // Get contactDAO
-        ContactDAO contactDAO = ContactDAO.getInstance();
-
-        // Get session and id
-        HttpSession session = req.getSession();
-        String id = (String) session.getAttribute(PARAM_SESSION_ID_CONTACT);
-        Contact contact = contactDAO.getContactById(Integer.parseInt(id));
-
-        // Delete contact from DB and its id from session
-        contactDAO.deleteContact(contact);
-        session.removeAttribute(PARAM_SESSION_ID_CONTACT);
-
-        resp.sendRedirect(req.getContextPath() + URL_REDIRECT_SUCCESS);
+        this.deleteContact(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect(req.getContextPath() + URL_REDIRECT_FAIL);
+        this.deleteContact(req, resp);
+    }
+
+    private void deleteContact(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // Get contactDAO
+        ContactDAO contactDAO = ContactDAO.getInstance();
+
+        // Get contact id
+        String id = req.getParameter(PARAM_ID_CONTACT);
+
+        // Build redirect url
+        String redirect_fail_url = req.getContextPath() + URL_REDIRECT_FAIL + "?id=" + id;
+
+        try {
+            Contact contact = contactDAO.getContactById(Integer.parseInt(id));
+
+            if (contact != null){
+                // Delete contact from DB and its id from session
+                contactDAO.deleteContact(contact);
+                resp.sendRedirect(req.getContextPath() + URL_REDIRECT_SUCCESS);
+            } else {
+                resp.sendRedirect(redirect_fail_url);
+            }
+
+        } catch (Exception e) {
+            resp.sendRedirect(redirect_fail_url);
+        }
     }
 }

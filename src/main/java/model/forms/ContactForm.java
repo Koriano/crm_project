@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ContactForm {
-    private static final String PARAM_SESSION_ID_CONTACT = "contact_id";
-
+    private static final String PARAM_ID_CONTACT = "id";
     private static final String PARAM_NAME = "name";
     private static final String PARAM_SURNAME = "surname";
     private static final String PARAM_ROLE = "role";
@@ -50,10 +49,6 @@ public class ContactForm {
         ArrayList<String> mails = this.getAllParam(req, PARAM_PREFIX_MAIL);
         String reserved = req.getParameter(PARAM_RESERVED);
         String referent = req.getParameter(PARAM_REFERENT);
-
-        // Get contact from session id
-        HttpSession session = req.getSession();
-        String id = (String) session.getAttribute(PARAM_SESSION_ID_CONTACT);
 
         // Verify name
         try{
@@ -113,12 +108,7 @@ public class ContactForm {
         }
 
         // Create the new contact and set properties
-        Contact contact;
-        if(id != null){
-            contact = new Contact(name.trim(), surname.trim(), role, referent_contact, "on".equals(reserved), Integer.parseInt(id));
-        } else {
-            contact = new Contact(name.trim(), surname.trim(), role, referent_contact, "on".equals(reserved));
-        }
+        Contact contact = new Contact(name.trim(), surname.trim(), role, referent_contact, "on".equals(reserved));
 
         if(!this.errors.containsKey(PARAM_ENTITY)){
             contact.setEntity(entity_object);

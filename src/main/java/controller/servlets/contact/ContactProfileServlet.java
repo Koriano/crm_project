@@ -15,42 +15,52 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ContactProfileServlet extends HttpServlet {
-    private static final String PARAM_SESSION_CONTACT_ID = "contact_id";
     private static final String PARAM_SESSION_USER_ACCOUNT = "user";
+    private static final String PARAM_CONTACT_ID = "id";
 
     private static final String ATT_CONTACT = "contact";
     private static final String ATT_COMMENT = "comment";
 
     private static final String VIEW = "/WEB-INF/readonly/contactProfile.jsp";
+    private static final String URL_REDIRECT = "/research";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        this.displayContactProfile(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        this.displayContactProfile(req, resp);
+    }
+
+    private void displayContactProfile(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Initialize contact DAO and comment DAO
         ContactDAO contactDAO = ContactDAO.getInstance();
         CommentDAO commentDAO = CommentDAO.getInstance();
 
         // Get id of contact to be displayed from session
         HttpSession session = req.getSession();
-        String id = (String) session.getAttribute(PARAM_SESSION_CONTACT_ID);
-        Contact contact = contactDAO.getContactById(Integer.parseInt(id));
-
         Account user = (Account) session.getAttribute(PARAM_SESSION_USER_ACCOUNT);
 
-        Comment comment = commentDAO.getCommentByAuthorAndContact(user.getContact(), contact);
+        String id = req.getParameter(PARAM_CONTACT_ID);
 
-        // Set contact as request attribute
-        req.setAttribute(ATT_CONTACT, contact);
-        req.setAttribute(ATT_COMMENT, comment);
+        try {
+            Contact contact = contactDAO.getContactById(Integer.parseInt(id));
 
-        this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
-    }
+            if (contact != null){
+                Comment comment = commentDAO.getCommentByAuthorAndContact(user.getContact(), contact);
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+                // Set contact as request attribute
+                req.setAttribute(ATT_CONTACT, contact);
+                req.setAttribute(ATT_COMMENT, comment);
 
-    }
-
-    public boolean checkId(String id){
-        return id != null && !id.isEmpty() && id.matches("^[0-9]+$");
+                this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
+            } else {
+                resp.sendRedirect(req.getContextPath() + URL_REDIRECT);
+            }
+        } catch (Exception e) {
+            resp.sendRedirect(req.getContextPath() + URL_REDIRECT);
+        }
     }
 }
