@@ -190,7 +190,15 @@ public class Event {
      * @param contact : the new contact to add
      */
     public void addContact(Contact contact){
-        if (!this.contactsList.contains(contact)){
+        boolean is_participant = false;
+
+        for (Contact participant:this.contactsList){
+            if(participant.getId() == contact.getId()){
+                is_participant = true;
+            }
+        }
+
+        if (!is_participant){
             this.contactsList.add(contact);
         }
     }
