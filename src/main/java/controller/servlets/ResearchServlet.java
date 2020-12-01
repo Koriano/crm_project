@@ -2,6 +2,7 @@ package controller.servlets;
 
 import controller.DAO.ContactDAO;
 import controller.DAO.EntityDAO;
+import controller.DAO.SectorDAO;
 import model.Account;
 import model.Contact;
 import model.Entity;
@@ -91,7 +92,10 @@ public class ResearchServlet extends HttpServlet {
                 if (is_visible){
                     break;
                 }
+            }
 
+            if (!is_visible){
+                is_visible = !this.isAssociatedToSector(contact);
             }
 
             // if contained in at least one sector, then add to return
@@ -101,6 +105,28 @@ public class ResearchServlet extends HttpServlet {
         }
 
         return returned_contacts;
+    }
+
+    private boolean isAssociatedToSector(Contact contact){
+        SectorDAO sectorDAO = SectorDAO.getInstance();
+        ArrayList<Sector> sectors = sectorDAO.getAllSectors();
+
+        boolean is_associated = false;
+
+        for (Sector sector:sectors){
+            for (Contact sector_contact:sector.getContactList()){
+                if (sector_contact.getId() == contact.getId()){
+                    is_associated = true;
+                    break;
+                }
+            }
+
+            if (is_associated){
+                break;
+            }
+        }
+
+        return is_associated;
     }
 
     private void filterContactsByResearch(ArrayList<Contact> contact_list, String filter){

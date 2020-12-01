@@ -40,34 +40,16 @@
     <select id="contacts" name="contacts" class="form-control" multiple>
         <c:forEach var="contact" items="${requestScope.contacts}">
 
-            <c:set var="is_visible" value="${false}"/>
+            <%-- Check if contact is selected or not --%>
+            <c:set var="selected" value="${false}" scope="page"/>
 
-            <c:if test="${contact.id != sessionScope.user.contact.id}">
-                <c:forEach var="sector" items="${sessionScope.user.sectors}">
-                    <c:forEach var="contact_sector" items="${sector.contactList}">
+            <c:forEach var="event_contact" items="${requestScope.event.contactsList}">
+                <c:if test="${event_contact.id == contact.id}">
+                    <c:set var="selected" value="${true}" scope="page"/>
+                </c:if>
+            </c:forEach>
 
-                        <c:if test="${contact.id == contact_sector.id}">
-                            <c:set var="is_visible" value="${true}"/>
-                        </c:if>
-
-                    </c:forEach>
-                </c:forEach>
-            </c:if>
-
-            <c:if test="${is_visible}">
-
-                <%-- Check if contact is selected or not --%>
-                <c:set var="selected" value="${false}" scope="page"/>
-
-                <c:forEach var="event_contact" items="${requestScope.event.contactsList}">
-                    <c:if test="${event_contact.id == contact.id}">
-                        <c:set var="selected" value="${true}" scope="page"/>
-                    </c:if>
-                </c:forEach>
-
-                <option value="<c:out value="${contact.id}"/>" <c:out value="${selected ? 'selected':''}"/>> <c:out value="${contact.name} ${contact.surname}"/> </option>
-
-            </c:if>
+            <option value="<c:out value="${contact.id}"/>" <c:out value="${selected ? 'selected':''}"/>> <c:out value="${contact.name} ${contact.surname}"/> </option>
 
         </c:forEach>
     </select>
