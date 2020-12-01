@@ -133,6 +133,13 @@
         <servlet-class>controller.servlets.events.DeleteEventServlet</servlet-class>
     </servlet>
 
+    <!-- I/O -->
+    <servlet>
+        <servlet-name>ImportContacts</servlet-name>
+        <servlet-class>controller.servlets.io.ImportServlet</servlet-class>
+    </servlet>
+
+
 
     <!-- Connect and disconnect -->
     <servlet-mapping>
@@ -264,6 +271,12 @@
     <servlet-mapping>
         <servlet-name>DeleteEvent</servlet-name>
         <url-pattern>/myEvents/details/delete</url-pattern>
+    </servlet-mapping>
+
+    <!-- I/O -->
+    <servlet-mapping>
+        <servlet-name>ImportContacts</servlet-name>
+        <url-pattern>/importContacts</url-pattern>
     </servlet-mapping>
 
 

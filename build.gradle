@@ -30,6 +30,7 @@ dependencies {
     compileOnly('javax.mvc:javax.mvc-api:1.0.0')
     compileOnly('javax.servlet:javax.servlet-api:4.0.1')
     compile group: 'javax.servlet', name: 'jstl', version: '1.2'
+    compile 'com.opencsv:opencsv:5.3'
     // JDBC
     implementation ('mysql:mysql-connector-java:8.0.22')
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
