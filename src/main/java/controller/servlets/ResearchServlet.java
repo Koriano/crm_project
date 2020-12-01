@@ -2,19 +2,22 @@ package controller.servlets;
 
 import controller.DAO.ContactDAO;
 import controller.DAO.EntityDAO;
+import model.Account;
 import model.Contact;
 import model.Entity;
+import model.Sector;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ResearchServlet extends HttpServlet {
+    private static final String PARAM_USER_ACCOUNT = "user";
+
     private static final String PARAM_RESEARCH = "research";
 
     private static final String ATT_CONTACTS = "contacts";
@@ -36,26 +39,29 @@ public class ResearchServlet extends HttpServlet {
         // Get parameter
         String research = req.getParameter(PARAM_RESEARCH);
 
-        if (research == null){
-            this.displayContactsAndEntities(req, resp);
-        } else {
-            this.displayWithFilter(req, resp, research);
-        }
-    }
+        // Get user account
+        HttpSession session = req.getSession();
+        Account user = (Account) session.getAttribute(PARAM_USER_ACCOUNT);
 
-    /**
-     * Method used to get every contacts and entities and forward the request and response to the associated view
-     *
-     * @param req the request to set attribute and to be forwarded
-     * @param resp the response to forward
-     */
-    private void displayContactsAndEntities(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Create contact and entities DAO to get them all
         ContactDAO contactDAO = ContactDAO.getInstance();
         EntityDAO entityDAO = EntityDAO.getInstance();
 
         ArrayList<Contact> contacts = contactDAO.getAllContacts();
         ArrayList<Entity> entities = entityDAO.getAllEntities();
+
+        contacts = this.filterContactsBySector(contacts, user);
+
+        if (research != null){
+
+            if (contacts.size() > 0){
+                this.filterContactsByResearch(contacts, research);
+            }
+
+            if (entities.size() > 0){
+                this.filterEntitiesByResearch(entities, research);
+            }
+        }
 
         // Set contacts and entities as request attribute
         req.setAttribute(ATT_CONTACTS, contacts);
@@ -64,53 +70,71 @@ public class ResearchServlet extends HttpServlet {
         this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
     }
 
-    private void displayWithFilter(HttpServletRequest req, HttpServletResponse resp, String filter) throws ServletException, IOException {
-        // Create contact and entities DAO to get them all
-        ContactDAO contactDAO = ContactDAO.getInstance();
-        EntityDAO entityDAO = EntityDAO.getInstance();
+    private ArrayList<Contact> filterContactsBySector(ArrayList<Contact> contact_list, Account user){
+        ArrayList<Contact> returned_contacts = new ArrayList<>();
 
+        // For each contact
+        for (Contact contact:contact_list){
+            boolean is_visible = false;
+
+            // For each sector check if contact is in
+            for (Sector sector:user.getSectors()){
+                for (Contact sector_contact:sector.getContactList()){
+
+                    if (contact.getId() == sector_contact.getId()){
+                        is_visible = true;
+                        break;
+                    }
+
+                }
+
+                if (is_visible){
+                    break;
+                }
+
+            }
+
+            // if contained in at least one sector, then add to return
+            if (is_visible){
+                returned_contacts.add(contact);
+            }
+        }
+
+        return returned_contacts;
+    }
+
+    private void filterContactsByResearch(ArrayList<Contact> contact_list, String filter){
         // No case sensitivity
         filter = filter.toLowerCase();
-
-        // Filter contacts
-        ArrayList<Contact> contacts = contactDAO.getAllContacts();
 
         int i = 0;
         Contact contact;
 
         do {
-            contact = contacts.get(i);
+            contact = contact_list.get(i);
 
             if (!contact.getName().toLowerCase().contains(filter) && !contact.getSurname().toLowerCase().contains(filter)){
-                contacts.remove(i);
+                contact_list.remove(i);
             } else {
                 i++;
             }
 
-        }while (i<contacts.size());
+        }while (i<contact_list.size());
+    }
 
-        // Filter entities
-        ArrayList<Entity> entities = entityDAO.getAllEntities();
-
-        i = 0;
+    private void filterEntitiesByResearch(ArrayList<Entity> entities_list, String filter){
+        int i = 0;
         Entity entity;
 
         do {
-            entity = entities.get(i);
+            entity = entities_list.get(i);
 
             if (!entity.getName().toLowerCase().contains(filter)){
-                entities.remove(i);
+                entities_list.remove(i);
             } else {
                 i++;
             }
 
-        }while (i<entities.size());
-
-
-        // Set contacts and entities as request attribute
-        req.setAttribute(ATT_CONTACTS, contacts);
-        req.setAttribute(ATT_ENTITIES, entities);
-
-        this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
+        }while (i<entities_list.size());
     }
 }

@@ -3,10 +3,7 @@ package controller.servlets.contact;
 import controller.DAO.CommentDAO;
 import controller.DAO.ContactDAO;
 import controller.DAO.EventDAO;
-import model.Account;
-import model.Comment;
-import model.Contact;
-import model.Event;
+import model.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,6 +20,7 @@ public class ContactProfileServlet extends HttpServlet {
     private static final String ATT_CONTACT = "contact";
     private static final String ATT_COMMENT = "comment";
     private static final String ATT_EVENTS = "events";
+    private static final String ATT_VISIBLE = "is_visible";
 
     private static final String VIEW = "/WEB-INF/readonly/contactProfile.jsp";
     private static final String URL_REDIRECT = "/research";
@@ -61,6 +59,7 @@ public class ContactProfileServlet extends HttpServlet {
                 req.setAttribute(ATT_CONTACT, contact);
                 req.setAttribute(ATT_COMMENT, comment);
                 req.setAttribute(ATT_EVENTS, events);
+                req.setAttribute(ATT_VISIBLE, this.isVisible(contact, user));
 
                 this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
             } else {
@@ -90,5 +89,24 @@ public class ContactProfileServlet extends HttpServlet {
         }
 
         return returned_list;
+    }
+
+    private boolean isVisible(Contact contact, Account user){
+        boolean is_visible = false;
+
+        for (Sector sector: user.getSectors()){
+            for (Contact sector_contact:sector.getContactList()){
+                if (contact.getId() == sector_contact.getId()){
+                    is_visible = true;
+                    break;
+                }
+            }
+
+            if (is_visible){
+                break;
+            }
+        }
+
+        return is_visible;
     }
 }

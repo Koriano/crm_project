@@ -73,6 +73,11 @@
                 </div>
 
             </c:when>
+            <c:when test="${not requestScope.is_visible}">
+                <div>
+                    <h3>Vous n'avez pas les droits pour voir ce contact.</h3>
+                </div>
+            </c:when>
             <c:otherwise>
             <div class="row">
                 <div class="col-sm-9 col-md-7 col-lg-5 mx-auto pt-5">
