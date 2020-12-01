@@ -97,7 +97,7 @@
                                 <%-- Iterating over concerned events --%>
                                 <c:forEach var="event" items="${requestScope.concerned_events}">
                                     <div class="container-fluid pt-4">
-                                        <a href="<c:url value="/myEvents/visualize">
+                                        <a href="<c:url value="/myEvents/details">
                                             <c:param name="id" value="${event.id}"/>
                                         </c:url>">
 
