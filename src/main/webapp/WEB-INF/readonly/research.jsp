@@ -22,7 +22,7 @@
 
                 <div class="d-flex justify-content-center pt-4 pb-3">
                     <form class="form-inline" method="post" action="<c:url value="/research"/>">
-                        <input class="form-control mr-sm-3" type="search" placeholder="Rechercher" aria-label="Search" name="research" value="${param.research}">
+                        <input class="form-control mr-sm-3" type="search" placeholder="Rechercher" aria-label="Search" name="research" value="<c:out value="${param.research}"/>">
                         <button class="btn btn-outline-info my-3 my-sm-0" type="submit">Rechercher</button>
                     </form>
                 </div>
