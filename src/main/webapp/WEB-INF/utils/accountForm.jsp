@@ -13,9 +13,19 @@
 </div>
 <span>${requestScope.form.errors['name']}</span>
 
-<c:if test="${requestScope.action == 'add'}">
-    <c:import url="/WEB-INF/utils/passwordForm.jsp"/>
+<c:if test="${requestScope.action == 'modify'}">
+    <div class="form-group row pt-3">
+        <div class="col-sm-10 pt-3">
+            <div class="form-check">
+                <input type="checkbox" id="password_change" name="password_change" class="form-check-input" <c:out value="${empty requestScope.password_change ? '':'checked'}"/>>
+                <label class="form-check-label" for="password_change" >Changer de mot de passe ? </label>
+            </div>
+        </div>
+    </div>
 </c:if>
+<div id="change_password_form_part">
+    <c:import url="/WEB-INF/utils/passwordForm.jsp"/>
+</div>
 
 <div class="form-group pt-3">
     <label for="right">Type de droit <span>*</span></label>

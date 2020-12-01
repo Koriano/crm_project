@@ -24,6 +24,7 @@ public class ModifyAccountServlet extends HttpServlet {
     private static final String ATT_ACCOUNT = "account";
     private static final String ATT_FORM = "form";
     private static final String ATT_ACTION = "action";
+    private static final String ATT_PASSWORD_CHANGE = "password_change";
 
     private static final String VIEW = "/WEB-INF/admin/modifyAccount.jsp";
     private static final String URL_REDIRECT_RIGHTS = "/rights";
@@ -66,7 +67,6 @@ public class ModifyAccountServlet extends HttpServlet {
             AccountForm form = new AccountForm();
             Account modified_account = form.createAccount(req, "modify");
             modified_account.setId(id);
-            modified_account.setPassword(old_account.getPassword());
 
             // If no error, save account and redirect to account
             if (form.getErrors().isEmpty()){
@@ -77,6 +77,7 @@ public class ModifyAccountServlet extends HttpServlet {
             else {
                 req.setAttribute(ATT_ACCOUNT, modified_account);
                 req.setAttribute(ATT_FORM, form);
+                req.setAttribute(ATT_PASSWORD_CHANGE, req.getParameter(ATT_PASSWORD_CHANGE));
                 this.setRequestAttributes(req);
 
                 this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
