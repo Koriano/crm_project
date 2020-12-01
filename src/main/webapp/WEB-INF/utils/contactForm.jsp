@@ -47,8 +47,10 @@
         <input type="tel" id="phones" name="phone0" value="<c:out value="${requestScope.contact.phonesList[0]}"/>" maxlength="20" class="form-control" placeholder="01.23.45.67.89" >
         <c:forEach var="phone" items="${requestScope.contact.phonesList}" varStatus="boucle">
             <c:if test="${boucle.count != 0}">
-                <input type="tel" name="phone${boucle.count}" value="<c:out value="${requestScope.contact.phonesList[boucle.count]}"/>" maxlength="20" class="form-control" placeholder="01.23.45.67.89"/>
-            </c:if>
+                <div class="pt-2">
+                    <input type="tel" name="phone${boucle.count}" value="<c:out value="${requestScope.contact.phonesList[boucle.count]}"/>" maxlength="20" class="form-control" placeholder="01.23.45.67.89"/>
+                </div>
+           </c:if>
         </c:forEach>
     </div>
 
@@ -64,7 +66,9 @@
         <input type="email" id="mails" name="mail0" value="<c:out value="${requestScope.contact.mailsList[0]}"/>" maxlength="60" class="form-control" placeholder="email@exemple.com"/>
         <c:forEach var="mail" items="${requestScope.contact.mailsList}" varStatus="boucle">
             <c:if test="${boucle.count != 0}">
-                <input type="email" name="mail${boucle.count}" value="<c:out value="${requestScope.contact.mailsList[boucle.count]}"/>" maxlength="60" class="form-control" placeholder="email@exemple.com"/>
+                <div class="pt-2">
+                    <input type="email" name="mail${boucle.count}" value="<c:out value="${requestScope.contact.mailsList[boucle.count]}"/>" maxlength="60" class="form-control" placeholder="email@exemple.com"/>
+                </div>
             </c:if>
         </c:forEach>
     </div>
