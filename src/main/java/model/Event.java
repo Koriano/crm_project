@@ -191,15 +191,17 @@ public class Event {
      */
 
     public void addContact(Contact contact){
-        // pre condition
-        assert contact != null  : "Pre condition violated";
+        boolean is_participant = false;
 
-        if (!this.contactsList.contains(contact)){
-            this.contactsList.add(contact);
+        for (Contact participant:this.contactsList){
+            if(participant.getId() == contact.getId()){
+                is_participant = true;
+            }
         }
 
-        // post condition
-        assert this.contactsList.contains(contact) : "Post condition violated";
+        if (!is_participant){
+            this.contactsList.add(contact);
+        }
     }
 
     /**
