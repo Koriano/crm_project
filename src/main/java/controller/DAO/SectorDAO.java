@@ -44,7 +44,7 @@ public class SectorDAO {
         try {
             PreparedStatement req_insert_prep = this.db.prepareStatement(req_insert,Statement.RETURN_GENERATED_KEYS);
             req_insert_prep.setString(1,name);
-            System.out.println(name);
+    
             ret_req= req_insert_prep.executeUpdate();
             ResultSet rs = req_insert_prep.getGeneratedKeys();
             if (rs != null && rs.next()) {
@@ -190,6 +190,7 @@ public class SectorDAO {
         assert acc.getUsername() != null && acc.getPassword()!= null &&  acc.getName() != null && acc.getRight()!= null: "Pre condition violated";
         assert acc.getSectors()!=null : "Pre condition violated";
         assert acc.getSectors().size()>0 && !acc.getContact().isLinkAccount(): "Pre condition violated";
+
         ArrayList<Sector> ret = new ArrayList<>();
         int id_sector;
         String name;
