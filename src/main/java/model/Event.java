@@ -198,10 +198,8 @@ public class Event {
             this.contactsList.add(contact);
         }
 
-
         // post condition
         assert this.contactsList.contains(contact) : "Post condition violated";
-        this.inv();
     }
 
     /**
