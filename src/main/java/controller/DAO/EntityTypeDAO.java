@@ -41,6 +41,9 @@ public class EntityTypeDAO {
         
         
         try {
+            if ("Nouvelle entité".toUpperCase().equals(name.toUpperCase())){
+                throw new SQLException("Error Trying to insert DUPLICATE KEY : Nouvelle Entité");
+            }
             PreparedStatement req_insert_prep = this.db.prepareStatement(req_insert);
             req_insert_prep.setString(1,name);
     
