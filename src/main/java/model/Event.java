@@ -189,7 +189,6 @@ public class Event {
      *
      * @param contact : the new contact to add
      */
-
     public void addContact(Contact contact){
         if (!this.contactsList.contains(contact)){
             this.contactsList.add(contact);
