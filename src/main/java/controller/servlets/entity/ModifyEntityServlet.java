@@ -1,6 +1,7 @@
 package controller.servlets.entity;
 
 import controller.DAO.EntityDAO;
+import controller.DAO.EntityTypeDAO;
 import model.Entity;
 import model.forms.EntityForm;
 
@@ -10,8 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
 import java.util.HashMap;
 
 public class ModifyEntityServlet extends HttpServlet {
@@ -53,6 +52,9 @@ public class ModifyEntityServlet extends HttpServlet {
 
         if(errors.isEmpty()){
             // If no error, update the entity and redirect to the entity page
+            if (req.getParameter("newType") != null && !req.getParameter("newType").trim().isEmpty()) {
+                EntityTypeDAO.getInstance().saveEntityType(req.getParameter("newType"));
+            }
             entityDAO.updateEntity(updated_entity);
             resp.sendRedirect(req.getContextPath() + "/research/entityProfile?entityId="+updated_entity.getId());
         } else {
@@ -60,6 +62,7 @@ public class ModifyEntityServlet extends HttpServlet {
             this.setFormAttributes(req);
             req.setAttribute("entity", updated_entity);
             req.setAttribute("form", form);
+            req.setAttribute("newType", req.getParameter("newType"));
             this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
         }
     }
@@ -68,6 +71,7 @@ public class ModifyEntityServlet extends HttpServlet {
         // Get entity DAO instance and get all types
         EntityDAO entityDAO = EntityDAO.getInstance();
         ArrayList<String> types = entityDAO.getAllTypes();
+        types.add("Nouveau type entite...");
 
         req.setAttribute("types", types);
     }
