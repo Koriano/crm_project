@@ -15,17 +15,39 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * A servlet which handles the modify contact view
+ *
+ * @author Alexandre HAMON
+ */
 public class ModifyContactServlet extends HttpServlet {
+    /**
+     * Session attributes
+     */
     private static final String PARAM_SESSION_ID_CONTACT = "id_contact";
+
+    /**
+     * Request parameter
+     */
     private static final String PARAM_ID_CONTACT = "id";
 
+    /**
+     * Request attributes
+     */
     private static final String ATT_CONTACTS = "contacts";
     private static final String ATT_ROLES = "roles";
     private static final String ATT_ENTITIES = "entities";
     private static final String ATT_CONTACT = "contact";
     private static final String ATT_FORM = "form";
 
+    /**
+     * View page
+     */
     private static final String VIEW = "/WEB-INF/alimentation/modifyContact.jsp";
+
+    /**
+     * View redirect
+     */
     private static final String URL_REDIRECT = "/research/contact";
 
     @Override
@@ -87,6 +109,11 @@ public class ModifyContactServlet extends HttpServlet {
         }
     }
 
+    /**
+     * A method to set generic form attributes used to build the form
+     *
+     * @param req the request in which to set attributes
+     */
     private void setFormAttributes(HttpServletRequest req){
         // Get contact DAO instance, get all contacts and every role
         ContactDAO contactDAO = ContactDAO.getInstance();

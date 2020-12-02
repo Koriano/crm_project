@@ -31,7 +31,7 @@
         </c:url>
 
         <c:url var="save_comment_link" value="/research/contact/saveComment">
-            <c:param name="id" value="${requestScope.contact.referent.id}"/>
+            <c:param name="id" value="${requestScope.contact.id}"/>
         </c:url>
 
         <c:choose>
@@ -187,7 +187,7 @@
                                                         <div class="d-flex justify-content-between">
                                                             <div class="col-auto">
                                                                 <p class="text-secondary">
-                                                                    <c:out value="${event.date}"/>
+                                                                    <c:out value="${requestScope.dates[event.id]}"/>
                                                                 </p>
                                                             </div>
 

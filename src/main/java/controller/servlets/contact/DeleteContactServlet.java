@@ -10,9 +10,20 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * A servlet which handles the delete contact feature
+ *
+ * @author Alexandre HAMON
+ */
 public class DeleteContactServlet extends HttpServlet {
+    /**
+     * Request parameter
+     */
     private static final String PARAM_ID_CONTACT = "id";
 
+    /**
+     * View redirects
+     */
     private static final String URL_REDIRECT_SUCCESS = "/research";
     private static final String URL_REDIRECT_FAIL = "/research/contact";
 
@@ -26,6 +37,14 @@ public class DeleteContactServlet extends HttpServlet {
         this.deleteContact(req, resp);
     }
 
+    /**
+     * A method to delete contact
+     *
+     * @param req the request containing parameters
+     * @param resp the response to be sent
+     * @throws ServletException
+     * @throws IOException
+     */
     private void deleteContact(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Get contactDAO
         ContactDAO contactDAO = ContactDAO.getInstance();

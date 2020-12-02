@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ContactForm {
-    private static final String PARAM_ID_CONTACT = "id";
+    /**
+     * Form parameters
+     */
     private static final String PARAM_NAME = "name";
     private static final String PARAM_SURNAME = "surname";
     private static final String PARAM_ROLE = "role";
@@ -24,12 +26,21 @@ public class ContactForm {
     private static final String PARAM_RESERVED = "reserved";
     private static final String PARAM_REFERENT = "referent";
 
+    /**
+     * Result and errors map
+     */
     private String result;
     private HashMap<String, String> errors;
 
+    /**
+     * DAOs
+     */
     private ContactDAO contactDAO;
     private EntityDAO entityDAO;
 
+    /**
+     * Constructor used to initialize the form
+     */
     public ContactForm(){
         this.result = "";
         this.errors = new HashMap<>();
@@ -38,6 +49,13 @@ public class ContactForm {
         this.entityDAO = EntityDAO.getInstance();
     }
 
+    /**
+     * A method used to check form fields and create contact from this.
+     *
+     * @param req the request containing the parameters
+     *
+     * @return the newly created contact
+     */
     public Contact createContact(HttpServletRequest req){
         // Get parameter from request
         String name = req.getParameter(PARAM_NAME);
@@ -110,29 +128,33 @@ public class ContactForm {
         // Create the new contact and set properties
         Contact contact = new Contact(name.trim(), surname.trim(), role, referent_contact, "on".equals(reserved));
 
+        // If no error on entity, set it
         if(!this.errors.containsKey(PARAM_ENTITY)){
             contact.setEntity(entity_object);
         }
 
+        // If address is not null, set it
         if(address != null){
             contact.setAddress(address);
         }
 
+        // Add every not empty phone
         for(String phone:phones){
             if (!phone.isEmpty()) {
                 contact.addPhone(phone.trim());
             }
         }
 
+        // Add every not empty mail
         for(String mail:mails){
             if (!mail.isEmpty()) {
                 contact.addMail(mail.trim());
             }
         }
 
-
+        // Set result according to errors
         if(this.errors.isEmpty()){
-            this.result = "Succès !";
+            this.result = "Succes !";
         }
         else {
             this.result = "Echec.";
@@ -143,30 +165,62 @@ public class ContactForm {
 
     // VERIFICATIONS
 
+    /**
+     * A method to verify name field
+     *
+     * @param name the value of the name field
+     * @throws Exception
+     */
     private void nameVerification(String name) throws Exception{
+        // if name field given
         if(name == null || name.trim().isEmpty()){
             throw new Exception("Merci de rentrer un nom.");
-        }else if (name.trim().length() > 50){
-            throw new Exception("Merci de rentrer un nom de moins de 50 caractères");
+        }
+        // if length is not too long
+        else if (name.trim().length() > 50){
+            throw new Exception("Merci de rentrer un nom de moins de 50 caracteres");
         }
     }
 
+    /**
+     * A method to verify surname field
+     *
+     * @param surname the value of the surname field
+     * @throws Exception
+     */
     private void surnameVerification(String surname) throws Exception{
+        // if surname field is given
         if(surname == null || surname.trim().isEmpty()){
-            throw new Exception("Merci de rentrer un prénom.");
-        } else if (surname.trim().length() > 50){
-            throw new Exception("Merci de rentrer un prénom de moins de 50 caractères");
+            throw new Exception("Merci de rentrer un prenom.");
+        }
+        // if surname is not too long
+        else if (surname.trim().length() > 50){
+            throw new Exception("Merci de rentrer un prenom de moins de 50 caracteres");
         }
     }
 
+    /**
+     * A method to verify role field
+     *
+     * @param role the value of the role field
+     * @throws Exception
+     */
     private void roleVerification(String role) throws Exception{
         ArrayList<String> roles = this.contactDAO.getAllRoles();
 
+        // role needs to be in role list
         if(!roles.contains(role)){
             throw new Exception("Merci de rentrer un role valide.");
         }
     }
 
+    /**
+     * A method to verify entity field
+     *
+     * @param entity the value of entity field
+     * @return the corresponding entity object
+     * @throws Exception
+     */
     private Entity entityVerification(String entity) throws Exception{
         if(entity != null) {
 
@@ -178,36 +232,56 @@ public class ContactForm {
                 Entity entity_obj = this.entityDAO.getEntityById(Integer.parseInt(entity));
 
                 if(entity_obj == null){
-                    throw new Exception("Cette entité n'existe pas, merci de renseigner une entité existante.");
+                    throw new Exception("Cette entite n'existe pas, merci de renseigner une entite existante.");
                 }
                 else {
                     return entity_obj;
                 }
             } catch (Exception e){
-                throw new Exception("Merci de renseigner une entité.");
+                throw new Exception("Merci de renseigner une entite.");
             }
 
         } else {
-            throw new Exception("Merci de renseigner une entité.");
+            throw new Exception("Merci de renseigner une entite.");
         }
     }
 
+    /**
+     * A method to verify phone field
+     *
+     * @param phone the value of the phone field
+     * @throws Exception
+     */
     private void phoneVerification(String phone) throws Exception{
         if (!phone.isEmpty() && !phone.matches("^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$")){
-            throw new Exception("Un ou plusieurs numéros de téléphone sont invalides.");
+            throw new Exception("Un ou plusieurs numeros de telephone sont invalides.");
         }else if(phone.trim().length() > 20){
-            throw new Exception("Un ou plusieurs numéros de téléphone contiennent plus de 20 chiffres.");
+            throw new Exception("Un ou plusieurs numeros de telephone contiennent plus de 20 chiffres.");
         }
     }
 
+    /**
+     * A method to verify mail field
+     *
+     * @param mail the value of the mail field
+     * @throws Exception
+     */
     private void mailVerification(String mail) throws Exception{
         if(!mail.isEmpty() && !mail.matches("([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)")){
             throw new Exception("Une ou plusieurs adresses mail sont invalides.");
         }else if(mail.trim().length() > 60){
-            throw new Exception("Une ou plusieurs adresses mail contiennent plus de 60 caractères.");
+            throw new Exception("Une ou plusieurs adresses mail contiennent plus de 60 caracteres.");
         }
     }
 
+    /**
+     * A method to verify reserved field
+     *
+     * @param reserved whether the contact is reserved or not
+     * @param referent the referent, if contact is reserved
+     * @return
+     * @throws Exception
+     */
     private Contact reservedVerification(String reserved, String referent) throws Exception{
         // If reserved field doesn't exists
         if (reserved == null){
@@ -223,12 +297,12 @@ public class ContactForm {
                     return this.contactDAO.getContactById(id);
 
                 }catch (Exception e){
-                    throw new Exception("Merci de sélectionner un référent valide.");
+                    throw new Exception("Merci de selectionner un referent valide.");
                 }
             }
             // If the contact is reserved but there's no referent field, or it is empty (selected by default)
             else if(referent == null || referent.isEmpty()){
-                throw new Exception("Merci de sélectionner un référent valide.");
+                throw new Exception("Merci de selectionner un referent valide.");
             }
             // If the contact is not reserved
             else {
