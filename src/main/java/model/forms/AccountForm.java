@@ -9,7 +9,9 @@ import model.Sector;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 public class AccountForm {
     private static final String PARAM_OLD_ACCOUNT_ID = "id";
@@ -127,7 +129,7 @@ public class AccountForm {
         if(username == null || username.isEmpty()){
             throw new Exception("Merci de rentrer un nom d'utilisateur.");
         } else if(username.trim().length() > 25){
-            throw new Exception("Merci de renter un nom de 25 caractères maximum.");
+            throw new Exception("Merci de renter un nom de 25 caracteres maximum.");
         }
     }
 
@@ -135,7 +137,7 @@ public class AccountForm {
         if(name == null || name.isEmpty()){
             throw new Exception("Merci de rentrer un nom de compte.");
         } else if(name.trim().length() > 30){
-            throw new Exception("Merci de renter un nom de 30 caractères maximum.");
+            throw new Exception("Merci de renter un nom de 30 caracteres maximum.");
         }
     }
 
@@ -143,9 +145,9 @@ public class AccountForm {
         ArrayList<String> rights = this.accountDAO.getAllRight();
 
         if(right == null){
-            throw new Exception("Merci de sélectionner un droit.");
+            throw new Exception("Merci de selectionner un droit.");
         } else if (!rights.contains(right)){
-            throw new Exception("Merci de sélectionner un droit existant.");
+            throw new Exception("Merci de selectionner un droit existant.");
         }
     }
 
@@ -186,7 +188,7 @@ public class AccountForm {
         try{
             id = Integer.parseInt(contact_id);
         } catch (Exception e){
-            throw new Exception("Merci de sélectionner un contact valide.");
+            throw new Exception("Merci de selectionner un contact valide.");
         }
 
         if(id != -1){
@@ -195,13 +197,13 @@ public class AccountForm {
             if(contact != null){
 
                 if (old_account != null && id != old_account.getContact().getId() && used_contacts.contains(id)){
-                    throw new Exception("Ce contact est déjà utilisé par un autre compte.");
+                    throw new Exception("Ce contact est deje utilise par un autre compte.");
                 } else {
                     return contact;
                 }
 
             } else {
-                throw new Exception("Merci de sélectionner un contact existant");
+                throw new Exception("Merci de selectionner un contact existant");
             }
         } else {
             return null;
@@ -211,15 +213,13 @@ public class AccountForm {
     private ArrayList<Sector> sectorsVerification(String[] sectors) throws Exception{
         ArrayList<Sector> returned_sectors = new ArrayList<>();
 
-        if (sectors == null){
-            throw new Exception("Merci de sélectionner au moins un secteur.");
-        }
-
-        for (String sector:sectors){
-            try {
-                returned_sectors.add(sectorVerification(sector));
-            } catch (Exception e){
-                this.setError(PARAM_SECTORS, e.getMessage());
+        if (sectors != null){
+            for (String sector:sectors){
+                try {
+                    returned_sectors.add(sectorVerification(sector));
+                } catch (Exception e){
+                    this.setError(PARAM_SECTORS, e.getMessage());
+                }
             }
         }
 
@@ -228,7 +228,7 @@ public class AccountForm {
 
     private Sector sectorVerification(String sector_id) throws Exception{
         if (sector_id == null || sector_id.isEmpty()){
-            throw new Exception("Merci de sélectionner des secteurs existants.");
+            throw new Exception("Merci de selectionner des secteurs existants.");
         }
         else {
 
@@ -237,12 +237,12 @@ public class AccountForm {
                 Sector sector_obj = this.sectorDAO.getSectorById(id);
 
                 if (sector_obj == null){
-                    throw new Exception("Merci de sélectionner des secteurs existants.");
+                    throw new Exception("Merci de selectionner des secteurs existants.");
                 } else {
                     return sector_obj;
                 }
             } catch (Exception e){
-                throw new Exception("Merci de sélectionner des secteurs existants.");
+                throw new Exception("Merci de selectionner des secteurs existants.");
             }
         }
     }

@@ -2,7 +2,6 @@ package controller.servlets.account;
 
 import controller.DAO.AccountDAO;
 import model.Account;
-import model.forms.AccountRightsForm;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

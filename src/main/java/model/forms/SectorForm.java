@@ -71,14 +71,16 @@ public class SectorForm {
     private ArrayList<Contact> contactsVerification(String[] contacts){
         ArrayList<Contact> contact_list = new ArrayList<>();
 
-        for (String contact_id:contacts){
-            try {
-                contact_list.add(contactVerification(contact_id));
-            } catch (Exception e){
-                this.setError(PARAM_CONTACTS, e.getMessage());
+        if (contacts != null){
+            for (String contact_id:contacts){
+                try {
+                    contact_list.add(contactVerification(contact_id));
+                } catch (Exception e){
+                    this.setError(PARAM_CONTACTS, e.getMessage());
+                }
             }
         }
-
+        
         return contact_list;
     }
 
