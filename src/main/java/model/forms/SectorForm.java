@@ -80,7 +80,7 @@ public class SectorForm {
                 }
             }
         }
-        
+
         return contact_list;
     }
 

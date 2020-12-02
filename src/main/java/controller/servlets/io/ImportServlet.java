@@ -31,61 +31,68 @@ public class ImportServlet extends HttpServlet {
         try {
             ContactDAO contactDAO = ContactDAO.getInstance();
             Part filePart = req.getPart("file");
-            CSVReader reader = new CSVReader(new InputStreamReader(filePart.getInputStream()));
-            Contact contact;
-            Iterator<String[]> it = reader.iterator();
-            // Skip header line
-            it.next();
-            while(it.hasNext()) {
-                String[] line = it.next()[0].split(";");
-                if (line.length == 7) {
-                    String address = line[0];
-                    String role = line[1];
-                    String entite = line[2];
-                    String[] mails = line[3].split("\t");
-                    String[] tels = line[4].split("\t");
-                    String name = line[5];
-                    String surname = line[6];
-                    // Check entries validity
-                    if (!(name.isEmpty() || surname.isEmpty() || role.isEmpty())) {
-                        ArrayList<String> roles = contactDAO.getAllRoles();
+            String[] split_file_name = filePart.getSubmittedFileName().split("\\.");
 
-                        if (roles.contains(role)) {
-                            // Set name, surname and role
-                            contact = new Contact(name, surname, role, null, false);
-                            // Set adress
-                            contact.setAddress(address);
+            if("csv".equals(split_file_name[split_file_name.length-1])) {
+                System.out.println(split_file_name[split_file_name.length-1]);
+                CSVReader reader = new CSVReader(new InputStreamReader(filePart.getInputStream()));
+                Contact contact;
+                Iterator<String[]> it = reader.iterator();
+                // Skip header line
+                it.next();
+                while (it.hasNext()) {
+                    String[] line = it.next()[0].split(";");
+                    if (line.length == 7) {
+                        String address = line[0];
+                        String role = line[1];
+                        String entite = line[2];
+                        String[] mails = line[3].split("\t");
+                        String[] tels = line[4].split("\t");
+                        String name = line[5];
+                        String surname = line[6];
+                        // Check entries validity
+                        if (!(name.isEmpty() || surname.isEmpty() || role.isEmpty())) {
+                            ArrayList<String> roles = contactDAO.getAllRoles();
 
-                            // Set entity
-                            ArrayList<Entity> entities = EntityDAO.getInstance().getAllEntities();
-                            for (Entity e : entities) {
-                                if (e.getName().toLowerCase().equals(entite.toLowerCase())) {
-                                    contact.setEntity(e);
-                                    break;
+                            if (roles.contains(role)) {
+                                // Set name, surname and role
+                                contact = new Contact(name, surname, role, null, false);
+                                // Set adress
+                                contact.setAddress(address);
+
+                                // Set entity
+                                ArrayList<Entity> entities = EntityDAO.getInstance().getAllEntities();
+                                for (Entity e : entities) {
+                                    if (e.getName().toLowerCase().equals(entite.toLowerCase())) {
+                                        contact.setEntity(e);
+                                        break;
+                                    }
                                 }
-                            }
-                            // Set mails
-                            for (String mail : mails) {
-                                if (!mail.isEmpty()) {
-                                    contact.addMail(mail);
+                                // Set mails
+                                for (String mail : mails) {
+                                    if (!mail.isEmpty()) {
+                                        contact.addMail(mail);
+                                    }
                                 }
-                            }
-                            // Set phones nb
-                            for (String tel : tels) {
-                                if (!tel.isEmpty()) {
-                                    contact.addPhone(tel);
+                                // Set phones nb
+                                for (String tel : tels) {
+                                    if (!tel.isEmpty()) {
+                                        contact.addPhone(tel);
+                                    }
                                 }
-                            }
-                            try {
-                                contactDAO.saveContact(contact);
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                                try {
+                                    contactDAO.saveContact(contact);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     }
                 }
+                req.setAttribute("successMessage", "Insertion OK !");
+            } else {
+                throw new Exception("Format de fichier non supporté");
             }
-            req.setAttribute("successMessage", "Insertion OK !");
         } catch (Exception e) {
             e.printStackTrace();
             req.setAttribute("successMessage", "Echec de l'insertion...");
