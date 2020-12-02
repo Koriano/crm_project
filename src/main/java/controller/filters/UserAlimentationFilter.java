@@ -8,9 +8,20 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * A filter that checks if the user has alimentation rights
+ *
+ * @author Alexandre HAMON
+ */
 public class UserAlimentationFilter implements Filter {
+    /**
+     * Session attributes
+     */
     private static final String PARAM_SESSION_USER_ACCOUNT = "user";
 
+    /**
+     * View redirection
+     */
     private static final String URL_REDIRECT = "/home";
 
     @Override
@@ -25,6 +36,7 @@ public class UserAlimentationFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        // Cast request and response into HTTP
         HttpServletRequest http_request = (HttpServletRequest) request;
         HttpServletResponse http_response = (HttpServletResponse) response;
 
@@ -32,9 +44,11 @@ public class UserAlimentationFilter implements Filter {
         HttpSession session = http_request.getSession();
         Account user = (Account) session.getAttribute(PARAM_SESSION_USER_ACCOUNT);
 
+        // If user has rights, continue
         if("Alimentation CRM".equals(user.getRight()) || "Administrateur".equals(user.getRight())){
             chain.doFilter(http_request, http_response);
         }
+        // Else redirect
         else {
             http_response.sendRedirect(http_request.getContextPath() + URL_REDIRECT);
         }
