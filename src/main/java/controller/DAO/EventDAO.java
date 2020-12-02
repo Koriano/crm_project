@@ -55,7 +55,6 @@ public class EventDAO {
         if (description == null) {
             description = "";
         }
-       System.out.println(evt.getDate().getHours());
         // Request to insert Event
         String req_add_event = "INSERT INTO Event(name,description,date,type,authorId) VALUES (?,?,?,?,?)";
         // Request to insert contact
@@ -105,7 +104,6 @@ public class EventDAO {
             int ret_req;
         
             for(Contact cont:list){
-                System.out.println(cont.getName());
                 if (cont!=null && cont.getId()>0){
                     PreparedStatement req_insert_prep = this.db.prepareStatement(req_insert_contact);
                     req_insert_prep.setInt(1, id);
