@@ -34,7 +34,6 @@ public class ImportServlet extends HttpServlet {
             String[] split_file_name = filePart.getSubmittedFileName().split("\\.");
 
             if("csv".equals(split_file_name[split_file_name.length-1])) {
-                System.out.println(split_file_name[split_file_name.length-1]);
                 CSVReader reader = new CSVReader(new InputStreamReader(filePart.getInputStream()));
                 Contact contact;
                 Iterator<String[]> it = reader.iterator();
