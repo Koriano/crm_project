@@ -15,15 +15,29 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * A servlet which handles the contact creation form
+ *
+ * @author Alexandre HAMON
+ */
 public class AddContactServlet extends HttpServlet {
+    /**
+     * Session attributes
+     */
     private static final String PARAM_SESSION_CONTACT_ID = "contact_id";
 
+    /**
+     * Request attributes
+     */
     private static final String ATT_CONTACTS = "contacts";
     private static final String ATT_ROLES = "roles";
     private static final String ATT_ENTITIES = "entities";
     private static final String ATT_CONTACT = "contact";
     private static final String ATT_FORM = "form";
 
+    /**
+     * View page
+     */
     private static final String VIEW = "/WEB-INF/alimentation/addContact.jsp";
 
     @Override
@@ -50,6 +64,7 @@ public class AddContactServlet extends HttpServlet {
         // Get errors map
         HashMap<String, String> errors = form.getErrors();
 
+        // if no form errors, save contact
         if(errors.isEmpty()){
             contactDAO.saveContact(new_contact);
             new_contact = null;
@@ -63,6 +78,11 @@ public class AddContactServlet extends HttpServlet {
         this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
     }
 
+    /**
+     * A method to set generic form attributes used to build the form
+     *
+     * @param req the request in which to set attributes
+     */
     private void setFormAttributes(HttpServletRequest req){
         // Get contact DAO instance, get all contacts and every role
         ContactDAO contactDAO = ContactDAO.getInstance();
@@ -73,6 +93,7 @@ public class AddContactServlet extends HttpServlet {
         EntityDAO entityDAO = EntityDAO.getInstance();
         ArrayList<Entity> entities = entityDAO.getAllEntities();
 
+        // Set attributes to request
         req.setAttribute(ATT_CONTACTS, contacts);
         req.setAttribute(ATT_ROLES, roles);
         req.setAttribute(ATT_ENTITIES, entities);

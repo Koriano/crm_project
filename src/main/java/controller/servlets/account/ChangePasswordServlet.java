@@ -11,14 +11,30 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 
+/**
+ * A servlet which handles the password change from user profile
+ *
+ * @author Alexandre HAMON
+ */
 public class ChangePasswordServlet extends HttpServlet {
+    /**
+     * Request attribute
+     */
     private static final String ATT_FORM = "form";
 
+    /**
+     *  View file
+     */
     private static final String VIEW = "/WEB-INF/readonly/changePassword.jsp";
+
+    /**
+     * View redirect
+     */
     private static final String URL_REDIRECT = "/home";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // Forward form page
         this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
     }
 
