@@ -6,6 +6,7 @@
     <title> <c:out value="Importer contacts"/></title>
     <link rel="stylesheet" href="<c:url value="/style/lib/bootstrap.min.css"/>" />
     <link rel="stylesheet" href="<c:url value="/style/front.css"/>" />
+
 </head>
 
 <body>
@@ -30,8 +31,6 @@
                             <div class="card-body">
                                 <form method="POST" action="/importContacts" enctype="multipart/form-data">
                                     <div class="form-group">
-                                        File:
-
                                         <div class="row pt-3 justify-content-center">
                                             <div class="mb-3">
                                                 <div class="custom-file">
@@ -41,8 +40,8 @@
                                             </div>
                                         </div>
 
-                                        <div class="row justify-content-center pt-3">
-                                            <button class="btn btn-primary" type="submit" value="Upload" name="Télécharger" id="upload">
+                                        <div class="row pt-3 justify-content-center">
+                                            <button type="submit" value="Upload" name="Télécharger" id="upload">
                                                 Télécharger
                                             </button>
                                         </div>
@@ -67,6 +66,12 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="<c:url value="/style/scripts/bootstrap.min.js"/>"></script>
+<script>
+    $(".custom-file-input").on("change", function() {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+</script>
 
 </body>
 </html>
