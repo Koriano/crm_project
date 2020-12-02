@@ -138,6 +138,10 @@
         <servlet-name>ImportContacts</servlet-name>
         <servlet-class>controller.servlets.io.ImportServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ExportContacts</servlet-name>
+        <servlet-class>controller.servlets.io.ExportServlet</servlet-class>
+    </servlet>
 
 
 
@@ -277,6 +281,10 @@
     <servlet-mapping>
         <servlet-name>ImportContacts</servlet-name>
         <url-pattern>/importContacts</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ExportContacts</servlet-name>
+        <url-pattern>/exportContacts</url-pattern>
     </servlet-mapping>
 
 
