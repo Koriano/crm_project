@@ -2,6 +2,7 @@ package model.forms;
 
 import controller.DAO.ContactDAO;
 import controller.DAO.EntityDAO;
+import model.Account;
 import model.Contact;
 import model.Entity;
 import sun.reflect.annotation.ExceptionProxy;
@@ -11,11 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ContactForm {
     /**
      * Form parameters
      */
+    private static final String PARAM_ID = "id";
     private static final String PARAM_NAME = "name";
     private static final String PARAM_SURNAME = "surname";
     private static final String PARAM_ROLE = "role";
@@ -57,7 +60,9 @@ public class ContactForm {
      * @return the newly created contact
      */
     public Contact createContact(HttpServletRequest req){
+
         // Get parameter from request
+        String id = req.getParameter(PARAM_ID);
         String name = req.getParameter(PARAM_NAME);
         String surname = req.getParameter(PARAM_SURNAME);
         String role = req.getParameter(PARAM_ROLE);
@@ -120,7 +125,7 @@ public class ContactForm {
         // Verify reserved and referent
         Contact referent_contact = null;
         try {
-            referent_contact = reservedVerification(reserved, referent);
+            referent_contact = reservedVerification(reserved, referent, id);
         } catch (Exception e){
             this.setError(PARAM_REFERENT, e.getMessage());
         }
@@ -282,8 +287,8 @@ public class ContactForm {
      * @return
      * @throws Exception
      */
-    private Contact reservedVerification(String reserved, String referent) throws Exception{
-        // If reserved field doesn't exists
+    private Contact reservedVerification(String reserved, String referent, String old_contact_id) throws Exception{
+        // If reserved field doesn't exist
         if (reserved == null){
             return null;
         }
@@ -294,9 +299,18 @@ public class ContactForm {
             if(is_reserved && referent != null && !referent.isEmpty()){
                 try{
                     int id = Integer.parseInt(referent);
-                    return this.contactDAO.getContactById(id);
+                    int old_id = Integer.parseInt(old_contact_id);
 
-                }catch (Exception e){
+                    Contact referent_contact = this.contactDAO.getContactById(id);
+
+                    if (referent_contact == null){
+                        throw new Exception("Merci de selectionner un referent existant.");
+                    } else if (id == old_id){
+                        throw new Exception("Vous ne pouvez pas etre votre propre referent !");
+                    } else {
+                        return referent_contact;
+                    }
+                } catch (NumberFormatException e){
                     throw new Exception("Merci de selectionner un referent valide.");
                 }
             }

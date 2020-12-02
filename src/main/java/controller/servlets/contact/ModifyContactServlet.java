@@ -22,11 +22,6 @@ import java.util.HashMap;
  */
 public class ModifyContactServlet extends HttpServlet {
     /**
-     * Session attributes
-     */
-    private static final String PARAM_SESSION_ID_CONTACT = "id_contact";
-
-    /**
      * Request parameter
      */
     private static final String PARAM_ID_CONTACT = "id";
@@ -83,29 +78,33 @@ public class ModifyContactServlet extends HttpServlet {
         // Get contact DAO instance
         ContactDAO contactDAO = ContactDAO.getInstance();
 
-        // Get contact from session id
-        HttpSession session = req.getSession();
-        Integer id = (Integer) session.getAttribute(PARAM_SESSION_ID_CONTACT);
-        session.removeAttribute(PARAM_SESSION_ID_CONTACT);
+        // Get id from request
+        String id_contact = req.getParameter(PARAM_ID_CONTACT);
 
-        // Create the modified contact
-        ContactForm form = new ContactForm();
-        Contact modified_contact = form.createContact(req);
-        modified_contact.setId(id);
+        try {
+            int id = Integer.parseInt(id_contact);
 
-        // Get errors map
-        HashMap<String, String> errors = form.getErrors();
+            // Create the modified contact
+            ContactForm form = new ContactForm();
+            Contact modified_contact = form.createContact(req);
+            modified_contact.setId(id);
 
-        // If no errors: modify and redirect to profile
-        if(errors.isEmpty()){
-            contactDAO.updateContact(modified_contact);
-            resp.sendRedirect(req.getContextPath() + URL_REDIRECT + "?id=" + id);
-        }else {
-            this.setFormAttributes(req);
-            req.setAttribute(ATT_CONTACT, modified_contact);
-            req.setAttribute(ATT_FORM, form);
+            // Get errors map
+            HashMap<String, String> errors = form.getErrors();
 
-            this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
+            // If no errors: modify and redirect to profile
+            if(errors.isEmpty()){
+                contactDAO.updateContact(modified_contact);
+                resp.sendRedirect(req.getContextPath() + URL_REDIRECT + "?id=" + id_contact);
+            }else {
+                this.setFormAttributes(req);
+                req.setAttribute(ATT_CONTACT, modified_contact);
+                req.setAttribute(ATT_FORM, form);
+
+                this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
+            }
+        } catch (Exception e){
+            resp.sendRedirect(req.getContextPath() + URL_REDIRECT + "?id=" + id_contact);
         }
     }
 
