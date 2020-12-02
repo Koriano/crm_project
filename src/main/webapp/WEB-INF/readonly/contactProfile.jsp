@@ -74,8 +74,14 @@
 
             </c:when>
             <c:when test="${not requestScope.is_visible}">
-                <div>
-                    <h3>Vous n'avez pas les droits pour voir ce contact.</h3>
+                <div class="row">
+                    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto pt-5">
+                        <div class="card">
+                            <div class="container text-center pt-3 pb-3 pl-3 pr-3">
+                                <p>Vous n'avez pas les droits pour visualiser ce contact.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </c:when>
             <c:otherwise>
