@@ -6,6 +6,18 @@
     <title>Connexion</title>
     <link rel="stylesheet" href="<c:url value="/style/lib/bootstrap.min.css"/>" />
     <link rel="stylesheet" href="<c:url value="/style/front.css"/>" />
+
+    <style>
+        .btn-circle.btn-sm {
+            width: 25px;
+            height: 25px;
+            padding: 6px 0px;
+            border-radius: 50%;
+            background: #FF8C00;
+            border-color: #FF8C00;
+            line-height: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -27,15 +39,22 @@
                     </form>
                 </div>
 
+
                 <div class="card-body">
 
                     <ul class="nav nav-tabs" role="tablist">
                         <!--Définition des onglets-->
                         <li class="nav-item">
-                            <a class="nav-link active" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="true">Contact (${requestScope.contacts.size()})</a>
+                            <a class="nav-link active" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="true">
+                                Contact
+                                <button type="button" class="btn btn-primary btn-circle btn-sm justify-content-center align-content-center">${requestScope.contacts.size()}</button>
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="entite-tab" data-toggle="tab" href="#entite" role="tab" aria-controls="entite" aria-selected="false">Entité (${requestScope.entities.size()})</a>
+                            <a class="nav-link" id="entite-tab" data-toggle="tab" href="#entite" role="tab" aria-controls="entite" aria-selected="false">
+                                Entité
+                                <button type="button" class="btn btn-primary btn-circle btn-sm justify-content-center align-content-center">${requestScope.entities.size()}</button>
+                            </a>
                         </li>
                     </ul>
 
