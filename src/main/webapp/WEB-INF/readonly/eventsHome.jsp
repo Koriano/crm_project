@@ -72,7 +72,7 @@
                                                     <div class="d-flex justify-content-between">
                                                         <div class="col-auto">
                                                             <p class="text-secondary">
-                                                                <c:out value="${event.date}"/>
+                                                                <c:out value="${requestScope.dates[event.id]}"/>
                                                             </p>
                                                         </div>
 
@@ -111,7 +111,7 @@
                                                     <div class="d-flex justify-content-between">
                                                         <div class="col-auto">
                                                             <p class="text-secondary">
-                                                                <c:out value="${event.date}"/>
+                                                                <c:out value="${requestScope.dates[event.id]}"/>
                                                             </p>
                                                         </div>
 

@@ -9,9 +9,20 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * A filter that checks whether the user is connected or not and refreshes its account
+ *
+ * @author Alexandre HAMON
+ */
 public class UserConnectedFilter implements Filter {
+    /**
+     * Session attributes
+     */
     private static final String PARAM_SESSION_USER_ACCOUNT = "user";
 
+    /**
+     * View redirection
+     */
     private static final String URL_REDIRECT = "/connect";
 
     @Override
@@ -26,6 +37,7 @@ public class UserConnectedFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        // Cast request and response into HTTP
         HttpServletRequest http_request = (HttpServletRequest) request;
         HttpServletResponse http_response = (HttpServletResponse) response;
 
@@ -49,7 +61,7 @@ public class UserConnectedFilter implements Filter {
             else {
                 user = accountDAO.getAccountById(user.getId());
 
-                // If delete redirect to connection
+                // If deleted redirect to connection
                 if(user == null){
                     http_response.sendRedirect(http_request.getContextPath() + URL_REDIRECT);
                 }
@@ -60,6 +72,5 @@ public class UserConnectedFilter implements Filter {
                 }
             }
         }
-
     }
 }

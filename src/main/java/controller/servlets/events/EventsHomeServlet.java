@@ -11,7 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
 public class EventsHomeServlet extends HttpServlet {
     private static final String PARAM_SESSION_USER_ACCOUNT = "user";
@@ -20,6 +23,7 @@ public class EventsHomeServlet extends HttpServlet {
 
     private static final String ATT_MY_EVENTS = "my_events";
     private static final String ATT_CONCERNED_EVENTS = "concerned_events";
+    private static final String ATT_DATES = "dates";
 
     private static final String VIEW = "/WEB-INF/readonly/eventsHome.jsp";
 
@@ -48,41 +52,73 @@ public class EventsHomeServlet extends HttpServlet {
         ArrayList<Event> my_events = eventDAO.getEventsByCreator(user.getContact());
         ArrayList<Event> concerned_events = eventDAO.getEventsByContact(user.getContact());
 
+        HashMap<Integer, String> dateTime = new HashMap<>();
+
+        this.addDates(dateTime, my_events);
+        this.addDates(dateTime, concerned_events);
+
         // If research filter given, filter events
         if (research != null){
+            String[] filters = research.split(" ");
 
             if (my_events.size() > 0){
-                this.filterEventByResearch(my_events, research);
+                this.filterEventByResearch(my_events, filters);
             }
 
             if (concerned_events.size() > 0){
-                this.filterEventByResearch(concerned_events, research);
+                this.filterEventByResearch(concerned_events, filters);
             }
         }
 
         // Set them as parameters
         req.setAttribute(ATT_MY_EVENTS, my_events);
         req.setAttribute(ATT_CONCERNED_EVENTS, concerned_events);
+        req.setAttribute(ATT_DATES, dateTime);
 
         this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
     }
 
-    private void filterEventByResearch(ArrayList<Event> event_list, String filter) {
-        // No case sensitivity
-        filter = filter.toLowerCase();
+    private void addDates(HashMap<Integer, String> dateTime, ArrayList<Event> events) {
+        for (Event evt: events){
 
+            if (!dateTime.containsKey(evt.getId())){
+                Date date = evt.getDate();
+
+                // Set formatter
+                SimpleDateFormat date_format = new SimpleDateFormat("dd/MM/yyyy");
+
+                dateTime.put(evt.getId(), date_format.format(date));
+            }
+        }
+    }
+
+    private void filterEventByResearch(ArrayList<Event> event_list, String[] filters) {
         int i = 0;
         Event event;
+        boolean is_visible;
 
         do {
             event = event_list.get(i);
+            is_visible = false;
 
-            if (!event.getName().toLowerCase().contains(filter) &&
-                    !event.getType().toLowerCase().contains(filter)){
+            for (String filter:filters){
+                // No case sensitivity
+                filter = filter.toLowerCase();
 
+                if (event.getName().toLowerCase().contains(filter) ||
+                        event.getType().toLowerCase().contains(filter)){
+
+                    is_visible = true;
+                } else {
+                    is_visible = false;
+                    break;
+                }
+            }
+
+            if (!is_visible){
                 event_list.remove(i);
-
-            } else {
+            }
+            else {
                 i++;
             }
 
