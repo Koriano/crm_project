@@ -6,6 +6,18 @@
     <title>Événements</title>
     <link rel="stylesheet" href="<c:url value="/style/lib/bootstrap.min.css"/>" />
     <link rel="stylesheet" href="<c:url value="/style/front.css"/>" />
+
+    <style>
+        .btn-circle.btn-sm {
+            width: 25px;
+            height: 25px;
+            padding: 6px 0px;
+            border-radius: 50%;
+            background: #FF8C00;
+            border-color: #FF8C00;
+            line-height: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -30,12 +42,19 @@
                 <div class="card-body">
 
                     <ul class="nav nav-tabs" role="tablist">
+
                         <!--Définition des onglets-->
                         <li class="nav-item">
-                            <a class="nav-link active" id="my-events-tab" data-toggle="tab" href="#my-events" role="tab" aria-controls="my-events" aria-selected="true">Mes événements (${requestScope.my_events.size()})</a>
+                            <a class="nav-link active" id="my-events-tab" data-toggle="tab" href="#my-events" role="tab" aria-controls="my-events" aria-selected="true">
+                                Mes événements
+                                <button type="button" class="btn btn-primary btn-circle btn-sm justify-content-center align-content-center">${requestScope.my_events.size()}</button>
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="concerned-events-tab" data-toggle="tab" href="#concerned-events" role="tab" aria-controls="concerned-events" aria-selected="false">Les événements auquels je participe (${requestScope.concerned_events.size()})</a>
+                            <a class="nav-link" id="concerned-events-tab" data-toggle="tab" href="#concerned-events" role="tab" aria-controls="concerned-events" aria-selected="false">
+                                Les événements auquels je participe
+                                <button type="button" class="btn btn-primary btn-circle btn-sm justify-content-center align-content-center">${requestScope.concerned_events.size()}</button>
+                            </a>
                         </li>
                     </ul>
 
