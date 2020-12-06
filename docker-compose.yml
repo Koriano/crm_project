@@ -5,10 +5,6 @@ services:
   database:
     image: mysql:8.0
     restart: always
-    hostname: 'crm-database'
-    ports:
-      # port de la machine:port du conteneur
-      - '63306:53306'
     expose:
       # Ouvre le port 53306 sur le conteneur
       - '53306'
@@ -19,11 +15,11 @@ services:
   webserver:
     depends_on:
       - database
-    image: tomcat:latest
+    image: tomcat:jdk11-adoptopenjdk-hotspot
     restart: always
     ports:
       # port de la machine:port du conteneur
       - '57080:8080'
     volumes:
       - ./tomcatConf:/usr/local/tomcat/conf/Catalina/localhost
-      - ./build/libs:/PRODUCTION
+      - ./app:/PRODUCTION
