@@ -29,7 +29,8 @@ public class DBConnection  {
         try{
             Class.forName( "com.mysql.cj.jdbc.Driver" );
             Connection con= DriverManager.getConnection(
-                    "jdbc:mysql://localhost:63306/crm_bdd","crm_app","m0tD3P&s$e*");
+                    //"jdbc:mysql://localhost:63306/crm_bdd","crm_app","m0tD3P&s$e*"); // Dev addr
+                    "jdbc:mysql://crm-database:53306/crm_bdd","crm_app","m0tD3P&s$e*"); // Prod addr
             System.out.println("Connected to the database....");
             instance= con;
 
