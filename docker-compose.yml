@@ -5,7 +5,6 @@ services:
   database:
     image: mysql:8.0
     restart: always
-    hostname: 'crm-database'
     expose:
       # Ouvre le port 53306 sur le conteneur
       - '53306'
