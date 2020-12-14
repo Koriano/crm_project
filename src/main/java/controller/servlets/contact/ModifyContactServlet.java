@@ -22,6 +22,11 @@ import java.util.HashMap;
  */
 public class ModifyContactServlet extends HttpServlet {
     /**
+     * Action to be forwarded to the form object
+     */
+    private static final String ACTION = "modify";
+
+    /**
      * Request parameter
      */
     private static final String PARAM_ID_CONTACT = "id";
@@ -86,7 +91,7 @@ public class ModifyContactServlet extends HttpServlet {
 
             // Create the modified contact
             ContactForm form = new ContactForm();
-            Contact modified_contact = form.createContact(req);
+            Contact modified_contact = form.createContact(req, ACTION);
             modified_contact.setId(id);
 
             // Get errors map

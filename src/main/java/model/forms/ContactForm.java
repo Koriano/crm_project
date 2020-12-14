@@ -59,7 +59,7 @@ public class ContactForm {
      *
      * @return the newly created contact
      */
-    public Contact createContact(HttpServletRequest req){
+    public Contact createContact(HttpServletRequest req, String action){
 
         // Get parameter from request
         String id = req.getParameter(PARAM_ID);
@@ -125,7 +125,7 @@ public class ContactForm {
         // Verify reserved and referent
         Contact referent_contact = null;
         try {
-            referent_contact = reservedVerification(reserved, referent, id);
+            referent_contact = reservedVerification(reserved, referent, id, action);
         } catch (Exception e){
             this.setError(PARAM_REFERENT, e.getMessage());
         }
@@ -287,7 +287,7 @@ public class ContactForm {
      * @return
      * @throws Exception
      */
-    private Contact reservedVerification(String reserved, String referent, String old_contact_id) throws Exception{
+    private Contact reservedVerification(String reserved, String referent, String old_contact_id, String action) throws Exception{
         // If reserved field doesn't exist
         if (reserved == null){
             return null;
@@ -299,14 +299,21 @@ public class ContactForm {
             if(is_reserved && referent != null && !referent.isEmpty()){
                 try{
                     int id = Integer.parseInt(referent);
-                    int old_id = Integer.parseInt(old_contact_id);
+
+                    if ("modify".equals(action)) {
+                        int old_id = Integer.parseInt(old_contact_id);
+
+                        if (id == old_id){
+                            throw new Exception("Vous ne pouvez pas etre votre propre referent !");
+                        }
+                    }
 
                     Contact referent_contact = this.contactDAO.getContactById(id);
 
                     if (referent_contact == null){
                         throw new Exception("Merci de selectionner un referent existant.");
-                    } else if (id == old_id){
-                        throw new Exception("Vous ne pouvez pas etre votre propre referent !");
+                    } else if (referent_contact.isReserved()){
+                        throw new Exception("Ce contact est reserve et ne peut pas etre referent.");
                     } else {
                         return referent_contact;
                     }
@@ -316,9 +323,8 @@ public class ContactForm {
             }
             // If the contact is reserved but there's no referent field, or it is empty (selected by default)
             else if(referent == null || referent.isEmpty()){
-                throw new Exception("Merci de selectionner un referent valide.");
+                throw new Exception("Merci de selectionner un referent ou d'indiquer que le contact n'est pas reserve.");
             }
-            // If the contact is not reserved
             else {
                 return null;
             }

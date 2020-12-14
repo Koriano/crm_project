@@ -348,4 +348,12 @@
         <url-pattern>/sectors/*</url-pattern>
         <url-pattern>/exportContacts</url-pattern>
     </filter-mapping>
+
+
+
+    <!-- Gestion des erreurs -->
+    <error-page>
+        <error>404</error>
+        <location>/WEB-INF/errors/error404Page.jsp</location>
+    </error-page>
 </web-app>
