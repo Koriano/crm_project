@@ -10,6 +10,16 @@
 </head>
 
 <body>
-    <h1>Error 404</h1>
+<div class="container body">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto pt-5 text-center">
+            <div class="" style="color:#0073ff">
+                <h1 >ERROR 404</h1>
+            </div>
+            <h4>Oups, cette page n'existe pas..</h4>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
