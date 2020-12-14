@@ -58,7 +58,7 @@
 
 
 <div class="form-group pt-3">
-    <label for="sectors">Secteurs <span>*</span></label>
+    <label for="sectors">Secteurs</label>
     <select id="sectors" name="sectors" class="form-control" multiple>
         <c:forEach var="sector" items="${requestScope.sectors}">
 
