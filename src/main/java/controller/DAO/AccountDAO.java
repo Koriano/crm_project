@@ -400,9 +400,10 @@ public class AccountDAO {
     }
     public String cryptPassword(String password){
         SecureRandom random = new SecureRandom();
-        KeySpec spec = new PBEKeySpec(password.toCharArray(),"cestsalecommelanote".getBytes(),1000,512);
+        KeySpec spec = new PBEKeySpec(password.toCharArray(),"cestsalecommelanote".getBytes(),1000,256);
         try {
             SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+            System.out.println(factory.generateSecret(spec).getEncoded().length);
             return Base64.getEncoder().encodeToString(factory.generateSecret(spec).getEncoded());
         }
         catch (InvalidKeySpecException e){
