@@ -16,7 +16,7 @@
             <div class="" style="color:#0073ff">
                 <h1 >ERROR 404</h1>
             </div>
-            <h4>Oups, cette page n'existe pas..</h4>
+            <h4>Oups, cette page n'existe pas...</h4>
         </div>
     </div>
 </div>
