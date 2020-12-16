@@ -211,10 +211,18 @@ public class AccountForm {
 
             if(contact != null){
 
-                if (old_account != null && id != old_account.getContact().getId() && used_contacts.contains(id)){
-                    throw new Exception("Ce contact est deje utilise par un autre compte.");
+                if (old_account != null) {
+                    if (id != old_account.getContact().getId() && used_contacts.contains(id)){
+                        throw new Exception("Ce contact est deja utilise par un autre compte.");
+                    } else {
+                        return contact;
+                    }
                 } else {
-                    return contact;
+                    if (used_contacts.contains(id)) {
+                        throw new Exception("Ce contact est deja utilise par un autre compte.");
+                    } else {
+                        return contact;
+                    }
                 }
 
             } else {
