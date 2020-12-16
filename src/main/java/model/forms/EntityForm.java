@@ -88,6 +88,13 @@ public class EntityForm {
             this.setError(PARAM_INTERN_NB, e.getMessage());
         }
 
+        // Verify description
+        try{
+            this.descriptionVerification(description);
+        } catch (Exception e){
+            this.setError(PARAM_DESCRIPTION, e.getMessage());
+        }
+
         // Create the new entity and set properties
         Entity entity = new Entity(name, siret, "Nouveau type entite...".equals(type) ? newType : type);
         entity.setAddress(address);
@@ -140,6 +147,8 @@ public class EntityForm {
     private void addressVerification(String address) throws Exception{
         if(address == null || address.trim().isEmpty()){
             throw new Exception("Merci de rentrer une adresse.");
+        } else if (address.length() > 80) {
+            throw new Exception("L'adresse contient plus de 80 caracteres.");
         }
     }
 
@@ -154,6 +163,12 @@ public class EntityForm {
             }
         } catch (NumberFormatException e){
             throw new Exception("Merci de rentrer un nombre valide de stagiaires.");
+        }
+    }
+
+    private void descriptionVerification(String description) throws Exception {
+        if (description != null && description.length() > 1000){
+            throw new Exception("La description est trop longue (1 000 caracteres max).");
         }
     }
 

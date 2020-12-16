@@ -74,6 +74,10 @@ public class SaveCommentServlet extends HttpServlet {
             Contact contact = contactDAO.getContactById(Integer.parseInt(contact_id));
             Comment comment = commentDAO.getCommentByAuthorAndContact(user.getContact(), contact);
 
+            if(content.length() > 1000){
+                throw new Exception();
+            }
+
             if(comment == null) {
                 commentDAO.saveComment(new Comment(user.getContact(), contact, content));
             } else {

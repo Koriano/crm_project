@@ -69,6 +69,12 @@ public class EventForm {
             this.setError(PARAM_TYPE, e.getMessage());
         }
 
+        try{
+            descriptionVerification(description);
+        } catch (Exception e){
+            this.setError(PARAM_DESCRIPTION, e.getMessage());
+        }
+
         ArrayList<Contact> contact_list = new ArrayList<>();
         try{
             contact_list = contactsVerification(contacts_id);
@@ -157,6 +163,12 @@ public class EventForm {
             throw new Exception("Merci de renseigner un type d'événement.");
         } else if (!types.contains(type)) {
             throw new Exception("Merci de renseigner un type d'événement existant");
+        }
+    }
+
+    private void descriptionVerification(String description) throws Exception {
+        if (description != null && description.length() > 1000){
+            throw new Exception("La description est trop longue (1 000 caracteres max).");
         }
     }
 
