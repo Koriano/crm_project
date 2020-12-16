@@ -37,7 +37,7 @@
 
 <div class="form-group pt-3">
     <label for="address">Adresse </label>
-    <input type="text" id="address" name="address" value="<c:out value="${requestScope.contact.address}"/>" class="form-control" placeholder="Adresse"/>
+    <input type="text" id="address" name="address" value="<c:out value="${requestScope.contact.address}"/>" maxlength="80" class="form-control" placeholder="Adresse"/>
 </div>
 <div class="text-danger pb-1">${requestScope.form.errors['address']}</div>
 

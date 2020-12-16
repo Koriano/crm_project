@@ -52,10 +52,16 @@ public class ModifyEventServlet extends HttpServlet {
 
             if (event != null && user.getContact().isCreator(event)){
                 SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat time_format = new SimpleDateFormat("HH:mm");
                 Date date = event.getDate();
 
                 req.setAttribute(ATT_EVENT, event);
-                req.setAttribute(ATT_DATE, date_format.format(date));
+
+                if (date != null){
+                    req.setAttribute(ATT_DATE, date_format.format(date));
+                    req.setAttribute(ATT_TIME, time_format.format(date));
+                }
+
                 this.setRequestAttributes(req);
 
                 this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
@@ -101,7 +107,7 @@ public class ModifyEventServlet extends HttpServlet {
 
                 if (date != null){
                     req.setAttribute(ATT_DATE, date_format.format(date));
-                    req.setAttribute(ATT_TIME, date_format.format(date));
+                    req.setAttribute(ATT_TIME, time_format.format(date));
                 }
 
                 this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);

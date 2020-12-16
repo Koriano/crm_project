@@ -1,9 +1,18 @@
 
 package controller.DAO;
 import model.*;
+
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Base64;
 
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import javax.swing.text.StyledEditorKit.BoldAction;
 
 /**
@@ -48,7 +57,7 @@ public class AccountDAO {
         boolean ret=true;
         String username = acc.getUsername();
         String name = acc.getName();
-        String password = acc.getPassword();
+        String password = this.cryptPassword(acc.getPassword());
         int right = RightDAO.getInstance().getRightByName(acc.getRight());
         int account_id=-1;
         Contact contact = acc.getContact();
@@ -94,7 +103,7 @@ public class AccountDAO {
         boolean ret=true;
         String username = acc.getUsername();
         String name = acc.getName();
-        String password = acc.getPassword();
+        String password = this.cryptPassword(acc.getPassword());
         int right = RightDAO.getInstance().getRightByName(acc.getRight());
         int account_id = acc.getId();
         Contact contact = acc.getContact();
@@ -232,7 +241,7 @@ public class AccountDAO {
            
             PreparedStatement req_login_prep = this.db.prepareStatement(req_login); 
             req_login_prep.setString(1, login);
-            req_login_prep.setString(2, password);
+            req_login_prep.setString(2, this.cryptPassword(password));
             ResultSet rs = req_login_prep.executeQuery();
             rs.next();
             int nb_row = rs.getInt("count(*)");
@@ -389,7 +398,24 @@ public class AccountDAO {
     public ArrayList<String> getAllRight(){
         return RightDAO.getInstance().getAllRight();
     }
-    
+    public String cryptPassword(String password){
+        SecureRandom random = new SecureRandom();
+        KeySpec spec = new PBEKeySpec(password.toCharArray(),"cestsalecommelanote".getBytes(),1000,256);
+        try {
+            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+            System.out.println(factory.generateSecret(spec).getEncoded().length);
+            return Base64.getEncoder().encodeToString(factory.generateSecret(spec).getEncoded());
+        }
+        catch (InvalidKeySpecException e){
+            e.printStackTrace();
+        }
+        catch (NoSuchAlgorithmException e){
+            e.printStackTrace();
+        }
+
+        return null;
+
+    }
     
 
 }

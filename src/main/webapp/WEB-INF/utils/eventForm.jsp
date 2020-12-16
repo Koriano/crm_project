@@ -17,7 +17,7 @@
     <label for="time">Heure <span>*</span></label>
     <input type="time" id="time" name="time" value="<c:out value="${requestScope.time}"/>" class="form-control"/>
 </div>
-<span>${requestScope.form.errors['time']}</span>
+<div class="text-danger pb-1">${requestScope.form.errors['time']}</div>
 
 <div class="form-group pt-3">
     <label for="type">Type <span>*</span></label>
@@ -32,8 +32,9 @@
 
 <div class="form-group pt-3">
     <label for="description">Description</label>
-    <textarea class="form-control rounded-0" id="description" name="description" rows="13" cols="40" form="event_form"><c:out value="${requestScope.event.description}"/></textarea>
+    <textarea class="form-control rounded-0" id="description" name="description" rows="13" cols="40" form="event_form" maxlength="1000"><c:out value="${requestScope.event.description}"/></textarea>
 </div>
+<div class="text-danger pb-1">${requestScope.form.errors['description']}</div>
 
 <div class="form-group pt-3">
     <label for="contacts">Participants </label>

@@ -66,7 +66,7 @@ public class AccountForm {
 
         // Check username
         try{
-            usernameVerification(username);
+            usernameVerification(username, old_account);
         } catch (Exception e){
             setError(PARAM_USERNAME, e.getMessage());
         }
@@ -125,11 +125,26 @@ public class AccountForm {
 
     // VERIFICATIONS
 
-    private void usernameVerification(String username) throws Exception{
+    private void usernameVerification(String username, Account oldAccount) throws Exception{
         if(username == null || username.isEmpty()){
             throw new Exception("Merci de rentrer un nom d'utilisateur.");
         } else if(username.trim().length() > 25){
             throw new Exception("Merci de renter un nom de 25 caracteres maximum.");
+        } else {
+            // Check that there are no account with the given username already created
+            for (Account account : this.accountDAO.getAllAccounts()) {
+                // If the username matches another existing one...
+                if (account.getUsername().equals(username)) {
+                    // Checks that it doesn't match with its own previous username (in case we modify the account)
+                    if (oldAccount != null) {
+                        if (oldAccount.getId() != account.getId()) {
+                            throw new Exception("Ce nom d'utilisateur est deja utilise !");
+                        }
+                    } else {
+                        throw new Exception("Ce nom d'utilisateur est deja utilise !");
+                    }
+                }
+            }
         }
     }
 
@@ -196,10 +211,18 @@ public class AccountForm {
 
             if(contact != null){
 
-                if (old_account != null && id != old_account.getContact().getId() && used_contacts.contains(id)){
-                    throw new Exception("Ce contact est deje utilise par un autre compte.");
+                if (old_account != null) {
+                    if (id != old_account.getContact().getId() && used_contacts.contains(id)){
+                        throw new Exception("Ce contact est deja utilise par un autre compte.");
+                    } else {
+                        return contact;
+                    }
                 } else {
-                    return contact;
+                    if (used_contacts.contains(id)) {
+                        throw new Exception("Ce contact est deja utilise par un autre compte.");
+                    } else {
+                        return contact;
+                    }
                 }
 
             } else {

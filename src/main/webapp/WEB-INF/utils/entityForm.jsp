@@ -32,7 +32,7 @@
 
 <div class="form-group pt-3">
     <label for="address">Adresse <span>*</span></label>
-    <input type="text" id="address" name="address" value="<c:out value="${requestScope.entity.address}"/>" class="form-control" placeholder="Adresse"/>
+    <input type="text" id="address" name="address" value="<c:out value="${requestScope.entity.address}"/>" maxlength="80" class="form-control" placeholder="Adresse"/>
 </div>
 <div class="text-danger pb-1">${requestScope.form.errors['address']}</div>
 
@@ -44,7 +44,7 @@
 
 <div class="form-group pt-3">
     <label for="description">Description </label>
-    <input type="text" id="description" name="description" value="<c:out value="${requestScope.entity.description}"/>" class="form-control" placeholder="Description"/>
+    <input type="text" id="description" name="description" value="<c:out value="${requestScope.entity.description}"/>" maxlength="1000" class="form-control" placeholder="Description"/>
 </div>
 <div class="text-danger pb-1">${requestScope.form.errors['description']}</div>
 

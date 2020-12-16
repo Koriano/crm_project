@@ -102,6 +102,13 @@ public class ContactForm {
             this.setError(PARAM_ENTITY, e.getMessage());
         }
 
+        // Verify address
+        try{
+            addressVerification(address);
+        } catch (Exception e){
+            this.setError(PARAM_ADDRESS, e.getMessage());
+        }
+
         // Verify phones
         for(String phone:phones){
             try{
@@ -248,6 +255,18 @@ public class ContactForm {
 
         } else {
             throw new Exception("Merci de renseigner une entite.");
+        }
+    }
+
+    /**
+     * A method to verify address field
+     *
+     * @param address the contact address
+     * @throws Exception
+     */
+    private void addressVerification(String address) throws Exception {
+        if (address != null && address.length() > 80){
+            throw new Exception("L'adresse contient plus de 80 caracteres.");
         }
     }
 

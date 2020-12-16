@@ -158,7 +158,7 @@
 
                                 <div class="tab-pane fade show active" id="comment"
                                      role="tabpanel" aria-labelledby="comment-tab">
-                                    <textarea class="form-control rounded-0" name="commentContent" rows="13" cols="40" form="commentForm"><c:out value="${requestScope.comment.content}"/></textarea>
+                                    <textarea class="form-control rounded-0" name="commentContent" rows="13" cols="40" form="commentForm" maxlength="1000"><c:out value="${requestScope.comment.content}"/></textarea>
 
                                     <div class="d-flex justify-content-center pt-3">
                                         <form method="post" action="${save_comment_link}" id="commentForm">
