@@ -24,6 +24,9 @@ import java.util.Locale;
 
 public class CreateEventServlet extends HttpServlet {
     private static final String PARAM_SESSION_USER_ACCOUNT = "user";
+    private static final String PARAM_SESSION_DOUBLE = "double";
+    private static final String PARAM_SESSION_NAME = "name";
+    private static final String PARAM_SESSION_DATETIME = "datetime";
 
     private static final String ATT_TYPES = "types";
     private static final String ATT_CONTACTS = "contacts";
@@ -37,6 +40,12 @@ public class CreateEventServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // Remove attributes from session
+        HttpSession session = req.getSession();
+        session.removeAttribute(PARAM_SESSION_DOUBLE);
+        session.removeAttribute(PARAM_SESSION_NAME);
+        session.removeAttribute(PARAM_SESSION_DATETIME);
+
         // Set attributes and forward
         this.setRequestAttributes(req);
 
@@ -48,37 +57,79 @@ public class CreateEventServlet extends HttpServlet {
         // Get EventDAO instance
         EventDAO eventDAO = EventDAO.getInstance();
 
+        // Get session
+        HttpSession session = req.getSession();
+        String is_double_form = (String) session.getAttribute(PARAM_SESSION_DOUBLE);
+        String old_name = (String) session.getAttribute(PARAM_SESSION_NAME);
+        String old_datetime= (String) session.getAttribute(PARAM_SESSION_DATETIME);
+
         // Create form and new event
         EventForm form = new EventForm();
         Event event = form.createEvent(req);
 
         HashMap<String, String> errors = form.getErrors();
 
-        // If no errors, save and redirect
-        if (errors.isEmpty()){
-            eventDAO.saveEvent(event);
+        SimpleDateFormat datetime_format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-            resp.sendRedirect(req.getContextPath() + URL_REDIRECT);
-        }
-        // If errors, set request attributes and forward
-        else {
-            // Set format
-            SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd");
-            SimpleDateFormat time_format = new SimpleDateFormat("HH:mm");
+        // if no form errors, save event
+        if(errors.isEmpty()){
+            if("true".equals(is_double_form)) {
+                if (event.getName().toLowerCase().equals(old_name.toLowerCase()) && datetime_format.format(event.getDate()).equals(old_datetime)){
+                    eventDAO.saveEvent(event);
 
-            // Get date and time
-            Date date = event.getDate();
+                    resp.sendRedirect(req.getContextPath() + URL_REDIRECT);
+                } else if (!form.isDouble()){
+                    eventDAO.saveEvent(event);
 
-            this.setRequestAttributes(req);
-            req.setAttribute(ATT_EVENT, event);
-            req.setAttribute(ATT_FORM, form);
+                    resp.sendRedirect(req.getContextPath() + URL_REDIRECT);
+                } else {
+                    // Set format
+                    SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat time_format = new SimpleDateFormat("HH:mm");
 
-            if (date != null) {
-                req.setAttribute(ATT_DATE, date_format.format(date));
-                req.setAttribute(ATT_TIME, time_format.format(date));
+                    // Get date and time
+                    Date date = event.getDate();
+
+                    this.setRequestAttributes(req);
+                    req.setAttribute(ATT_EVENT, event);
+                    req.setAttribute(ATT_FORM, form);
+
+                    session.setAttribute(PARAM_SESSION_NAME, event.getName());
+                    session.setAttribute(PARAM_SESSION_DATETIME, datetime_format.format(date));
+
+                    if (date != null) {
+                        req.setAttribute(ATT_DATE, date_format.format(date));
+                        req.setAttribute(ATT_TIME, time_format.format(date));
+                    }
+
+                    this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
+                }
+            } else if (!form.isDouble()){
+                eventDAO.saveEvent(event);
+
+                resp.sendRedirect(req.getContextPath() + URL_REDIRECT);
+            } else {
+                // Set format
+                SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat time_format = new SimpleDateFormat("HH:mm");
+
+                // Get date and time
+                Date date = event.getDate();
+
+                this.setRequestAttributes(req);
+                req.setAttribute(ATT_EVENT, event);
+                req.setAttribute(ATT_FORM, form);
+
+                session.setAttribute(PARAM_SESSION_NAME, event.getName());
+                session.setAttribute(PARAM_SESSION_DATETIME, datetime_format.format(event.getDate()));
+
+                if (date != null) {
+                    req.setAttribute(ATT_DATE, date_format.format(date));
+                    req.setAttribute(ATT_TIME, time_format.format(date));
+                }
+
+                this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
             }
-
-            this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
         }
     }
 

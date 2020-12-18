@@ -24,14 +24,18 @@ public class EventForm {
 
     private HashMap<String, String> errors;
     private String result;
+    private boolean is_double;
 
+    private EventDAO eventDAO;
     private EventTypeDAO eventTypeDAO;
     private ContactDAO contactDAO;
 
     public EventForm(){
         this.errors = new HashMap<>();
         this.result = "";
+        this.is_double = false;
 
+        this.eventDAO = EventDAO.getInstance();
         this.eventTypeDAO = EventTypeDAO.getInstance();
         this.contactDAO = ContactDAO.getInstance();
     }
@@ -89,6 +93,8 @@ public class EventForm {
         for(Contact contact:contact_list){
             event.addContact(contact);
         }
+
+        this.is_double = this.isDoubleVerification(event, user.getContact());
 
         // Set result depending on errors
         if (this.errors.isEmpty()){
@@ -212,6 +218,24 @@ public class EventForm {
         }
     }
 
+    /**
+     * A method to check if a similar event already exists in base
+     *
+     * @param event the newly created event to be checked
+     * @return true if a similar event exists, else false
+     */
+    private boolean isDoubleVerification(Event event, Contact author){
+        ArrayList<Event> events = this.eventDAO.getEventsByCreator(author);
+
+        for (Event e:events){
+            if (e.getName().toLowerCase().equals(event.getName()) && e.getDate().compareTo(event.getDate()) == 0 && e.getId() != event.getId()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     // UTILS
 
     /**
@@ -231,5 +255,9 @@ public class EventForm {
 
     public HashMap<String, String> getErrors(){
         return this.errors;
+    }
+    
+    public boolean isDouble() {
+        return this.is_double;
     }
 }

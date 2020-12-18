@@ -18,14 +18,12 @@ public class EntityForm {
     private static final String PARAM_DESCRIPTION = "description";
 
     private boolean result;
-    private boolean is_double;
     private HashMap<String, String> errors;
 
     private EntityDAO entityDAO;
 
     public EntityForm(){
         this.result = false;
-        this.is_double = false;
         this.errors = new HashMap<>();
         this.entityDAO = EntityDAO.getInstance();
     }
@@ -113,7 +111,7 @@ public class EntityForm {
 
         this.result = this.errors.isEmpty();
 
-        this.is_double = this.isDoubleVerification(entity);
+        this.isDoubleVerification(entity);
 
         return entity;
     }
@@ -177,16 +175,15 @@ public class EntityForm {
         }
     }
 
-    private boolean isDoubleVerification(Entity entity){
+    private void isDoubleVerification(Entity entity){
         ArrayList<Entity> entities = this.entityDAO.getAllEntities();
         // If name, surname are equals, and not itself
         for (Entity e:entities){
             if (e.getName().equals(entity.getName()) && e.getType().equals(entity.getType()) && e.getId() != entity.getId()) {
-                return true;
+                this.setError(PARAM_NAME, "Cette entite existe deja.");
+                break;
             }
         }
-
-        return false;
     }
 
 
@@ -238,9 +235,5 @@ public class EntityForm {
      */
     public HashMap<String, String> getErrors(){
         return this.errors;
-    }
-
-    public boolean isDouble(){
-        return this.is_double;
     }
 }
