@@ -51,7 +51,9 @@
                             </div>
                         </div>
 
-                        <span>${requestScope.form.result}</span>
+                        <c:if test="${not requestScope.form.isDouble() || requestScope.contact == null}">
+                            <span>${requestScope.form.result}</span>
+                        </c:if>
 
                     </fieldset>
                 </form>

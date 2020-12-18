@@ -1,6 +1,7 @@
 package model.forms;
 
 import controller.DAO.EntityDAO;
+import model.Contact;
 import model.Entity;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,12 +18,14 @@ public class EntityForm {
     private static final String PARAM_DESCRIPTION = "description";
 
     private boolean result;
+    private boolean is_double;
     private HashMap<String, String> errors;
 
     private EntityDAO entityDAO;
 
     public EntityForm(){
         this.result = false;
+        this.is_double = false;
         this.errors = new HashMap<>();
         this.entityDAO = EntityDAO.getInstance();
     }
@@ -32,8 +35,8 @@ public class EntityForm {
         int id = -1;
         try {
             id = Integer.parseInt(req.getParameter("entityId"));
-        } catch (NumberFormatException e){
-            e.printStackTrace();
+        } catch (NumberFormatException ignored){
+
         }
         String name = req.getParameter(PARAM_NAME);
         String type = req.getParameter(PARAM_TYPE);
@@ -110,6 +113,8 @@ public class EntityForm {
 
         this.result = this.errors.isEmpty();
 
+        this.is_double = this.isDoubleVerification(entity);
+
         return entity;
     }
 
@@ -172,6 +177,18 @@ public class EntityForm {
         }
     }
 
+    private boolean isDoubleVerification(Entity entity){
+        ArrayList<Entity> entities = this.entityDAO.getAllEntities();
+        // If name, surname are equals, and not itself
+        for (Entity e:entities){
+            if (e.getName().equals(entity.getName()) && e.getType().equals(entity.getType()) && e.getId() != entity.getId()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     // UTILS
 
@@ -221,5 +238,9 @@ public class EntityForm {
      */
     public HashMap<String, String> getErrors(){
         return this.errors;
+    }
+
+    public boolean isDouble(){
+        return this.is_double;
     }
 }

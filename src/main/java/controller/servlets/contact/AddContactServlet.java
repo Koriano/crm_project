@@ -30,6 +30,9 @@ public class AddContactServlet extends HttpServlet {
      * Session attributes
      */
     private static final String PARAM_SESSION_CONTACT_ID = "contact_id";
+    private static final String PARAM_SESSION_DOUBLE = "double";
+    private static final String PARAM_SESSION_NAME = "name";
+    private static final String PARAM_SESSION_SURNAME = "surname";
 
     /**
      * Request attributes
@@ -47,10 +50,13 @@ public class AddContactServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // Remove contact_id from session
+        // Remove attributes from session
         HttpSession session = req.getSession();
         session.removeAttribute(PARAM_SESSION_CONTACT_ID);
-        
+        session.removeAttribute(PARAM_SESSION_DOUBLE);
+        session.removeAttribute(PARAM_SESSION_NAME);
+        session.removeAttribute(PARAM_SESSION_SURNAME);
+
         // Set contact list, entity list and roles list for view
         this.setFormAttributes(req);
 
@@ -62,6 +68,12 @@ public class AddContactServlet extends HttpServlet {
         // Get contactDAO instance
         ContactDAO contactDAO = ContactDAO.getInstance();
 
+        // Get session
+        HttpSession session = req.getSession();
+        String is_double_form = (String) session.getAttribute(PARAM_SESSION_DOUBLE);
+        String old_name = (String) session.getAttribute(PARAM_SESSION_NAME);
+        String old_surname = (String) session.getAttribute(PARAM_SESSION_SURNAME);
+
         // Create form object and create Contact
         ContactForm form = new ContactForm();
         Contact new_contact = form.createContact(req, ACTION);
@@ -71,8 +83,22 @@ public class AddContactServlet extends HttpServlet {
 
         // if no form errors, save contact
         if(errors.isEmpty()){
-            contactDAO.saveContact(new_contact);
-            new_contact = null;
+            if("true".equals(is_double_form)) {
+                if (new_contact.getName().toLowerCase().equals(old_name.toLowerCase()) && new_contact.getSurname().toLowerCase().equals(old_surname.toLowerCase())){
+                    this.success(contactDAO, new_contact);
+                    new_contact = null;
+                } else if (!form.isDouble()){
+                    this.success(contactDAO, new_contact);
+                    new_contact = null;
+                } else {
+                    this.failure(session, new_contact);
+                }
+            } else if (!form.isDouble()){
+                this.success(contactDAO, new_contact);
+                new_contact = null;
+            } else {
+                this.failure(session, new_contact);
+            }
         }
 
         // Set attributes to request
@@ -81,6 +107,15 @@ public class AddContactServlet extends HttpServlet {
         req.setAttribute(ATT_FORM, form);
 
         this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
+    }
+
+    private void success(ContactDAO contactDAO, Contact new_contact){
+        contactDAO.saveContact(new_contact);
+    }
+
+    private void failure(HttpSession session, Contact new_contact) {
+        session.setAttribute(PARAM_SESSION_NAME, new_contact.getName());
+        session.setAttribute(PARAM_SESSION_SURNAME, new_contact.getSurname());
     }
 
     /**

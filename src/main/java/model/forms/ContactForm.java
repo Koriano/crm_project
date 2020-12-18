@@ -34,6 +34,7 @@ public class ContactForm {
      */
     private String result;
     private HashMap<String, String> errors;
+    private boolean is_double;
 
     /**
      * DAOs
@@ -140,6 +141,12 @@ public class ContactForm {
         // Create the new contact and set properties
         Contact contact = new Contact(name.trim(), surname.trim(), role, referent_contact, "on".equals(reserved));
 
+        try{
+            contact.setId(Integer.parseInt(id));
+        } catch (Exception ignored){
+
+        }
+
         // If no error on entity, set it
         if(!this.errors.containsKey(PARAM_ENTITY)){
             contact.setEntity(entity_object);
@@ -164,11 +171,12 @@ public class ContactForm {
             }
         }
 
+        this.setDouble(this.isDoubleVerification(contact));
+
         // Set result according to errors
-        if(this.errors.isEmpty()){
+        if (this.errors.isEmpty()) {
             this.result = "Succes !";
-        }
-        else {
+        } else {
             this.result = "Echec.";
         }
 
@@ -350,6 +358,24 @@ public class ContactForm {
         }
     }
 
+    /**
+     * A method to check if a similar contact already exists in base
+     *
+     * @param contact the newly created contact to be checked
+     * @return true if a similar contact exists, else false
+     */
+    private boolean isDoubleVerification(Contact contact){
+        ArrayList<Contact> contacts = this.contactDAO.getAllContacts();
+        // If name, surname are equals, and not itself
+        for (Contact c:contacts){
+            if (c.getName().toLowerCase().equals(contact.getName().toLowerCase()) && c.getSurname().toLowerCase().equals(contact.getSurname().toLowerCase()) && c.getId() != contact.getId()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     // UTILS
 
@@ -383,6 +409,10 @@ public class ContactForm {
         this.errors.put(param, message);
     }
 
+    public void setDouble(boolean is_double){
+        this.is_double = is_double;
+    }
+
     // GETTERS
     public String getResult() {
         return this.result;
@@ -390,5 +420,9 @@ public class ContactForm {
 
     public HashMap<String, String> getErrors(){
         return this.errors;
+    }
+
+    public boolean isDouble(){
+        return this.is_double;
     }
 }

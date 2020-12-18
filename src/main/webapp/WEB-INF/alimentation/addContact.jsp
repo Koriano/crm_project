@@ -14,6 +14,7 @@
     </div>
 
     <div class="container body">
+
         <div class="row">
             <div class="col-sm-9 col-md-7 col-lg-5 mx-auto pt-5">
 
@@ -26,7 +27,9 @@
                             <button type="submit" class="btn btn-primary">Créer contact</button>
                         </div>
 
-                        <div class="text-danger pb-1">${requestScope.form.result}</div>
+                        <c:if test="${not requestScope.form.isDouble() || requestScope.contact == null}">
+                            <div class="text-danger pb-1">${requestScope.form.result}</div>
+                        </c:if>
 
                     </fieldset>
                 </form>

@@ -27,6 +27,13 @@ public class ModifyContactServlet extends HttpServlet {
     private static final String ACTION = "modify";
 
     /**
+     * Session parameters
+     */
+    private static final String PARAM_SESSION_DOUBLE = "double";
+    private static final String PARAM_SESSION_NAME = "name";
+    private static final String PARAM_SESSION_SURNAME = "surname";
+
+    /**
      * Request parameter
      */
     private static final String PARAM_ID_CONTACT = "id";
@@ -52,6 +59,12 @@ public class ModifyContactServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // Remove attributes from session
+        HttpSession session = req.getSession();
+        session.removeAttribute(PARAM_SESSION_DOUBLE);
+        session.removeAttribute(PARAM_SESSION_NAME);
+        session.removeAttribute(PARAM_SESSION_SURNAME);
+
         // Get DAO instance
         ContactDAO contactDAO = ContactDAO.getInstance();
 
@@ -80,6 +93,12 @@ public class ModifyContactServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // Get session
+        HttpSession session = req.getSession();
+        String is_double_form = (String) session.getAttribute(PARAM_SESSION_DOUBLE);
+        String old_name = (String) session.getAttribute(PARAM_SESSION_NAME);
+        String old_surname = (String) session.getAttribute(PARAM_SESSION_SURNAME);
+
         // Get contact DAO instance
         ContactDAO contactDAO = ContactDAO.getInstance();
 
@@ -97,16 +116,36 @@ public class ModifyContactServlet extends HttpServlet {
             // Get errors map
             HashMap<String, String> errors = form.getErrors();
 
-            // If no errors: modify and redirect to profile
+            // if no form errors, save contact
             if(errors.isEmpty()){
-                contactDAO.updateContact(modified_contact);
-                resp.sendRedirect(req.getContextPath() + URL_REDIRECT + "?id=" + id_contact);
-            }else {
-                this.setFormAttributes(req);
-                req.setAttribute(ATT_CONTACT, modified_contact);
-                req.setAttribute(ATT_FORM, form);
+                if("true".equals(is_double_form)) {
+                    if (modified_contact.getName().toLowerCase().equals(old_name.toLowerCase()) && modified_contact.getSurname().toLowerCase().equals(old_surname.toLowerCase())){
+                        contactDAO.updateContact(modified_contact);
+                        resp.sendRedirect(req.getContextPath() + URL_REDIRECT + "?id=" + id_contact);
+                    } else if (!form.isDouble()){
+                        contactDAO.updateContact(modified_contact);
+                        resp.sendRedirect(req.getContextPath() + URL_REDIRECT + "?id=" + id_contact);
+                    } else {
+                        this.setFormAttributes(req);
+                        req.setAttribute(ATT_CONTACT, modified_contact);
+                        req.setAttribute(ATT_FORM, form);
+                        session.setAttribute(PARAM_SESSION_NAME, modified_contact.getName());
+                        session.setAttribute(PARAM_SESSION_SURNAME, modified_contact.getSurname());
 
-                this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
+                        this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
+                    }
+                } else if (!form.isDouble()){
+                    contactDAO.updateContact(modified_contact);
+                    resp.sendRedirect(req.getContextPath() + URL_REDIRECT + "?id=" + id_contact);
+                } else {
+                    this.setFormAttributes(req);
+                    req.setAttribute(ATT_CONTACT, modified_contact);
+                    req.setAttribute(ATT_FORM, form);
+                    session.setAttribute(PARAM_SESSION_NAME, modified_contact.getName());
+                    session.setAttribute(PARAM_SESSION_SURNAME, modified_contact.getSurname());
+
+                    this.getServletContext().getRequestDispatcher(VIEW).forward(req, resp);
+                }
             }
         } catch (Exception e){
             resp.sendRedirect(req.getContextPath() + URL_REDIRECT + "?id=" + id_contact);
