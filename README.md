@@ -1,4 +1,5 @@
 # CRM_Project
+Une application de type Custom Relationship Manager.
 
 ## Installation 
 
